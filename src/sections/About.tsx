@@ -13,8 +13,8 @@ const About = () => {
       ],
       skillsTitle: 'Skills',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS'],
-        backEnd: ['Node.js', 'MySQL', 'MongoDB', 'Oracle SQL', 'Oracle APEX'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
+        backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
         tools: ['Git', 'GitHub', 'Metodologias Ágeis'],
       },
       sections: {
