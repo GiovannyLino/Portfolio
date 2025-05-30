@@ -19,8 +19,8 @@ const About = () => {
       },
       sections: {
         frontEnd: 'Front-end',
-        backEnd: 'Back-end & Banco de Dados',
-        tools: 'Ferramentas & Versionamento',
+        backEnd: 'Back-end & DataBase',
+        tools: 'Tools & Versioning',
       }
     },
     pt: {
