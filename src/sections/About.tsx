@@ -15,7 +15,7 @@ const About = () => {
       skills: {
         frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
         backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
-        tools: ['Git', 'GitHub', 'Metodologias Ágeis'],
+        tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
         frontEnd: 'Front-end',
@@ -33,7 +33,7 @@ const About = () => {
       skills: {
         frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
         backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
-        tools: ['Git', 'GitHub', 'Metodologias Ágeis'],
+        tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
         frontEnd: 'Front-end',
