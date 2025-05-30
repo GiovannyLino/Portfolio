@@ -27,7 +27,7 @@ const About = () => {
       title: 'Sobre Mim',
       paragraphs: [
         "Sou um desenvolvedor de software baseado no Brasil, apaixonado por construir aplicações web escaláveis e eficientes.",
-        "Com formação em ciência da computação e experiência em React, TypeScript e tecnologias backend, me esforço para criar código limpo e sustentável.",
+        "Em formação na área de ciência da computação e experiência em React, TypeScript e tecnologias backend, me esforço para criar código limpo e sustentável.",
       ],
       skillsTitle: 'Habilidades',
       skills: {
