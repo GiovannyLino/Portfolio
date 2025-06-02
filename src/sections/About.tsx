@@ -13,8 +13,8 @@ const About = () => {
       ],
       skillsTitle: 'Skills',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
-        backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'React', 'Next', 'Vue'],
+        backEnd: ['C', 'Java', 'Python', 'Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
         tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
@@ -31,8 +31,8 @@ const About = () => {
       ],
       skillsTitle: 'Habilidades',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
-        backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript','Tailwind CSS' , 'React', 'Next', 'Vue'],
+        backEnd: ['C', 'Java', 'Python', 'Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
         tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
