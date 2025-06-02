@@ -13,27 +13,27 @@ const About = () => {
       ],
       skillsTitle: 'Skills',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS'],
-        backEnd: ['Node.js', 'MySQL', 'MongoDB', 'Oracle SQL', 'Oracle APEX'],
-        tools: ['Git', 'GitHub', 'Metodologias Ágeis'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
+        backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
+        tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
         frontEnd: 'Front-end',
-        backEnd: 'Back-end & Banco de Dados',
-        tools: 'Ferramentas & Versionamento',
+        backEnd: 'Back-end & DataBase',
+        tools: 'Tools & Versioning',
       }
     },
     pt: {
       title: 'Sobre Mim',
       paragraphs: [
         "Sou um desenvolvedor de software baseado no Brasil, apaixonado por construir aplicações web escaláveis e eficientes.",
-        "Com formação em ciência da computação e experiência em React, TypeScript e tecnologias backend, me esforço para criar código limpo e sustentável.",
+        "Em formação na área de ciência da computação e experiência em React, TypeScript e tecnologias backend, me esforço para criar código limpo e sustentável.",
       ],
       skillsTitle: 'Habilidades',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS'],
-        backEnd: ['Node.js', 'MySQL', 'MongoDB', 'Oracle SQL', 'Oracle APEX'],
-        tools: ['Git', 'GitHub', 'Metodologias Ágeis'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS', 'Next', 'C', 'Java'],
+        backEnd: ['Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
+        tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
       sections: {
         frontEnd: 'Front-end',

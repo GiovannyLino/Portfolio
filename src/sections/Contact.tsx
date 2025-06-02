@@ -12,7 +12,7 @@ const Contact = () => {
       button: "Say Hello",
       mailto: "mailto:giovannylino9@gmail.com",
       resumeLabel: "Download Resume",
-      resumeLink: "https://drive.google.com/uc?export=download&id=1zVCnrov1CHBax4lnq3pc3-gFc80-zt9b",
+      resumeLink: "https://drive.google.com/file/d/1p6XqEX5uY1A7B8yzvCRtiJzfz5mNg7RQ/view?usp=drive_link",
     },
     pt: {
       heading: "Contato",
@@ -21,14 +21,14 @@ const Contact = () => {
       button: "Diga Olá",
       mailto: "mailto:giovannylino9@gmail.com",
       resumeLabel: "Baixar Currículo",
-      resumeLink: "https://drive.google.com/uc?export=download&id=1zVCnrov1CHBax4lnq3pc3-gFc80-zt9b",
+      resumeLink: "https://drive.google.com/file/d/1p6XqEX5uY1A7B8yzvCRtiJzfz5mNg7RQ/view?usp=drive_link",
     },
   };
 
   const t = language === 'pt' ? texts.pt : texts.en;
 
   return (
-    <section id="contact">
+    <section id="contact" style={{ paddingBottom: '450px' }}>
       <h2 data-number="03.">{t.heading}</h2>
       <p>{t.message}</p>
       <a href={t.mailto} className="button">{t.button}</a>
