@@ -28,9 +28,10 @@ const Hero = () => {
 return (
   <section id="hero">
     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-      <img 
-        src="https://drive.google.com/file/d/1Pyn5dNLZqQRXuWjM1khnQswktZrMib_l/view?usp=sharing" 
-        alt="Minha Foto" 
+      <DotLottieReact
+        src="https://lottie.host/7e1a4148-d1ed-4aee-a317-787f75e2cc1e/qGrtePua0a.lottie" 
+        loop
+        autoplay 
         style={{ width: '300px', height: '300px' }}
       />
     </div>
