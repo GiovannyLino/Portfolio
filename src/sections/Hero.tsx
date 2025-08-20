@@ -46,7 +46,7 @@ const Hero = () => {
       {/* Animação Lottie abaixo do conteúdo */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
         <DotLottieReact
-          src="https://lottie.host/4f32f244-3d51-4d71-8f97-6daf45359cc2/cu5PlngzpP.lottie"
+          src="https://drive.google.com/file/d/1Pyn5dNLZqQRXuWjM1khnQswktZrMib_l/view?usp=sharing"
           loop
           autoplay
           style={{ width: '500px', height: '500px' }}
