@@ -31,7 +31,7 @@ return (
       <img 
         src="https://drive.google.com/file/d/1Pyn5dNLZqQRXuWjM1khnQswktZrMib_l/view?usp=sharing" 
         alt="Minha Foto" 
-        style={{ width: '300px', height: '300px', borderRadius: '50%', objectFit: 'cover' }}
+        style={{ width: '300px', height: '300px' }}
       />
     </div>
 
