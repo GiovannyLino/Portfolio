@@ -12,7 +12,7 @@ const Contact = () => {
       button: "Say Hello",
       mailto: "mailto:giovannylino9@gmail.com",
       resumeLabel: "Download Resume",
-      resumeLink: "https://drive.google.com/file/d/1p6XqEX5uY1A7B8yzvCRtiJzfz5mNg7RQ/view?usp=drive_link",
+      resumeLink: "https://drive.google.com/file/d/1Lua5htjf1NgLkhCuOnxG--YncXeiGlUG/view?usp=sharing",
     },
     pt: {
       heading: "Contato",
@@ -21,7 +21,7 @@ const Contact = () => {
       button: "Diga Olá",
       mailto: "mailto:giovannylino9@gmail.com",
       resumeLabel: "Baixar Currículo",
-      resumeLink: "https://drive.google.com/file/d/1p6XqEX5uY1A7B8yzvCRtiJzfz5mNg7RQ/view?usp=drive_link",
+      resumeLink: "https://drive.google.com/file/d/1Lua5htjf1NgLkhCuOnxG--YncXeiGlUG/view?usp=sharing",
     },
   };
 
