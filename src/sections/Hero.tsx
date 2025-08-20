@@ -29,7 +29,7 @@ const Hero = () => {
     <section id="hero">
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
         <DotLottieReact
-          src="https://drive.google.com/file/d/1Pyn5dNLZqQRXuWjM1khnQswktZrMib_l/view?usp=sharing"
+          src="https://lottie.host/7e1a4148-d1ed-4aee-a317-787f75e2cc1e/qGrtePua0a.lottie"
           loop
           autoplay
           style={{ width: '300px', height: '300px' }}
@@ -46,7 +46,7 @@ const Hero = () => {
       {/* Animação Lottie abaixo do conteúdo */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
         <DotLottieReact
-          src="https://drive.google.com/file/d/1Pyn5dNLZqQRXuWjM1khnQswktZrMib_l/view?usp=sharing"
+          src="https://lottie.host/4f32f244-3d51-4d71-8f97-6daf45359cc2/cu5PlngzpP.lottie"
           loop
           autoplay
           style={{ width: '500px', height: '500px' }}
