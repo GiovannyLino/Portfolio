@@ -13,7 +13,7 @@ const About = () => {
       ],
       skillsTitle: 'Skills',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'React', 'Next', 'Vue'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'React', 'Next', 'Vue', 'Angular'],
         backEnd: ['C', 'Java', 'Python', 'Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
         tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
@@ -31,7 +31,7 @@ const About = () => {
       ],
       skillsTitle: 'Habilidades',
       skills: {
-        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript','Tailwind CSS' , 'React', 'Next', 'Vue'],
+        frontEnd: ['HTML', 'CSS', 'JavaScript', 'TypeScript','Tailwind CSS' , 'React', 'Next', 'Vue', 'Angular'],
         backEnd: ['C', 'Java', 'Python', 'Node.js', 'Express', 'MySQL', 'MongoDB', 'PostgreSQL', 'Oracle SQL', 'Oracle APEX'],
         tools: ['Git', 'GitHub', 'Postman', 'Metodologias Ágeis'],
       },
