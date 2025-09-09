@@ -22,10 +22,10 @@ const projectsData = {
       link: 'https://github.com/GiovannyLino/TaskMan',
     },
     {
-      title: 'Full Stack Project',
+      title: 'Front-End Project',
       description:
-        'Fullstack frontend and backend project using modern frameworks.',
-      link: 'https://github.com/GiovannyLino/Projeto-FullStack-FrontEnd-e-BackEnd-',
+        'Fron-End project using Angular and modern frameworks.',
+      link: 'https://github.com/GiovannyLino/spa-rick-and-morty',
     },
   ],
   pt: [
@@ -48,10 +48,10 @@ const projectsData = {
       link: 'https://github.com/GiovannyLino/TaskMan',
     },
     {
-      title: 'Projeto Full Stack',
+      title: 'Projeto Front-End',
       description:
-        'Projeto fullstack frontend e backend usando frameworks modernos.',
-      link: 'https://github.com/GiovannyLino/Projeto-FullStack-FrontEnd-e-BackEnd-',
+        'Projeto Front-End usando Angular e frameworks modernos.',
+      link: 'https://github.com/GiovannyLino/spa-rick-and-morty',
     },
   ]
 };
