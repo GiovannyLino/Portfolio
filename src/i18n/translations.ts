@@ -95,7 +95,7 @@ export const translations = {
     about: {
       number: "01.",
       title: "Sobre Mim",
-      p1: 'Sou <strong>estudante de Ciência da Computação</strong> na Universidade de São Caetano do Sul (USCS), atualmente estagiando na <strong>Telco Engineering</strong> onde trabalho com APIs, máquinas virtuais, bancos de dados relacionais e integrações de sistemas.',
+      p1: 'Sou <strong>estudante de Ciência da Computação</strong> na Universidade de São Caetano do Sul (USCS), atualmente estagiando na empresa <strong>Logicalis como Telco Engineering</strong> onde trabalho com APIs, máquinas virtuais, bancos de dados relacionais e integrações de sistemas.',
       p2: 'Com uma base sólida em desenvolvimento frontend e backend usando Node.js, React e modelagem de banco de dados, estou focado em construir minha carreira em <accent>DevOps</accent> — automação, CI/CD, infraestrutura e computação em nuvem.',
       p3: 'Também possuo formação como <strong>Técnico em Mecatrônica</strong> pelo SENAI, o que me proporcionou uma mentalidade forte de resolução de problemas e experiência prática em engenharia.',
       expTitle: "Telco Engineering",
