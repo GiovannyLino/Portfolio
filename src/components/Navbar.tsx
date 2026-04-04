@@ -26,7 +26,8 @@ const Navbar = () => {
           {"<GL />"}
         </a>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
           <LanguageSwitcher />
           <a
             href="/Giovanny_Lino_CV_2026.pdf"
