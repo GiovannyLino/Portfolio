@@ -21,7 +21,7 @@ export const translations = {
     about: {
       number: "01.",
       title: "About Me",
-      p1: 'I\'m a <strong>Computer Science student</strong> at Universidade de São Caetano do Sul (USCS), currently interning at <strong>Telco Engineering</strong> where I work with APIs, virtual machines, relational databases, and system integrations.',
+      p1: 'I\'m a <strong>Computer Science student</strong> at Universidade de São Caetano do Sul (USCS), currently interning at <strong>Logicalis as Telco Engineering</strong> where I work with APIs, virtual machines, relational databases, and system integrations.',
       p2: 'With a solid foundation in both frontend and backend development using Node.js, React, and database modeling, I\'m focused on building my career in <accent>DevOps</accent> — automation, CI/CD, infrastructure, and cloud computing.',
       p3: 'I also hold a <strong>Mechatronics Technician</strong> degree from SENAI, which gave me a strong problem-solving mindset and hands-on engineering experience.',
       expTitle: "Telco Engineering",
