@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import profileImg from "@/assets/profile.jpg";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -11,6 +12,7 @@ const HeroSection = () => {
       <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-primary/3 blur-3xl" />
 
       <div className="container relative z-10 py-20">
+        <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
         <div className="max-w-3xl">
           <p className="font-mono text-primary text-sm md:text-base mb-4 animate-fade-up">
             {t.hero.greeting}
