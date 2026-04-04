@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import profileImg from "@/assets/profile.jpg";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -11,6 +12,7 @@ const HeroSection = () => {
       <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-primary/3 blur-3xl" />
 
       <div className="container relative z-10 py-20">
+        <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
         <div className="max-w-3xl">
           <p className="font-mono text-primary text-sm md:text-base mb-4 animate-fade-up">
             {t.hero.greeting}
@@ -44,8 +46,23 @@ const HeroSection = () => {
             <a href="mailto:giovannylino9@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="Email">
               <Mail size={22} />
             </a>
+        </div>
+
+          {/* Profile Photo */}
+          <div className="relative flex-shrink-0">
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-lg glow">
+              <img
+                src={profileImg}
+                alt="Giovanny Lino"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-md">
+              <span className="text-primary-foreground text-xs font-bold">✓</span>
+            </div>
           </div>
         </div>
+      </div>
       </div>
 
       <a href="#content" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors" style={{ animation: "float 2s ease-in-out infinite" }}>
