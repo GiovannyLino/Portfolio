@@ -13,7 +13,7 @@ const HeroSection = () => {
 
       <div className="container relative z-10 py-20">
         <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
-          <div className="max-w-3xl">
+          <div className="flex-1 max-w-3xl">
             <p className="font-mono text-primary text-sm md:text-base mb-4 animate-fade-up">
               {t.hero.greeting}
             </p>
