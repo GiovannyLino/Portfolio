@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -25,7 +26,8 @@ const Navbar = () => {
           {"<GL />"}
         </a>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
           <LanguageSwitcher />
           <a
             href="/Giovanny_Lino_CV_2026.pdf"
@@ -49,7 +51,8 @@ const Navbar = () => {
       {mobileOpen && (
         <div className="md:hidden glass-card border-t border-border/50 mt-2">
           <ul className="flex flex-col items-center gap-6 py-8">
-            <li>
+            <li className="flex items-center gap-3">
+              <ThemeToggle />
               <LanguageSwitcher />
             </li>
             <li>
