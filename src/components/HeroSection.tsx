@@ -13,40 +13,41 @@ const HeroSection = () => {
 
       <div className="container relative z-10 py-20">
         <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
-        <div className="max-w-3xl">
-          <p className="font-mono text-primary text-sm md:text-base mb-4 animate-fade-up">
-            {t.hero.greeting}
-          </p>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-foreground mb-2 animate-fade-up-delay-1">
-            {t.hero.name}
-          </h1>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient mb-6 animate-fade-up-delay-2">
-            {t.hero.subtitle}
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-xl mb-10 animate-fade-up-delay-3">
-            {t.hero.description}
-          </p>
+          <div className="max-w-3xl">
+            <p className="font-mono text-primary text-sm md:text-base mb-4 animate-fade-up">
+              {t.hero.greeting}
+            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-foreground mb-2 animate-fade-up-delay-1">
+              {t.hero.name}
+            </h1>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient mb-6 animate-fade-up-delay-2">
+              {t.hero.subtitle}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mb-10 animate-fade-up-delay-3">
+              {t.hero.description}
+            </p>
 
-          <div className="flex flex-wrap items-center gap-4 animate-fade-up-delay-4">
-            <Button variant="hero" size="lg" asChild>
-              <a href="#content">{t.hero.viewWork}</a>
-            </Button>
-            <Button variant="heroOutline" size="lg" asChild>
-              <a href="#content">{t.hero.getInTouch}</a>
-            </Button>
+            <div className="flex flex-wrap items-center gap-4 animate-fade-up-delay-4">
+              <Button variant="hero" size="lg" asChild>
+                <a href="#content">{t.hero.viewWork}</a>
+              </Button>
+              <Button variant="heroOutline" size="lg" asChild>
+                <a href="#content">{t.hero.getInTouch}</a>
+              </Button>
+            </div>
+
+            <div className="flex items-center gap-5 mt-12 animate-fade-up-delay-4">
+              <a href="https://github.com/GiovannyLino" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="GitHub">
+                <Github size={22} />
+              </a>
+              <a href="https://www.linkedin.com/in/giovanny-lino/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="LinkedIn">
+                <Linkedin size={22} />
+              </a>
+              <a href="mailto:giovannylino9@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="Email">
+                <Mail size={22} />
+              </a>
+            </div>
           </div>
-
-          <div className="flex items-center gap-5 mt-12 animate-fade-up-delay-4">
-            <a href="https://github.com/GiovannyLino" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="GitHub">
-              <Github size={22} />
-            </a>
-            <a href="https://www.linkedin.com/in/giovanny-lino/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="LinkedIn">
-              <Linkedin size={22} />
-            </a>
-            <a href="mailto:giovannylino9@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="Email">
-              <Mail size={22} />
-            </a>
-        </div>
 
           {/* Profile Photo */}
           <div className="relative flex-shrink-0">
@@ -62,7 +63,6 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <a href="#content" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors" style={{ animation: "float 2s ease-in-out infinite" }}>
