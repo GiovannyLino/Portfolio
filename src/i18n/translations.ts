@@ -21,7 +21,7 @@ export const translations = {
     about: {
       number: "01.",
       title: "About Me",
-      p1: 'I\'m a <strong>Computer Science student</strong> at Universidade de São Caetano do Sul (USCS), currently interning at <strong>Telco Engineering</strong> where I work with APIs, virtual machines, relational databases, and system integrations.',
+      p1: 'I\'m a <strong>Computer Science student</strong> at Universidade de São Caetano do Sul (USCS), currently interning at <strong>Logicalis as Telco Engineering</strong> where I work with APIs, virtual machines, relational databases, and system integrations.',
       p2: 'With a solid foundation in both frontend and backend development using Node.js, React, and database modeling, I\'m focused on building my career in <accent>DevOps</accent> — automation, CI/CD, infrastructure, and cloud computing.',
       p3: 'I also hold a <strong>Mechatronics Technician</strong> degree from SENAI, which gave me a strong problem-solving mindset and hands-on engineering experience.',
       expTitle: "Telco Engineering",
@@ -95,7 +95,7 @@ export const translations = {
     about: {
       number: "01.",
       title: "Sobre Mim",
-      p1: 'Sou <strong>estudante de Ciência da Computação</strong> na Universidade de São Caetano do Sul (USCS), atualmente estagiando na <strong>Telco Engineering</strong> onde trabalho com APIs, máquinas virtuais, bancos de dados relacionais e integrações de sistemas.',
+      p1: 'Sou <strong>estudante de Ciência da Computação</strong> na Universidade de São Caetano do Sul (USCS), atualmente estagiando na empresa <strong>Logicalis como Telco Engineering</strong> onde trabalho com APIs, máquinas virtuais, bancos de dados relacionais e integrações de sistemas.',
       p2: 'Com uma base sólida em desenvolvimento frontend e backend usando Node.js, React e modelagem de banco de dados, estou focado em construir minha carreira em <accent>DevOps</accent> — automação, CI/CD, infraestrutura e computação em nuvem.',
       p3: 'Também possuo formação como <strong>Técnico em Mecatrônica</strong> pelo SENAI, o que me proporcionou uma mentalidade forte de resolução de problemas e experiência prática em engenharia.',
       expTitle: "Telco Engineering",
@@ -169,7 +169,7 @@ export const translations = {
     about: {
       number: "01.",
       title: "Sobre Mí",
-      p1: 'Soy <strong>estudiante de Ciencias de la Computación</strong> en la Universidade de São Caetano do Sul (USCS), actualmente haciendo prácticas en <strong>Telco Engineering</strong> donde trabajo con APIs, máquinas virtuales, bases de datos relacionales e integraciones de sistemas.',
+      p1: 'Soy <strong>estudiante de Ciencias de la Computación</strong> en la Universidade de São Caetano do Sul (USCS), actualmente haciendo prácticas en la empresa <strong>Logicalis como Telco Engineering</strong> donde trabajo con APIs, máquinas virtuales, bases de datos relacionales e integraciones de sistemas.',
       p2: 'Con una base sólida en desarrollo frontend y backend usando Node.js, React y modelado de bases de datos, estoy enfocado en construir mi carrera en <accent>DevOps</accent> — automatización, CI/CD, infraestructura y computación en la nube.',
       p3: 'También tengo formación como <strong>Técnico en Mecatrónica</strong> del SENAI, lo que me dio una fuerte mentalidad de resolución de problemas y experiencia práctica en ingeniería.',
       expTitle: "Telco Engineering",
