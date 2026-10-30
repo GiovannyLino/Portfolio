@@ -678,8 +678,115 @@
   color: hsl(var(--muted-foreground));
 }
 
+/* ---- Guided tour ---------------------------------------------------------- */
+
+.tourStart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px dashed hsl(var(--primary));
+  border-radius: 0.8rem;
+  background: hsl(var(--primary) / 0.08);
+  color: hsl(var(--primary));
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tourStart:hover {
+  background: hsl(var(--primary) / 0.15);
+}
+
+/* Card above the launcher; the page stays visible while the tour scrolls it. */
+.tour {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 5.5rem);
+  z-index: 65;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  background: hsl(var(--card));
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  color: hsl(var(--foreground));
+  animation: bubble-in 0.25s ease-out;
+}
+
+.tourHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.tourTitle {
+  font-size: 0.95rem;
+}
+
+.tourDots {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.tourDots li {
+  flex: 1;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: hsl(var(--muted));
+  transition: background 0.3s ease;
+}
+
+.tourDots li[data-state="done"] {
+  background: hsl(var(--primary) / 0.45);
+}
+
+.tourDots li[data-state="current"] {
+  background: hsl(var(--primary));
+}
+
+.tourText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  animation: bubble-in 0.25s ease-out;
+}
+
+.tourNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tourBack,
+.tourNext {
+  padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tourBack {
+  border: 1px solid hsl(var(--border));
+  background: transparent;
+  color: hsl(var(--foreground));
+}
+
+.tourNext {
+  border: 0;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
 /* ---- Focus & a11y --------------------------------------------------------- */
 
+.tour :is(button, a):focus-visible,
 .panel :is(button, a, textarea):focus-visible {
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
@@ -698,8 +805,7 @@
 }
 
 /* Page elements highlighted by the assistant (outside the panel), set by lib/ui-actions. */
-:global([data-gioai-highlight="card"]),
-:global([data-gioai-highlight="form"]) {
+:global([data-gioai-highlight="card"]) {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 4px;
   animation: page-highlight 2.6s ease-out;
@@ -796,6 +902,8 @@
 @media (prefers-reduced-motion: reduce) {
   .panel,
   .panel *,
+  .tour,
+  .tour *,
   :global([data-gioai-highlight]),
   :global([data-gioai-highlight] > span) {
     animation: none !important;

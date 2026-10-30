@@ -1,9 +1,11 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
+import ContactSection from "@/components/ContactSection";
+import { contactHref } from "@/lib/contact";
 import { LanguageProvider } from "@/i18n/LanguageContext";
-import { onContactPrefill, onOpenChat, type OpenChatDetail } from "./chat-bus";
+import { onContactPrefill, onOpenChat, prefillContact, type OpenChatDetail } from "./chat-bus";
 import { HIGHLIGHT_ATTRIBUTE, highlightProject, navigateToSection, openContact } from "./lib/ui-actions";
 import { markNudged, scrollProgress, wasNudged } from "./nudge";
 
@@ -44,6 +46,28 @@ describe("page actions", () => {
     openContact({ subject: "Vaga", message: "Olá" });
     stop();
     expect(received).toHaveBeenCalledWith({ subject: "Vaga", message: "Olá" });
+  });
+});
+
+describe("contact button", () => {
+  it("is a plain mailto link, with the assistant's subject and draft when it sent the visitor", () => {
+    expect(contactHref("gio@example.com", null)).toBe("mailto:gio@example.com");
+    expect(contactHref("gio@example.com", { subject: "Vaga SRE", message: "Olá!" })).toBe(
+      "mailto:gio@example.com?subject=Vaga%20SRE&body=Ol%C3%A1!",
+    );
+  });
+
+  it("picks up the prefill sent by the chat", () => {
+    render(
+      <LanguageProvider>
+        <ContactSection />
+      </LanguageProvider>,
+    );
+    const button = screen.getByRole("link", { name: "Say Hello" });
+    expect(button).toHaveAttribute("href", "mailto:giovannylino9@gmail.com");
+
+    act(() => prefillContact({ subject: "SRE role" }));
+    expect(button).toHaveAttribute("href", "mailto:giovannylino9@gmail.com?subject=SRE%20role");
   });
 });
 

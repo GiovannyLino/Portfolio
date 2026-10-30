@@ -13,10 +13,10 @@ vi.mock("./lib/chat-client", () => ({
   },
 }));
 
-const renderWidget = () =>
+const renderWidget = (onClose: (options?: { restoreFocus?: boolean }) => void = () => {}) =>
   render(
     <LanguageProvider>
-      <ChatWidget open onClose={() => {}} section="projects" pendingQuestion={null} onPendingQuestionSent={() => {}} />
+      <ChatWidget open onClose={onClose} section="projects" pendingQuestion={null} onPendingQuestionSent={() => {}} />
     </LanguageProvider>,
   );
 
@@ -32,6 +32,16 @@ describe("ChatWidget", () => {
     expect(screen.getByRole("dialog", { name: /Gio\.AI/ })).toBeInTheDocument();
     expect(screen.getByText(/this portfolio's assistant/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "What does he do at Logicalis?" })).toBeInTheDocument();
+  });
+
+  it("starts the guided tour: closes the panel and shows the tour card", () => {
+    const onClose = vi.fn();
+    renderWidget(onClose);
+    fireEvent.click(screen.getByRole("button", { name: "60-second guided tour" }));
+
+    expect(onClose).toHaveBeenCalledWith({ restoreFocus: false });
+    expect(screen.getByRole("dialog", { name: "Guided tour" })).toBeInTheDocument();
+    expect(script.requests).toHaveLength(0);
   });
 
   it("streams an answer with markdown, a project card and quick replies", async () => {

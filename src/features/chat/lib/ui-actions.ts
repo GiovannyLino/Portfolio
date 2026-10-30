@@ -1,5 +1,5 @@
-// Page effects of the assistant's UI tools: scroll, highlight, and the contact form prefill
-// (the form listens through chat-bus). Highlight styles live in ChatWidget.module.css,
+// Page effects of the assistant's UI tools: scroll, highlight, and the contact prefill
+// (the contact section listens through chat-bus). Highlight styles live in ChatWidget.module.css,
 // which is loaded whenever these run.
 import { projectAnchorId, type SectionId } from "@/lib/sections";
 import { prefillContact, type ContactPrefill } from "../chat-bus";
@@ -16,7 +16,7 @@ const scrollTo = (element: Element | null, block: ScrollLogicalPosition) =>
 const timers = new WeakMap<Element, number>();
 
 /** Marks an element for the highlight animation; a repeat restarts it instead of stacking. */
-export function flash(element: Element | null, kind: "card" | "heading" | "form"): void {
+export function flash(element: Element | null, kind: "card" | "heading"): void {
   if (!element) return;
   window.clearTimeout(timers.get(element));
   element.removeAttribute(HIGHLIGHT_ATTRIBUTE);
@@ -41,6 +41,7 @@ export function highlightProject(projectId: string): void {
 export function openContact(prefill: ContactPrefill): void {
   navigateToSection("contact");
   prefillContact(prefill);
+  flash(document.getElementById("contact-email"), "card");
 }
 
 export function runUiAction(action: UiAction): void {

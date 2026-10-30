@@ -34,6 +34,16 @@ export interface ChatCopy {
     contactTitle: string;
   };
   code: { copy: string; copied: string };
+  tour: {
+    start: string;
+    title: string;
+    progress: (step: number, total: number) => string;
+    next: string;
+    back: string;
+    exit: string;
+    finish: string;
+    ask: string;
+  };
 }
 
 export const chatCopy = {
@@ -83,6 +93,16 @@ export const chatCopy = {
       contactTitle: "Falar com o Giovanny",
     },
     code: { copy: "Copiar código", copied: "Copiado" },
+    tour: {
+      start: "Tour guiado de 60 s",
+      title: "Tour guiado",
+      progress: (step, total) => `${step} de ${total}`,
+      next: "Próximo",
+      back: "Voltar",
+      exit: "Sair do tour",
+      finish: "Concluir",
+      ask: "Fazer uma pergunta",
+    },
   },
   en: {
     name: "Gio.AI",
@@ -135,6 +155,16 @@ export const chatCopy = {
       contactTitle: "Talk to Giovanny",
     },
     code: { copy: "Copy code", copied: "Copied" },
+    tour: {
+      start: "60-second guided tour",
+      title: "Guided tour",
+      progress: (step, total) => `${step} of ${total}`,
+      next: "Next",
+      back: "Back",
+      exit: "Exit tour",
+      finish: "Finish",
+      ask: "Ask a question",
+    },
   },
   es: {
     name: "Gio.AI",
@@ -187,5 +217,15 @@ export const chatCopy = {
       contactTitle: "Hablar con Giovanny",
     },
     code: { copy: "Copiar código", copied: "Copiado" },
+    tour: {
+      start: "Tour guiado de 60 s",
+      title: "Tour guiado",
+      progress: (step, total) => `${step} de ${total}`,
+      next: "Siguiente",
+      back: "Atrás",
+      exit: "Salir del tour",
+      finish: "Terminar",
+      ask: "Hacer una pregunta",
+    },
   },
 } satisfies Record<Language, ChatCopy>;

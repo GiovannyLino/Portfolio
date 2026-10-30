@@ -13,28 +13,7 @@ export type Translations = {
   projects: { other: string; internal: string; sourceCode: string; liveDemo: string };
   education: { degrees: string; certifications: string };
   skills: { askHint: string };
-  contact: {
-    subtitle: string;
-    form: {
-      name: string;
-      email: string;
-      subject: string;
-      message: string;
-      namePlaceholder: string;
-      emailPlaceholder: string;
-      subjectPlaceholder: string;
-      messagePlaceholder: string;
-      submit: string;
-      sending: string;
-      prefilled: string;
-      sent: string;
-      mailtoOpened: string;
-      failed: string;
-      orEmail: string;
-      defaultSubject: string;
-      errors: { name: string; email: string; message: string };
-    };
-  };
+  contact: { subtitle: string; button: string };
   footer: { built: string };
 };
 
@@ -94,29 +73,7 @@ export const translations = {
     },
     contact: {
       subtitle: "What's Next?",
-      form: {
-        name: "Name",
-        email: "Email",
-        subject: "Subject",
-        message: "Message",
-        namePlaceholder: "Your name",
-        emailPlaceholder: "you@company.com",
-        subjectPlaceholder: "What is it about?",
-        messagePlaceholder: "Tell me about the opportunity, project or question…",
-        submit: "Send message",
-        sending: "Sending…",
-        prefilled: "Gio.AI filled this in from your conversation — review it before sending.",
-        sent: "Message sent! Thanks for reaching out.",
-        mailtoOpened: "Your email app opened with the message ready. If nothing happened, write to",
-        failed: "The message couldn't be sent. Please write to",
-        orEmail: "Prefer email?",
-        defaultSubject: "Contact from the portfolio",
-        errors: {
-          name: "Please enter your name.",
-          email: "Please enter a valid email address.",
-          message: "Please write at least 10 characters.",
-        },
-      },
+      button: "Say Hello",
     },
     footer: {
       built: "Built by Giovanny Lino",
@@ -177,29 +134,7 @@ export const translations = {
     },
     contact: {
       subtitle: "O Que Vem a Seguir?",
-      form: {
-        name: "Nome",
-        email: "E-mail",
-        subject: "Assunto",
-        message: "Mensagem",
-        namePlaceholder: "Seu nome",
-        emailPlaceholder: "voce@empresa.com",
-        subjectPlaceholder: "Sobre o que é?",
-        messagePlaceholder: "Conte sobre a oportunidade, o projeto ou a dúvida…",
-        submit: "Enviar mensagem",
-        sending: "Enviando…",
-        prefilled: "O Gio.AI preencheu a partir da sua conversa — revise antes de enviar.",
-        sent: "Mensagem enviada! Obrigado pelo contato.",
-        mailtoOpened: "Seu app de e-mail abriu com a mensagem pronta. Se nada aconteceu, escreva para",
-        failed: "Não foi possível enviar a mensagem. Escreva para",
-        orEmail: "Prefere e-mail?",
-        defaultSubject: "Contato pelo portfólio",
-        errors: {
-          name: "Informe seu nome.",
-          email: "Informe um e-mail válido.",
-          message: "Escreva pelo menos 10 caracteres.",
-        },
-      },
+      button: "Diga Olá",
     },
     footer: {
       built: "Feito por Giovanny Lino",
@@ -260,29 +195,7 @@ export const translations = {
     },
     contact: {
       subtitle: "¿Qué Sigue?",
-      form: {
-        name: "Nombre",
-        email: "Correo",
-        subject: "Asunto",
-        message: "Mensaje",
-        namePlaceholder: "Tu nombre",
-        emailPlaceholder: "tu@empresa.com",
-        subjectPlaceholder: "¿De qué se trata?",
-        messagePlaceholder: "Cuéntame sobre la oportunidad, el proyecto o la duda…",
-        submit: "Enviar mensaje",
-        sending: "Enviando…",
-        prefilled: "Gio.AI lo completó a partir de tu conversación — revísalo antes de enviar.",
-        sent: "¡Mensaje enviado! Gracias por escribir.",
-        mailtoOpened: "Tu app de correo se abrió con el mensaje listo. Si no pasó nada, escribe a",
-        failed: "No se pudo enviar el mensaje. Escribe a",
-        orEmail: "¿Prefieres correo?",
-        defaultSubject: "Contacto desde el portafolio",
-        errors: {
-          name: "Escribe tu nombre.",
-          email: "Escribe un correo válido.",
-          message: "Escribe al menos 10 caracteres.",
-        },
-      },
+      button: "Di Hola",
     },
     footer: {
       built: "Hecho por Giovanny Lino",

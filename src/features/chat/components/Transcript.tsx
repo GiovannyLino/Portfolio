@@ -1,4 +1,4 @@
-import { RotateCcw } from "lucide-react";
+import { Compass, RotateCcw } from "lucide-react";
 import type { Language } from "@/data/knowledge";
 import type { SectionId } from "@/lib/sections";
 import type { UiAction } from "../protocol";
@@ -125,11 +125,23 @@ export const QuickReplies = ({ items, onPick, disabled }: { items: string[]; onP
   </div>
 );
 
-export const EmptyState = ({ copy, onPick }: { copy: ChatCopy; onPick: (text: string) => void }) => (
+export const EmptyState = ({
+  copy,
+  onPick,
+  onStartTour,
+}: {
+  copy: ChatCopy;
+  onPick: (text: string) => void;
+  onStartTour: () => void;
+}) => (
   <div className={styles.empty}>
     <div className={styles.assistantBubble}>
       <Markdown content={copy.greeting} onNavigate={() => {}} copyLabel={copy.code.copy} copiedLabel={copy.code.copied} />
     </div>
+    <button type="button" className={styles.tourStart} onClick={onStartTour}>
+      <Compass size={16} aria-hidden="true" />
+      {copy.tour.start}
+    </button>
     <p className={styles.starterTitle}>{copy.starterTitle}</p>
     <div className={styles.starters}>
       {copy.starters.map((starter) => (

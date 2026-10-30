@@ -45,10 +45,10 @@ const ChatLauncher = () => {
     setOpen(true);
   }, []);
 
-  const closePanel = useCallback(() => {
+  const closePanel = useCallback(({ restoreFocus = true }: { restoreFocus?: boolean } = {}) => {
     setOpen(false);
     // The launcher re-renders on close; focus it once it is back in the DOM.
-    requestAnimationFrame(() => buttonRef.current?.focus());
+    if (restoreFocus) requestAnimationFrame(() => buttonRef.current?.focus());
   }, []);
 
   // Fetch the widget chunk while the browser is idle so the first open feels instant.

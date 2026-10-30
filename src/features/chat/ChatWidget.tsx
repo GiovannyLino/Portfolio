@@ -11,6 +11,8 @@ import { runUiAction } from "./lib/ui-actions";
 import Mascot, { type MascotMood } from "./Mascot";
 import { CHAT_LIMITS, type ToolName, type UiAction } from "./protocol";
 import { EmptyState, Message, QuickReplies } from "./components/Transcript";
+import TourGuide from "./components/TourGuide";
+import { openChat } from "./chat-bus";
 import { useChat, type Cue } from "./useChat";
 import styles from "./ChatWidget.module.css";
 
@@ -24,9 +26,14 @@ const TOOL_ICONS: Partial<Record<ToolName, LucideIcon>> = {
   webSearch: Globe,
 };
 
+export interface CloseOptions {
+  /** Focus the launcher after closing (default). The tour moves focus to its own card instead. */
+  restoreFocus?: boolean;
+}
+
 interface ChatWidgetProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (options?: CloseOptions) => void;
   section: SectionId | null;
   pendingQuestion: string | null;
   onPendingQuestionSent: () => void;
@@ -87,6 +94,21 @@ const ChatWidget = ({ open, onClose, section, pendingQuestion, onPendingQuestion
   }, [open]);
 
   const chat = useChat({ lang: language, section, stoppedPlaceholder: copy.stopped, onUiAction });
+
+  // The tour runs with the panel closed so the visitor sees the page it walks through.
+  const [touring, setTouring] = useState(false);
+  const startTour = useCallback(() => {
+    setTouring(true);
+    onClose({ restoreFocus: false });
+  }, [onClose]);
+  const endTour = useCallback(() => {
+    setTouring(false);
+    document.querySelector<HTMLElement>('[aria-controls="gioai-panel"]')?.focus();
+  }, []);
+  const askAfterTour = useCallback(() => {
+    setTouring(false);
+    openChat();
+  }, []);
 
   const [draft, setDraft] = useState("");
   const [inputFocused, setInputFocused] = useState(false);
@@ -188,112 +210,115 @@ const ChatWidget = ({ open, onClose, section, pendingQuestion, onPendingQuestion
   const suggestions = !busy && last?.role === "assistant" && last.status === "done" ? last.suggestions : [];
 
   return (
-    <section
-      id="gioai-panel"
-      role="dialog"
-      aria-modal={!isTablet}
-      aria-labelledby="gioai-title"
-      className={styles.panel}
-      hidden={!open}
-    >
-      <header className={styles.header}>
-        <button type="button" className={styles.avatar} onClick={chat.boop} aria-label={`${copy.name} 👋`}>
-          <Mascot mood={mood} size={46} badge={ToolIcon ? <ToolIcon /> : undefined} />
-        </button>
-        <div className={styles.titleBlock}>
-          <h2 id="gioai-title">
-            {copy.name} <span>{copy.tagline}</span>
-          </h2>
-          <p className={styles.status}>
-            <span className={styles.statusDot} data-phase={chat.phase} aria-hidden="true" />
-            {statusLabel}
-          </p>
-        </div>
-        <div className={styles.headerActions}>
-          <button
-            type="button"
-            className={styles.iconButton}
-            onClick={chat.reset}
-            disabled={entries.length === 0}
-            aria-label={copy.newChat}
-            title={copy.newChat}
-          >
-            <RotateCcw size={17} aria-hidden="true" />
-          </button>
-          <button type="button" className={styles.iconButton} onClick={onClose} aria-label={copy.close} title={copy.close}>
-            <X size={18} aria-hidden="true" />
-          </button>
-        </div>
-      </header>
-
-      <div
-        ref={listRef}
-        className={styles.messages}
-        role="log"
+    <>
+      <section
+        id="gioai-panel"
+        role="dialog"
+        aria-modal={!isTablet}
         aria-labelledby="gioai-title"
-        onScroll={(event) => {
-          const list = event.currentTarget;
-          stickToBottom.current = list.scrollHeight - list.scrollTop - list.clientHeight < STICK_TO_BOTTOM_PX;
-        }}
+        className={styles.panel}
+        hidden={!open}
       >
-        {entries.length === 0 ? (
-          <EmptyState copy={copy} onPick={ask} />
-        ) : (
-          entries.map((entry) => (
-            <Message
-              key={entry.id}
-              entry={entry}
-              lang={language}
-              copy={copy}
-              statusLabel={statusLabel}
-              onPageAction={onPageAction}
-              onRetry={chat.retry}
-            />
-          ))
-        )}
-        {suggestions.length > 0 && <QuickReplies items={suggestions} onPick={ask} disabled={busy} />}
-      </div>
-
-      <form
-        className={styles.composer}
-        onSubmit={(event) => {
-          event.preventDefault();
-          submit();
-        }}
-      >
-        <textarea
-          ref={inputRef}
-          className={styles.input}
-          value={draft}
-          rows={1}
-          maxLength={CHAT_LIMITS.maxInputChars}
-          placeholder={copy.placeholder}
-          aria-label={copy.placeholder}
-          onChange={(event) => setDraft(event.target.value)}
-          onKeyDown={onInputKeyDown}
-          onFocus={() => setInputFocused(true)}
-          onBlur={() => setInputFocused(false)}
-        />
-        {busy ? (
-          <button type="button" className={styles.sendButton} onClick={chat.stop} aria-label={copy.stop} title={copy.stop}>
-            <Square size={16} aria-hidden="true" />
+        <header className={styles.header}>
+          <button type="button" className={styles.avatar} onClick={chat.boop} aria-label={`${copy.name} 👋`}>
+            <Mascot mood={mood} size={46} badge={ToolIcon ? <ToolIcon /> : undefined} />
           </button>
-        ) : (
-          <button type="submit" className={styles.sendButton} disabled={!draft.trim()} aria-label={copy.send} title={copy.send}>
-            <SendHorizontal size={18} aria-hidden="true" />
-          </button>
-        )}
-        {draft.length > CHAT_LIMITS.maxInputChars * 0.7 && (
-          <span className={styles.counter} aria-hidden="true">
-            {draft.length}/{CHAT_LIMITS.maxInputChars}
-          </span>
-        )}
-      </form>
+          <div className={styles.titleBlock}>
+            <h2 id="gioai-title">
+              {copy.name} <span>{copy.tagline}</span>
+            </h2>
+            <p className={styles.status}>
+              <span className={styles.statusDot} data-phase={chat.phase} aria-hidden="true" />
+              {statusLabel}
+            </p>
+          </div>
+          <div className={styles.headerActions}>
+            <button
+              type="button"
+              className={styles.iconButton}
+              onClick={chat.reset}
+              disabled={entries.length === 0}
+              aria-label={copy.newChat}
+              title={copy.newChat}
+            >
+              <RotateCcw size={17} aria-hidden="true" />
+            </button>
+            <button type="button" className={styles.iconButton} onClick={() => onClose()} aria-label={copy.close} title={copy.close}>
+              <X size={18} aria-hidden="true" />
+            </button>
+          </div>
+        </header>
 
-      <div className={styles.srOnly} aria-live="polite">
-        {announcement}
-      </div>
-    </section>
+        <div
+          ref={listRef}
+          className={styles.messages}
+          role="log"
+          aria-labelledby="gioai-title"
+          onScroll={(event) => {
+            const list = event.currentTarget;
+            stickToBottom.current = list.scrollHeight - list.scrollTop - list.clientHeight < STICK_TO_BOTTOM_PX;
+          }}
+        >
+          {entries.length === 0 ? (
+            <EmptyState copy={copy} onPick={ask} onStartTour={startTour} />
+          ) : (
+            entries.map((entry) => (
+              <Message
+                key={entry.id}
+                entry={entry}
+                lang={language}
+                copy={copy}
+                statusLabel={statusLabel}
+                onPageAction={onPageAction}
+                onRetry={chat.retry}
+              />
+            ))
+          )}
+          {suggestions.length > 0 && <QuickReplies items={suggestions} onPick={ask} disabled={busy} />}
+        </div>
+
+        <form
+          className={styles.composer}
+          onSubmit={(event) => {
+            event.preventDefault();
+            submit();
+          }}
+        >
+          <textarea
+            ref={inputRef}
+            className={styles.input}
+            value={draft}
+            rows={1}
+            maxLength={CHAT_LIMITS.maxInputChars}
+            placeholder={copy.placeholder}
+            aria-label={copy.placeholder}
+            onChange={(event) => setDraft(event.target.value)}
+            onKeyDown={onInputKeyDown}
+            onFocus={() => setInputFocused(true)}
+            onBlur={() => setInputFocused(false)}
+          />
+          {busy ? (
+            <button type="button" className={styles.sendButton} onClick={chat.stop} aria-label={copy.stop} title={copy.stop}>
+              <Square size={16} aria-hidden="true" />
+            </button>
+          ) : (
+            <button type="submit" className={styles.sendButton} disabled={!draft.trim()} aria-label={copy.send} title={copy.send}>
+              <SendHorizontal size={18} aria-hidden="true" />
+            </button>
+          )}
+          {draft.length > CHAT_LIMITS.maxInputChars * 0.7 && (
+            <span className={styles.counter} aria-hidden="true">
+              {draft.length}/{CHAT_LIMITS.maxInputChars}
+            </span>
+          )}
+        </form>
+
+        <div className={styles.srOnly} aria-live="polite">
+          {announcement}
+        </div>
+      </section>
+      {touring && <TourGuide lang={language} copy={copy} onExit={endTour} onAsk={askAfterTour} />}
+    </>
   );
 };
 
