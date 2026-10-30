@@ -163,6 +163,7 @@ export const skills = [
   { id: "nodejs", name: "Node.js", category: "languages", aliases: ["node"] },
   { id: "sql", name: "SQL", category: "languages" },
   { id: "plsql", name: "PL/SQL", category: "languages", aliases: ["plsql", "oracle"] },
+  { id: "java", name: "Java", category: "languages", listed: false },
 
   // Databases
   {
@@ -172,8 +173,8 @@ export const skills = [
     detail: "AWS Aurora, Supabase",
     aliases: ["postgres", "aurora", "supabase"],
   },
-  { id: "supabase", name: "Supabase", category: "databases", aliases: ["rls", "row level security"], listed: false },
   { id: "mysql", name: "MySQL", category: "databases" },
+  { id: "mongodb", name: "MongoDB", category: "databases", aliases: ["mongo", "atlas"], listed: false },
   { id: "oracle", name: "Oracle", category: "databases" },
   {
     id: "data-modeling",
@@ -217,7 +218,7 @@ export const skills = [
   { id: "vite", name: "Vite", category: "frameworks" },
   { id: "tailwind", name: "Tailwind CSS", category: "frameworks", aliases: ["tailwind"] },
   { id: "angular", name: "Angular", category: "frameworks", aliases: ["rxjs"] },
-  { id: "express", name: "Express", category: "frameworks", aliases: ["expressjs"] },
+  { id: "spring-boot", name: "Spring Boot", category: "frameworks", aliases: ["spring"] },
   { id: "bullmq", name: "BullMQ", category: "frameworks", aliases: ["queue", "jobs"] },
 ] as const satisfies readonly Skill[];
 

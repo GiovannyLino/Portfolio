@@ -76,7 +76,7 @@ describe("knowledge base", () => {
 
   it("hides catalog-only skills from the Skills grid", () => {
     const listed = skillsByCategory().flatMap((group) => group.skills.map((skill) => skill.id));
-    expect(listed).not.toContain("supabase");
+    expect(listed).not.toContain("java");
     expect(listed).toContain("ansible");
   });
 

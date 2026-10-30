@@ -2,8 +2,9 @@
 // carried over from the previous version of the site.
 import type { Profile } from "./types";
 
-// Points at the PDF currently in public/. Swap per language once the new CVs are there.
-const RESUME_PATH = "/Giovanny_Lino_CV_2026.pdf";
+// There is no Spanish CV: Spanish visitors get the English one.
+const RESUME_PT = "/Giovanny_Lino_CV_DevOps_PT.pdf";
+const RESUME_EN = "/Giovanny_Lino_Resume_DevOps_EN.pdf";
 
 export const profile = {
   name: "Giovanny Lino",
@@ -116,6 +117,6 @@ export const profile = {
     email: "giovannylino9@gmail.com",
     github: "https://github.com/GiovannyLino",
     linkedin: "https://www.linkedin.com/in/giovanny-lino/",
-    resume: { en: RESUME_PATH, pt: RESUME_PATH, es: RESUME_PATH },
+    resume: { en: RESUME_EN, pt: RESUME_PT, es: RESUME_EN },
   },
 } as const satisfies Profile;

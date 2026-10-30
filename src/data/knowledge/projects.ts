@@ -1,5 +1,6 @@
 // Featured projects: CV "Projetos relevantes" (Oct 2026). Problem/solution only restate
-// what the CV and the experience bullets say. Other projects: public GitHub READMEs.
+// what the CV and the experience bullets say. Other projects: public GitHub READMEs,
+// most recently pushed first.
 import type { Project } from "./types";
 
 export const projects = [
@@ -116,27 +117,30 @@ export const projects = [
     links: {},
   },
   {
-    id: "telcoforge",
-    title: "Uplink / TelcoForge",
-    featured: true,
-    origin: "work",
+    id: "rick-and-morty-spa",
+    title: "Rick & Morty SPA",
+    featured: false,
+    origin: "personal",
     summary: {
-      en: "Pre-sales workspace platform for knowledge management, lab scheduling and discovery notes, with authentication, row level security (RLS) policies and continuous deployment.",
-      pt: "Plataforma de workspace de pré-vendas para gestão de conhecimento, agendamento de laboratórios e registro de discovery notes, com autenticação, políticas de segurança em nível de linha (RLS) e deploy contínuo.",
-      es: "Plataforma de workspace de preventa para gestión del conocimiento, agenda de laboratorios y registro de discovery notes, con autenticación, políticas de seguridad a nivel de fila (RLS) y despliegue continuo.",
+      en: "Angular single-page application consuming the Rick & Morty REST API, built for a technical assessment from a Figma layout: infinite scroll, global search, route guards and a responsive layout.",
+      pt: "SPA em Angular consumindo a API REST do Rick & Morty, feita para um teste técnico a partir de um layout no Figma: scroll infinito, busca global, route guards e layout responsivo.",
+      es: "SPA en Angular que consume la API REST de Rick & Morty, hecha para una prueba técnica a partir de un diseño en Figma: scroll infinito, búsqueda global, route guards y diseño responsive.",
     },
-    problem: {
-      en: "A pre-sales engineering team needed a single workspace for knowledge, lab resources and technical discovery.",
-      pt: "Um time de engenharia de pré-vendas precisava de uma área de trabalho única para conhecimento, recursos de laboratório e discovery técnico.",
-      es: "Un equipo de ingeniería de preventa necesitaba un espacio de trabajo único para conocimiento, recursos de laboratorio y discovery técnico.",
+    stack: ["angular", "typescript", "rest-apis"],
+    links: { repo: "https://github.com/GiovannyLino/spa-rick-and-morty" },
+  },
+  {
+    id: "task-manager-api",
+    title: "Task Manager API",
+    featured: false,
+    origin: "personal",
+    summary: {
+      en: "RESTful API built by a team of four to manage users, projects and tasks, with task lifecycle, status updates and activity history. Java 17, Spring Boot and MongoDB Atlas in a layered structure (controller, service, repository, DTO).",
+      pt: "API RESTful feita por uma equipe de quatro pessoas para gerenciar usuários, projetos e tarefas, com ciclo de vida, atualização de status e histórico de atividades das tarefas. Java 17, Spring Boot e MongoDB Atlas em camadas (controller, service, repository, DTO).",
+      es: "API RESTful hecha por un equipo de cuatro personas para gestionar usuarios, proyectos y tareas, con ciclo de vida, actualización de estado e historial de actividades de las tareas. Java 17, Spring Boot y MongoDB Atlas en capas (controller, service, repository, DTO).",
     },
-    solution: {
-      en: "React + Vite front end on Supabase (PostgreSQL, Auth, Storage) with no intermediate server: access and business rules live in the database through RLS policies. Continuously deployed on Vercel.",
-      pt: "Front em React + Vite sobre Supabase (PostgreSQL, Auth, Storage), sem servidor intermediário: as regras de acesso e de negócio vivem no banco, via políticas RLS. Deploy contínuo na Vercel.",
-      es: "Front end en React + Vite sobre Supabase (PostgreSQL, Auth, Storage), sin servidor intermedio: las reglas de acceso y de negocio viven en la base de datos mediante políticas RLS. Despliegue continuo en Vercel.",
-    },
-    stack: ["react", "vite", "typescript", "tailwind", "supabase", "postgresql", "vercel"],
-    links: { repo: "https://github.com/GiovannyLino/TelcoForje", demo: "https://telcoforge.vercel.app" },
+    stack: ["java", "spring-boot", "mongodb", "rest-apis"],
+    links: { repo: "https://github.com/GiovannyLino/TaskMan" },
   },
   {
     id: "know-your-fan",
@@ -153,45 +157,6 @@ export const projects = [
       repo: "https://github.com/GiovannyLino/FURIA-KnowYourFan",
       demo: "https://furia-know-your-fan-lyart.vercel.app",
     },
-  },
-  {
-    id: "furia-chatbot",
-    title: "FURIA ChatBot",
-    featured: false,
-    origin: "personal",
-    summary: {
-      en: "Chatbot web app for FURIA eSports fans, built with React, Vite and React Router.",
-      pt: "Aplicação de chatbot para fãs da FURIA eSports, feita com React, Vite e React Router.",
-      es: "Aplicación de chatbot para fans de FURIA eSports, hecha con React, Vite y React Router.",
-    },
-    stack: ["react", "vite", "javascript"],
-    links: { repo: "https://github.com/GiovannyLino/FURIA-ChatBot", demo: "https://furia-chat-bot-five.vercel.app" },
-  },
-  {
-    id: "order-system-api",
-    title: "Order System API",
-    featured: false,
-    origin: "personal",
-    summary: {
-      en: "REST API built with Express and MySQL, with layered architecture, relational modeling and Git-based versioning.",
-      pt: "API REST construída com Express e MySQL, com arquitetura em camadas, modelagem relacional e versionamento com Git.",
-      es: "API REST construida con Express y MySQL, con arquitectura en capas, modelado relacional y versionado con Git.",
-    },
-    stack: ["nodejs", "express", "mysql", "rest-apis", "data-modeling"],
-    links: {},
-  },
-  {
-    id: "rick-and-morty-spa",
-    title: "Rick & Morty SPA",
-    featured: false,
-    origin: "personal",
-    summary: {
-      en: "Angular single-page application consuming the Rick & Morty REST API, built for a technical assessment from a Figma layout: infinite scroll, global search, route guards and a responsive layout.",
-      pt: "SPA em Angular consumindo a API REST do Rick & Morty, feita para um teste técnico a partir de um layout no Figma: scroll infinito, busca global, route guards e layout responsivo.",
-      es: "SPA en Angular que consume la API REST de Rick & Morty, hecha para una prueba técnica a partir de un diseño en Figma: scroll infinito, búsqueda global, route guards y diseño responsive.",
-    },
-    stack: ["angular", "typescript", "rest-apis"],
-    links: { repo: "https://github.com/GiovannyLino/spa-rick-and-morty" },
   },
 ] as const satisfies readonly Project[];
 

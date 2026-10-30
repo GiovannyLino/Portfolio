@@ -76,7 +76,7 @@ const ProjectsSection = () => {
       </div>
 
       <h3 className="mt-16 mb-6 text-xl font-semibold text-foreground">{t.projects.other}</h3>
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {otherProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
