@@ -27,6 +27,19 @@ export class ScriptedProvider implements LLMProvider {
   }
 }
 
+/** Never answers: waits until the request is aborted, like a stalled upstream. */
+export class HangingProvider implements LLMProvider {
+  readonly name = "hanging";
+
+  stream({ signal }: StreamRequest): AsyncIterable<ProviderEvent> {
+    const next = () =>
+      new Promise<IteratorResult<ProviderEvent>>((_, reject) => {
+        signal?.addEventListener("abort", () => reject(Object.assign(new Error("aborted"), { name: "AbortError" })));
+      });
+    return { [Symbol.asyncIterator]: () => ({ next }) };
+  }
+}
+
 export async function collect<T>(iterable: AsyncIterable<T>): Promise<T[]> {
   const items: T[] = [];
   for await (const item of iterable) items.push(item);

@@ -121,11 +121,12 @@ const toFunctionDeclarations = (tools: readonly ToolSpec[]) =>
   tools.map((tool) => ({ name: tool.name, description: tool.description, parametersJsonSchema: toGeminiSchema(tool.parameters) }));
 
 export class GeminiProvider implements LLMProvider {
-  readonly name = "gemini";
+  readonly name: string;
   private readonly client: GoogleGenAI;
   private readonly thinkingLevel: ThinkingLevel | undefined;
 
   constructor(private readonly options: GeminiOptions) {
+    this.name = options.model;
     this.client = new GoogleGenAI({ apiKey: options.apiKey });
     // Unknown values are ignored rather than sent, so a typo in the env var can't break every request.
     this.thinkingLevel = Object.values(ThinkingLevel).find((level) => level === options.thinkingLevel);

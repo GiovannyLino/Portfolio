@@ -2,7 +2,14 @@
 // .env.local in development). Secrets never leave this process.
 
 export interface ServerConfig {
-  llm: { provider: "gemini"; apiKey: string | undefined; model: string; thinkingLevel: string | undefined };
+  llm: {
+    provider: "gemini";
+    apiKey: string | undefined;
+    model: string;
+    /** Used when the primary model fails or stalls; undefined disables the fallback. */
+    fallbackModel: string | undefined;
+    thinkingLevel: string | undefined;
+  };
   /** Extra origins allowed to call the API besides the deployment's own origin. */
   allowedOrigins: string[];
   webSearchEnabled: boolean;
@@ -39,7 +46,11 @@ export function readConfig(env: Env = process.env): ServerConfig {
     llm: {
       provider: "gemini",
       apiKey: env.GEMINI_API_KEY,
+      // Flash-Lite is the default: on the free tier the larger Flash models are often busy
+      // (503) or stall, while Lite answers in 1-2 s. A larger GEMINI_MODEL falls back to it.
       model: env.GEMINI_MODEL || "gemini-3.5-flash-lite",
+      // Empty means "use the default"; "none" turns the fallback off.
+      fallbackModel: env.GEMINI_FALLBACK_MODEL === "none" ? undefined : env.GEMINI_FALLBACK_MODEL || "gemini-3.5-flash-lite",
       thinkingLevel: env.GEMINI_THINKING_LEVEL || undefined,
     },
     allowedOrigins: listFrom(env.ALLOWED_ORIGINS),

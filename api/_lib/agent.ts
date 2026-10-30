@@ -26,6 +26,8 @@ const ERROR_CODES: Record<Exclude<ProviderError["kind"], "aborted">, ChatErrorCo
   invalid_request: "internal",
 };
 
+const isTimeout = (reason: unknown): boolean => reason instanceof Error && reason.name === "TimeoutError";
+
 const faqEntries: readonly FaqEntry[] = faq;
 
 export function fallbackSuggestions(lang: Language, history: readonly ChatMessage[]): string[] {
@@ -35,6 +37,19 @@ export function fallbackSuggestions(lang: Language, history: readonly ChatMessag
     return question && !asked.has(normalize(question)) ? [question] : [];
   }).slice(0, 3);
 }
+
+// Phrases that ask to reach Giovanny (matched on accent-free lowercase text). Bare words
+// like "opportunity" or "contato" are left out so questions about him don't open the form.
+const CONTACT_INTENT =
+  /\b(entrar em contato|em contato com|falar com|conversar com|contatar|contratar|get in touch|talk to|reach out|contact him|hire|hiring|hablar con|ponerme en contacto|contactar|contratarlo)\b/;
+
+const CONTACT_SUBJECT: Record<Language, string> = {
+  en: "Contact from the portfolio",
+  pt: "Contato pelo portfólio",
+  es: "Contacto desde el portafolio",
+};
+
+export const wantsContact = (message: string): boolean => CONTACT_INTENT.test(normalize(message));
 
 const toTurns = (history: readonly ChatMessage[]): Turn[] =>
   history.map((message) =>
@@ -56,6 +71,7 @@ export async function* runAgent(input: AgentInput): AsyncGenerator<ChatEvent> {
   const turns = toTurns(history);
   let wroteText = false;
   let suggested = false;
+  let openedContact = false;
 
   for (let step = 0; step < maxSteps; step++) {
     let assistant: AssistantTurn | undefined;
@@ -71,10 +87,19 @@ export async function* runAgent(input: AgentInput): AsyncGenerator<ChatEvent> {
         }
       }
     } catch (error) {
-      const providerError = error instanceof ProviderError ? error : new ProviderError("unavailable", String(error));
+      const timedOut = signal?.aborted === true && isTimeout(signal.reason);
+      // Aborted without a timeout means the visitor left: nobody is listening, end quietly.
+      if (signal?.aborted && !timedOut) return;
+      const providerError = timedOut
+        ? new ProviderError("unavailable", "turn timed out")
+        : error instanceof ProviderError
+          ? error
+          : new ProviderError("unavailable", String(error));
       if (providerError.kind === "aborted") return;
       // Provider messages describe the failure (quota, bad key), never the conversation.
       console.error(`[chat] ${provider.name} ${providerError.kind} (${providerError.status ?? "-"}): ${providerError.message}`);
+      // The visitor already has an answer: finish it normally rather than ending on an error.
+      if (wroteText) break;
       yield { type: "error", code: ERROR_CODES[providerError.kind] };
       return;
     }
@@ -102,6 +127,7 @@ export async function* runAgent(input: AgentInput): AsyncGenerator<ChatEvent> {
       if (!tool.fireAndForget) yield { type: "tool", name: tool.name, status: "end" };
 
       if (tool.name === "suggestNextSteps" && outcome.ok) suggested = true;
+      if (tool.name === "openContact" && outcome.ok) openedContact = true;
       if (!tool.fireAndForget || !outcome.ok) needsResults = true;
       results.push({ call, output: outcome.ok ? outcome.output : { error: outcome.error } });
     }
@@ -113,6 +139,14 @@ export async function* runAgent(input: AgentInput): AsyncGenerator<ChatEvent> {
   if (!wroteText) {
     yield { type: "error", code: "upstream_unavailable" };
     return;
+  }
+  // Smaller models often answer "I've opened the contact form" without calling the tool.
+  // A clear request to reach Giovanny opens it anyway, pre-filled with the visitor's words.
+  const lastMessage = history.at(-1);
+  if (!openedContact && lastMessage?.role === "user" && wantsContact(lastMessage.content)) {
+    const subject = CONTACT_SUBJECT[input.context.lang];
+    yield { type: "ui", action: { type: "openContact", subject, message: lastMessage.content } };
+    yield { type: "card", card: { kind: "contact" } };
   }
   if (!suggested) {
     const items = fallbackSuggestions(input.context.lang, history);

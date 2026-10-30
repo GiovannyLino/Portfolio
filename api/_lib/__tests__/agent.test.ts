@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import type { ChatMessage } from "../../../src/features/chat/protocol.js";
-import { fallbackSuggestions, runAgent } from "../agent.js";
+import { fallbackSuggestions, runAgent, wantsContact } from "../agent.js";
 import { ProviderError } from "../llm/index.js";
 import { buildTools } from "../tools.js";
 import { collect, ScriptedProvider, type ScriptedStep } from "./fakes.js";
@@ -84,6 +84,18 @@ describe("runAgent", () => {
     expect(JSON.stringify(provider.requests[1].turns.at(-1))).toContain("invalid arguments");
   });
 
+  it("finishes normally when a later step fails after text reached the visitor", async () => {
+    const { events } = run([
+      { text: ["Resposta completa."], calls: [{ name: "searchPortfolio", args: { query: "netbox" } }] },
+      new ProviderError("unavailable", "503 high demand"),
+    ]);
+    const result = await events;
+
+    expect(result.some((event) => event.type === "error")).toBe(false);
+    expect(result[0]).toEqual({ type: "text", delta: "Resposta completa." });
+    expect(result.at(-1)).toEqual({ type: "done" });
+  });
+
   it("maps a provider quota error to upstream_quota", async () => {
     const { events } = run([new ProviderError("quota", "429")]);
     expect(await events).toEqual([{ type: "error", code: "upstream_quota" }]);
@@ -101,6 +113,54 @@ describe("runAgent", () => {
 
     expect(provider.requests).toHaveLength(2);
     expect(result.at(-1)).toEqual({ type: "error", code: "upstream_unavailable" });
+  });
+});
+
+describe("contact intent", () => {
+  it.each([
+    ["Quero conversar com ele sobre uma vaga de DevOps", true],
+    ["Como entro em contato com ele?", true],
+    ["We'd like to hire him for an SRE role", true],
+    ["Me gustaría hablar con él", true],
+    ["Ele está aberto a novas oportunidades?", false],
+    ["Qual o contato dele?", false],
+    ["What does he do at Logicalis?", false],
+  ])("%s → %s", (message, expected) => {
+    expect(wantsContact(message)).toBe(expected);
+  });
+
+  it("opens the contact form when the visitor asks for it and the model did not", async () => {
+    const provider = new ScriptedProvider([{ text: ["Abri o formulário de contato."] }]);
+    const message = "Quero conversar com ele sobre uma vaga";
+    const result = await collect(
+      runAgent({
+        provider,
+        system: "system",
+        history: [{ role: "user", content: message }],
+        tools: buildTools({ webSearchEnabled: false }),
+        context: { lang: "pt" },
+      }),
+    );
+
+    expect(result).toContainEqual({
+      type: "ui",
+      action: { type: "openContact", subject: "Contato pelo portfólio", message },
+    });
+    expect(result).toContainEqual({ type: "card", card: { kind: "contact" } });
+  });
+
+  it("does not open it twice when the model already did", async () => {
+    const provider = new ScriptedProvider([{ text: ["Claro."], calls: [{ name: "openContact", args: { subject: "Vaga" } }] }]);
+    const result = await collect(
+      runAgent({
+        provider,
+        system: "system",
+        history: [{ role: "user", content: "Quero conversar com ele" }],
+        tools: buildTools({ webSearchEnabled: false }),
+        context: { lang: "pt" },
+      }),
+    );
+    expect(result.filter((event) => event.type === "ui")).toHaveLength(1);
   });
 });
 

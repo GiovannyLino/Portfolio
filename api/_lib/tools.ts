@@ -85,13 +85,15 @@ const searchPortfolioTool = defineTool({
 const getProjectDetailsTool = defineTool({
   name: "getProjectDetails",
   description:
-    "Get the full details of one project and show its card in the chat. Use it when the visitor asks about a specific project.",
+    "Get the full details of one project, show its card in the chat and highlight it on the page. Use it when the visitor asks about a specific project.",
   fireAndForget: false,
   input: z.object({ projectId: z.enum(projectIds) }),
   execute({ projectId }, { lang, emit }) {
     const project = getProject(projectId);
     if (!project) throw new Error(`unknown project ${projectId}`);
     emit({ type: "card", card: { kind: "project", id: project.id } });
+    // Done here rather than asked of the model, which often skipped the separate highlight call.
+    emit({ type: "ui", action: { type: "highlightProject", projectId: project.id } });
     const job = project.experienceId ? getExperience(project.experienceId) : undefined;
     return {
       id: project.id,

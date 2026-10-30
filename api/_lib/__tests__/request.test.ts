@@ -78,10 +78,15 @@ describe("readConfig", () => {
   it("falls back to safe defaults", () => {
     const config = readConfig({});
     expect(config.llm.model).toBe("gemini-3.5-flash-lite");
+    expect(config.llm.fallbackModel).toBe("gemini-3.5-flash-lite");
     expect(config.webSearchEnabled).toBe(false);
     expect(config.rateLimit.perIp).toEqual({ requests: 20, windowSeconds: 600 });
     expect(config.rateLimit.upstash).toBeNull();
     expect(config.isProduction).toBe(false);
+  });
+
+  it("turns the model fallback off with 'none'", () => {
+    expect(readConfig({ GEMINI_FALLBACK_MODEL: "none" }).llm.fallbackModel).toBeUndefined();
   });
 
   it("reads the Vercel Upstash integration variables and trims allowed origins", () => {

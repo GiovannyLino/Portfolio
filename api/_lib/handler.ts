@@ -16,9 +16,12 @@ export interface ChatDependencies {
   rateLimiter: RateLimiter;
   createProvider: (config: ServerConfig) => LLMProvider;
   webSearch?: WebSearch;
+  turnTimeoutMs?: number;
 }
 
 const MAX_BODY_CHARS = 64 * 1024;
+/** Whole-turn budget, below the function's maxDuration (30 s in vercel.json). */
+const TURN_TIMEOUT_MS = 25_000;
 
 const SSE_HEADERS = {
   "Content-Type": "text/event-stream; charset=utf-8",
@@ -59,14 +62,16 @@ export function createChatHandler(deps: ChatDependencies): (request: Request) =>
     }
 
     const { lang, section, messages } = parsed.data;
+    // Aborted when the visitor disconnects (stream cancel) or when the turn runs out of time.
     const abort = new AbortController();
+    const signal = AbortSignal.any([abort.signal, AbortSignal.timeout(deps.turnTimeoutMs ?? TURN_TIMEOUT_MS)]);
     const events = runAgent({
       provider,
       system: buildSystemPrompt({ lang, section, webSearchEnabled: config.webSearchEnabled }),
       history: trimHistory(messages),
       tools,
-      context: { lang, webSearch: deps.webSearch, signal: abort.signal },
-      signal: abort.signal,
+      context: { lang, webSearch: deps.webSearch, signal },
+      signal,
     });
 
     const encoder = new TextEncoder();

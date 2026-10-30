@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { readConfig, type ServerConfig } from "../config.js";
 import { createChatHandler } from "../handler.js";
 import { MemoryRateLimiter, type RateLimiter } from "../rate-limit.js";
-import { parseSse, ScriptedProvider } from "./fakes.js";
+import { HangingProvider, parseSse, ScriptedProvider } from "./fakes.js";
 
 const ORIGIN = "http://localhost:8080";
 
@@ -94,6 +94,17 @@ describe("POST /api/chat", () => {
     expect(limited.status).toBe(429);
     expect(Number(limited.headers.get("retry-after"))).toBeGreaterThan(0);
     expect(await limited.json()).toMatchObject({ error: { code: "rate_limited" } });
+  });
+
+  it("ends a stalled turn with upstream_unavailable instead of hanging", async () => {
+    const handle = createChatHandler({
+      config: readConfig({}),
+      rateLimiter: new MemoryRateLimiter(100, 60_000),
+      createProvider: () => new HangingProvider(),
+      turnTimeoutMs: 50,
+    });
+    const response = await handle(post(validBody));
+    expect(parseSse(await response.text())).toEqual([{ type: "error", code: "upstream_unavailable" }]);
   });
 
   it("answers 503 when the provider is not configured", async () => {

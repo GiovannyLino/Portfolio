@@ -28,7 +28,7 @@ describe("chat tools", () => {
     expect(JSON.stringify(tool("navigateToSection").parameters)).toContain('"contact"');
   });
 
-  it("getProjectDetails returns localized details, flags internal projects and shows a card", async () => {
+  it("getProjectDetails returns localized details, flags internal projects, shows a card and highlights it", async () => {
     const { events, ctx } = context({ lang: "pt" });
     const outcome = await tool("getProjectDetails").run({ projectId: "netbox-ansible-pipeline" }, ctx);
 
@@ -38,7 +38,10 @@ describe("chat tools", () => {
       builtDuring: "Estagiário de Engenharia de Telecomunicações @ Logicalis",
       links: "internal project: no public code or demo",
     });
-    expect(events).toEqual([{ type: "card", card: { kind: "project", id: "netbox-ansible-pipeline" } }]);
+    expect(events).toEqual([
+      { type: "card", card: { kind: "project", id: "netbox-ansible-pipeline" } },
+      { type: "ui", action: { type: "highlightProject", projectId: "netbox-ansible-pipeline" } },
+    ]);
   });
 
   it("searchPortfolio shows a skill card when the query names a skill", async () => {
