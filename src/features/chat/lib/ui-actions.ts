@@ -1,35 +1,46 @@
-// Page effects of the assistant's UI tools. Phase 5 builds the contact form that listens
-// to the prefill event; everything else here already works on the current page.
+// Page effects of the assistant's UI tools: scroll, highlight, and the contact form prefill
+// (the form listens through chat-bus). Highlight styles live in ChatWidget.module.css,
+// which is loaded whenever these run.
 import { projectAnchorId, type SectionId } from "@/lib/sections";
+import { prefillContact, type ContactPrefill } from "../chat-bus";
 import type { UiAction } from "../protocol";
 
-export const CONTACT_PREFILL_EVENT = "gioai:contact-prefill";
 export const HIGHLIGHT_ATTRIBUTE = "data-gioai-highlight";
 const HIGHLIGHT_MS = 2600;
-
-export interface ContactPrefill {
-  subject: string;
-  message?: string;
-}
 
 const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
 const scrollTo = (element: Element | null, block: ScrollLogicalPosition) =>
   element?.scrollIntoView?.({ behavior: reducedMotion() ? "auto" : "smooth", block });
 
-export const navigateToSection = (section: SectionId) => scrollTo(document.getElementById(section), "start");
+const timers = new WeakMap<Element, number>();
+
+/** Marks an element for the highlight animation; a repeat restarts it instead of stacking. */
+export function flash(element: Element | null, kind: "card" | "heading" | "form"): void {
+  if (!element) return;
+  window.clearTimeout(timers.get(element));
+  element.removeAttribute(HIGHLIGHT_ATTRIBUTE);
+  // Next frame, so removing and re-adding the attribute restarts the CSS animation.
+  requestAnimationFrame(() => {
+    element.setAttribute(HIGHLIGHT_ATTRIBUTE, kind);
+    timers.set(element, window.setTimeout(() => element.removeAttribute(HIGHLIGHT_ATTRIBUTE), HIGHLIGHT_MS));
+  });
+}
+
+export function navigateToSection(section: SectionId): void {
+  scrollTo(document.getElementById(section), "start");
+  flash(document.getElementById(`${section}-title`), "heading");
+}
 
 export function highlightProject(projectId: string): void {
   const card = document.getElementById(projectAnchorId(projectId));
-  if (!card) return;
   scrollTo(card, "center");
-  card.setAttribute(HIGHLIGHT_ATTRIBUTE, "true");
-  window.setTimeout(() => card.removeAttribute(HIGHLIGHT_ATTRIBUTE), HIGHLIGHT_MS);
+  flash(card, "card");
 }
 
 export function openContact(prefill: ContactPrefill): void {
   navigateToSection("contact");
-  window.dispatchEvent(new CustomEvent<ContactPrefill>(CONTACT_PREFILL_EVENT, { detail: prefill }));
+  prefillContact(prefill);
 }
 
 export function runUiAction(action: UiAction): void {

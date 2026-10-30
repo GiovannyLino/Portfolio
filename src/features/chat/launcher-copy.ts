@@ -1,4 +1,5 @@
-// Strings the always-loaded launcher needs (button label and section teasers).
+// Strings the always-loaded parts of the assistant need: the launcher (button label and
+// section teasers) and the "ask Gio.AI" entry points on the page (stack explorer, projects).
 import type { Language } from "@/i18n/translations";
 import type { SectionId } from "@/lib/sections";
 
@@ -8,6 +9,12 @@ export interface LauncherCopy {
   open: string;
   dismissTeaser: string;
   teasers: Record<TeaserKey, { text: string; question: string }>;
+  ask: {
+    skill: (name: string) => string;
+    skillLabel: (name: string) => string;
+    project: (title: string) => string;
+    projectLabel: (title: string) => string;
+  };
 }
 
 export const launcherCopy = {
@@ -23,6 +30,12 @@ export const launcherCopy = {
       education: { text: "Curioso sobre as certificações de automação dele?", question: "Quais certificações ele tem?" },
       contact: { text: "Posso abrir o contato com uma mensagem pronta.", question: "Quero entrar em contato com o Giovanny" },
     },
+    ask: {
+      skill: (name) => `Onde o Giovanny usou ${name}?`,
+      skillLabel: (name) => `Perguntar ao Gio.AI onde ${name} foi usado`,
+      project: (title) => `Me conta sobre o projeto ${title}`,
+      projectLabel: (title) => `Perguntar ao Gio.AI sobre ${title}`,
+    },
   },
   en: {
     open: "Open the Gio.AI assistant",
@@ -36,6 +49,12 @@ export const launcherCopy = {
       education: { text: "Curious about his automation certifications?", question: "Which certifications does he have?" },
       contact: { text: "I can open the contact form with a message ready.", question: "I'd like to get in touch with Giovanny" },
     },
+    ask: {
+      skill: (name) => `Where did Giovanny use ${name}?`,
+      skillLabel: (name) => `Ask Gio.AI where ${name} was used`,
+      project: (title) => `Tell me about the ${title} project`,
+      projectLabel: (title) => `Ask Gio.AI about ${title}`,
+    },
   },
   es: {
     open: "Abrir el asistente Gio.AI",
@@ -48,6 +67,12 @@ export const launcherCopy = {
       projects: { text: "¿Quieres saber cómo armó el pipeline NetBox → Ansible?", question: "¿Cómo funciona el pipeline NetBox → Ansible?" },
       education: { text: "¿Curioso por sus certificaciones de automatización?", question: "¿Qué certificaciones tiene?" },
       contact: { text: "Puedo abrir el contacto con un mensaje listo.", question: "Quiero ponerme en contacto con Giovanny" },
+    },
+    ask: {
+      skill: (name) => `¿Dónde usó Giovanny ${name}?`,
+      skillLabel: (name) => `Preguntar a Gio.AI dónde se usó ${name}`,
+      project: (title) => `Cuéntame sobre el proyecto ${title}`,
+      projectLabel: (title) => `Preguntar a Gio.AI sobre ${title}`,
     },
   },
 } satisfies Record<Language, LauncherCopy>;

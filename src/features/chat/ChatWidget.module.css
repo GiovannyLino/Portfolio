@@ -697,11 +697,19 @@
   border: 0;
 }
 
-/* Project card on the page highlighted by the assistant (outside the panel). */
-:global([data-gioai-highlight="true"]) {
+/* Page elements highlighted by the assistant (outside the panel), set by lib/ui-actions. */
+:global([data-gioai-highlight="card"]),
+:global([data-gioai-highlight="form"]) {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 4px;
   animation: page-highlight 2.6s ease-out;
+}
+
+/* Section title: a highlighter stroke sweeps under the text. */
+:global([data-gioai-highlight="heading"] > span:nth-child(2)) {
+  background-image: linear-gradient(transparent 60%, hsl(var(--primary) / 0.28) 60%);
+  background-repeat: no-repeat;
+  animation: heading-mark 2.6s ease-out forwards;
 }
 
 /* ---- Keyframes ------------------------------------------------------------ */
@@ -775,11 +783,27 @@
   }
 }
 
+@keyframes heading-mark {
+  0% {
+    background-size: 0% 100%;
+  }
+  30%,
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .panel,
   .panel *,
-  :global([data-gioai-highlight="true"]) {
+  :global([data-gioai-highlight]),
+  :global([data-gioai-highlight] > span) {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Without the sweep, show the stroke directly. */
+  :global([data-gioai-highlight="heading"] > span:nth-child(2)) {
+    background-size: 100% 100%;
   }
 }

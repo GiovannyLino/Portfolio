@@ -9,32 +9,14 @@ import { onOpenChat } from "./chat-bus";
 import { useMediaQuery, usePointerGaze, usePrefersReducedMotion } from "./hooks";
 import { launcherCopy, type TeaserKey } from "./launcher-copy";
 import Mascot, { type MascotMood } from "./Mascot";
+import { markNudged, NUDGE_DELAY_MS, NUDGE_SCROLL_PROGRESS, scrollProgress, wasNudged } from "./nudge";
 import styles from "./ChatLauncher.module.css";
 
 const loadWidget = () => import("./ChatWidget");
 const ChatWidget = lazy(loadWidget);
 
 const TEASER_MS = 6500;
-const SEEN_KEY = "gioai:teasers-seen";
-
-// sessionStorage can be missing or throw (private mode, blocked storage): teasers then
-// just show once per page load.
-const seenTeasers = (): Set<string> => {
-  try {
-    return new Set(JSON.parse(sessionStorage.getItem(SEEN_KEY) ?? "[]") as string[]);
-  } catch {
-    return new Set();
-  }
-};
-
-const markTeaserSeen = (key: TeaserKey, seen: Set<string>) => {
-  seen.add(key);
-  try {
-    sessionStorage.setItem(SEEN_KEY, JSON.stringify([...seen]));
-  } catch {
-    // Ignore: the in-memory set still prevents repeats on this page.
-  }
-};
+const ATTENTION_MS = 1600;
 
 const ChatLauncher = () => {
   const { language } = useLanguage();
@@ -48,11 +30,13 @@ const ChatLauncher = () => {
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const [teaser, setTeaser] = useState<TeaserKey | null>(null);
   const [hovered, setHovered] = useState(false);
+  const [attention, setAttention] = useState(false);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const seen = useRef(seenTeasers());
   const gaze = usePointerGaze(buttonRef, !open && !reducedMotion);
   const current: TeaserKey = section ?? "top";
+  const currentRef = useRef(current);
+  currentRef.current = current;
 
   const openPanel = useCallback((question?: string) => {
     setPendingQuestion(question ?? null);
@@ -79,15 +63,29 @@ const ChatLauncher = () => {
 
   useEffect(() => onOpenChat(({ question }) => openPanel(question)), [openPanel]);
 
-  // One teaser per section per session, on wide screens only (it would cover content on phones).
+  // One proactive invitation per session. Wide screens get the section's teaser; phones only
+  // a hop from the mascot, so nothing covers the content.
   useEffect(() => {
-    if (open || !isDesktop || seen.current.has(current)) return;
-    const show = window.setTimeout(() => {
-      markTeaserSeen(current, seen.current);
-      setTeaser(current);
-    }, 1200);
-    return () => window.clearTimeout(show);
-  }, [current, open, isDesktop]);
+    if (open || wasNudged()) return;
+    let done = false;
+    const nudge = () => {
+      if (done) return;
+      done = true;
+      markNudged();
+      if (isDesktop) setTeaser(currentRef.current);
+      else setAttention(true);
+    };
+    const onScroll = () => {
+      const { scrollY, innerHeight } = window;
+      if (scrollProgress(scrollY, innerHeight, document.documentElement.scrollHeight) >= NUDGE_SCROLL_PROGRESS) nudge();
+    };
+    const timer = window.setTimeout(nudge, NUDGE_DELAY_MS);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [open, isDesktop]);
 
   useEffect(() => {
     if (!teaser || hovered) return;
@@ -95,14 +93,20 @@ const ChatLauncher = () => {
     return () => window.clearTimeout(hide);
   }, [teaser, hovered]);
 
-  const mood: MascotMood = hovered ? "happy" : teaser ? "talking" : "idle";
+  useEffect(() => {
+    if (!attention) return;
+    const stop = window.setTimeout(() => setAttention(false), ATTENTION_MS);
+    return () => window.clearTimeout(stop);
+  }, [attention]);
+
+  const mood: MascotMood = hovered || attention ? "happy" : teaser ? "talking" : "idle";
   const teaserCopy = teaser ? copy.teasers[teaser] : null;
 
   return (
     <>
       {!open && (
         <div className={styles.dock}>
-          {teaserCopy && teaser && (
+          {teaserCopy && (
             <div className={styles.teaser} role="status">
               <button type="button" className={styles.teaserText} onClick={() => openPanel(teaserCopy.question)}>
                 {teaserCopy.text}
@@ -120,13 +124,15 @@ const ChatLauncher = () => {
             aria-expanded={open}
             aria-controls="gioai-panel"
             onClick={() => openPanel()}
-            onPointerEnter={() => {
+            onPointerEnter={(event) => {
               setHovered(true);
+              // Contextual tooltip for the visible section (mouse only; a tap opens the chat).
+              if (event.pointerType === "mouse") setTeaser(currentRef.current);
               void loadWidget();
             }}
             onPointerLeave={() => setHovered(false)}
             onFocus={() => {
-              setTeaser(current);
+              setTeaser(currentRef.current);
               void loadWidget();
             }}
           >

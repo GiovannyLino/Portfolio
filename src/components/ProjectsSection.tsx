@@ -1,5 +1,7 @@
-import { Code2, ExternalLink, Github, Lock } from "lucide-react";
+import { Code2, ExternalLink, Github, Lock, MessageCircle } from "lucide-react";
 import { featuredProjects, localize, otherProjects, type Project } from "@/data/knowledge";
+import { openChat } from "@/features/chat/chat-bus";
+import { launcherCopy } from "@/features/chat/launcher-copy";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { projectAnchorId } from "@/lib/sections";
 import { cn } from "@/lib/utils";
@@ -11,6 +13,7 @@ const ProjectCard = ({ project, className }: { project: Project; className?: str
   const title = localize(project.title, language);
   const { repo, demo } = project.links;
   const isInternal = project.origin === "work" && !repo && !demo;
+  const ask = launcherCopy[language].ask;
 
   return (
     <article
@@ -26,6 +29,15 @@ const ProjectCard = ({ project, className }: { project: Project; className?: str
           <Code2 className="text-primary" size={24} aria-hidden="true" />
         </div>
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => openChat({ question: ask.project(title) })}
+            className="text-muted-foreground hover:text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={ask.projectLabel(title)}
+            title={ask.projectLabel(title)}
+          >
+            <MessageCircle size={20} aria-hidden="true" />
+          </button>
           {repo && (
             <a
               href={repo}
