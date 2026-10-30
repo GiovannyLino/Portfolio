@@ -12,10 +12,13 @@ const AnimatedBackground = () => {
     let animationId: number;
     let particles: Particle[] = [];
     let mouse = { x: -1000, y: -1000 };
+    // Set when the frame is drawn once (reduced motion): resizing clears the canvas.
+    let redraw: (() => void) | null = null;
 
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      redraw?.();
     };
     resize();
     window.addEventListener("resize", resize);
@@ -64,11 +67,14 @@ const AnimatedBackground = () => {
     const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
     particles = Array.from({ length: count }, () => new Particle(canvas.width, canvas.height));
 
+    // With reduced motion the network is drawn once and stays still.
+    const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p) => {
-        p.update(canvas.width, canvas.height);
+        if (!still) p.update(canvas.width, canvas.height);
         p.draw(ctx);
       });
 
@@ -89,8 +95,9 @@ const AnimatedBackground = () => {
         }
       }
 
-      animationId = requestAnimationFrame(animate);
+      if (!still) animationId = requestAnimationFrame(animate);
     };
+    if (still) redraw = animate;
 
     const handleMouse = (e: MouseEvent) => {
       mouse = { x: e.clientX, y: e.clientY };

@@ -1,0 +1,291 @@
+.root {
+  /* Bot palette, derived from the site's primary green (160 84% 39%). */
+  --bot-body: hsl(var(--primary));
+  --bot-port: hsl(160 70% 17%);
+  --bot-screen: hsl(220 28% 11%);
+  --bot-eye: hsl(158 95% 72%);
+  --bot-led: hsl(158 95% 62%);
+  --bot-stalk: hsl(160 60% 30%);
+
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  animation: gio-bob 3.2s ease-in-out infinite;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stalk {
+  stroke: var(--bot-stalk);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.led {
+  fill: var(--bot-led);
+  transition: fill 0.3s ease;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--bot-led);
+  stroke-width: 1.4;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.port {
+  fill: var(--bot-port);
+}
+
+.head {
+  fill: var(--bot-body);
+}
+
+.shine {
+  fill: hsl(0 0% 100% / 0.18);
+}
+
+.screen {
+  fill: var(--bot-screen);
+}
+
+.face {
+  transition: transform 0.25s ease-out;
+}
+
+.eye {
+  fill: var(--bot-eye);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gio-blink 4.6s infinite;
+}
+
+.eyeRight {
+  animation-delay: 0.04s;
+}
+
+.eyesHappy path,
+.mouthSmile,
+.mouthFlat {
+  fill: none;
+  stroke: var(--bot-eye);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.eyesHappy,
+.mouthTalk,
+.mouthFlat {
+  display: none;
+}
+
+.mouthTalk {
+  fill: var(--bot-eye);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.cheek {
+  fill: hsl(350 85% 72% / 0.55);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.badge,
+.question {
+  position: absolute;
+  top: -6%;
+  right: -10%;
+  display: grid;
+  place-items: center;
+  width: 42%;
+  height: 42%;
+  min-width: 18px;
+  min-height: 18px;
+  border-radius: 999px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow-soft);
+  color: hsl(var(--primary));
+  animation: gio-pop 0.25s ease-out;
+}
+
+.badge svg {
+  width: 60%;
+  height: 60%;
+}
+
+.question {
+  font: 700 0.8rem/1 "JetBrains Mono", monospace;
+  color: hsl(38 92% 45%);
+}
+
+/* ---- Moods ---------------------------------------------------------------- */
+
+.root[data-mood="listening"] .eye {
+  transform: scaleY(1.15);
+  animation: none;
+}
+
+.root[data-mood="listening"] .led {
+  animation: gio-glow 1.2s ease-in-out infinite;
+}
+
+.root[data-mood="thinking"] {
+  --bot-led: hsl(38 92% 56%);
+}
+
+.root[data-mood="thinking"] .ring {
+  animation: gio-signal 1.3s ease-out infinite;
+}
+
+.root[data-mood="thinking"] .mouthSmile,
+.root[data-mood="confused"] .mouthSmile {
+  display: none;
+}
+
+.root[data-mood="thinking"] .mouthFlat,
+.root[data-mood="confused"] .mouthFlat {
+  display: inline;
+}
+
+.root[data-mood="talking"] .mouthSmile {
+  display: none;
+}
+
+.root[data-mood="talking"] .mouthTalk {
+  display: inline;
+  animation: gio-talk 0.32s ease-in-out infinite;
+}
+
+.root[data-mood="talking"] .cheek,
+.root[data-mood="happy"] .cheek {
+  opacity: 1;
+}
+
+.root[data-mood="happy"] {
+  animation: gio-hop 0.7s ease-out;
+}
+
+.root[data-mood="happy"] .eyesOpen {
+  display: none;
+}
+
+.root[data-mood="happy"] .eyesHappy {
+  display: inline;
+}
+
+.root[data-mood="pointing"] .led {
+  animation: gio-glow 0.5s ease-in-out 3;
+}
+
+.root[data-mood="confused"] {
+  --bot-led: hsl(0 84% 66%);
+  animation: gio-tilt 0.5s ease-out forwards;
+}
+
+.root[data-mood="confused"] .eyeLeft {
+  transform: scaleY(0.45);
+  animation: none;
+}
+
+/* ---- Keyframes ------------------------------------------------------------ */
+
+@keyframes gio-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes gio-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes gio-signal {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+@keyframes gio-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes gio-talk {
+  0%,
+  100% {
+    transform: scaleY(0.45);
+  }
+  50% {
+    transform: scaleY(1.15);
+  }
+}
+
+@keyframes gio-hop {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  35% {
+    transform: translateY(-6px) rotate(-5deg);
+  }
+  65% {
+    transform: translateY(0) rotate(4deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes gio-tilt {
+  to {
+    transform: rotate(-9deg);
+  }
+}
+
+@keyframes gio-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .root * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
