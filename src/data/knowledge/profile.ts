@@ -25,9 +25,9 @@ export const profile = {
     es: "Construyo el puente entre código e infraestructura.",
   },
   intro: {
-    en: "Service Provider Analyst at Logicalis and Computer Science student — automating infrastructure, building observability with Splunk and ThousandEyes, and supporting mission-critical telecom environments.",
-    pt: "Analista de Service Provider na Logicalis e estudante de Ciência da Computação — automatizo infraestrutura, construo observabilidade com Splunk e ThousandEyes e sustento ambientes críticos de operadoras de telecom.",
-    es: "Analista de Service Provider en Logicalis y estudiante de Ciencias de la Computación — automatizo infraestructura, construyo observabilidad con Splunk y ThousandEyes y doy soporte a entornos críticos de operadoras de telecomunicaciones.",
+    en: "Service Provider Analyst at Logicalis and Computer Science student — currently focused on becoming a DevOps professional.",
+    pt: "Analista de Service Provider na Logicalis e estudante de Ciência da Computação — atualmente focado em me tornar um profissional na área de DevOps.",
+    es: "Analista de Service Provider en Logicalis y estudiante de Ciencias de la Computación — actualmente enfocado en convertirme en un profesional del área de DevOps.",
   },
   about: {
     en: [
