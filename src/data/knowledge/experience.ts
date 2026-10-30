@@ -1,5 +1,5 @@
 // Source: CV "Experiência profissional" (PT/EN, Oct 2026). ES translated from those.
-import type { Experience } from "./types";
+import type { Experience } from "./types.js";
 
 export const experience = [
   {

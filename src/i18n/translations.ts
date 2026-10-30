@@ -1,6 +1,6 @@
 // Interface copy only. Everything about Giovanny (bio, projects, experience) lives in
 // src/data/knowledge so the page and the chat assistant share one source of truth.
-import type { SectionId } from "../lib/sections";
+import type { SectionId } from "../lib/sections.js";
 
 export type Language = "en" | "pt" | "es";
 

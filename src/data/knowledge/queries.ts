@@ -1,7 +1,7 @@
-import { experience } from "./experience";
-import { projects } from "./projects";
-import { skillCategories, skills } from "./skills";
-import type { Experience, Project, Skill, SkillCategory } from "./types";
+import { experience } from "./experience.js";
+import { projects } from "./projects.js";
+import { skillCategories, skills } from "./skills.js";
+import type { Experience, Project, Skill, SkillCategory } from "./types.js";
 
 // Widen the `as const` tuples to their interfaces so optional fields can be read uniformly.
 export const allSkills: readonly Skill[] = skills;

@@ -1,6 +1,6 @@
 // Source: CV header and "Resumo profissional" (Oct 2026). Tagline and contact copy
 // carried over from the previous version of the site.
-import type { Profile } from "./types";
+import type { Profile } from "./types.js";
 
 // There is no Spanish CV: Spanish visitors get the English one.
 const RESUME_PT = "/Giovanny_Lino_CV_DevOps_PT.pdf";

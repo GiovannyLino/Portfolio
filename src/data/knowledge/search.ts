@@ -1,12 +1,12 @@
 // Keyword search over the knowledge base, used by the chat's searchPortfolio tool and by
 // the offline fallback. Same signature a vector retriever (e.g. pgvector) would expose.
-import { certifications, education } from "./education";
-import { faq } from "./faq";
-import { profile } from "./profile";
-import { allExperience, allProjects, allSkills, getSkill, whereUsed } from "./queries";
-import { skillCategories } from "./skills";
-import type { FaqEntry, Language, Localized, SectionId } from "./types";
-import { localize, tokenize } from "./utils";
+import { certifications, education } from "./education.js";
+import { faq } from "./faq.js";
+import { profile } from "./profile.js";
+import { allExperience, allProjects, allSkills, getSkill, whereUsed } from "./queries.js";
+import { skillCategories } from "./skills.js";
+import type { FaqEntry, Language, Localized, SectionId } from "./types.js";
+import { localize, tokenize } from "./utils.js";
 
 export type SearchHitKind = "profile" | "experience" | "project" | "skill" | "education" | "certification" | "faq";
 
@@ -35,6 +35,9 @@ interface IndexedDoc {
 }
 
 const WEIGHT = { title: 3, keywords: 2, body: 1 } as const;
+/** Added when the query covers the whole title, so "ansible" ranks the Ansible skill above
+ *  projects that merely have Ansible in a longer title. */
+const FULL_TITLE_BONUS = 1;
 const PREFIX_MIN_LENGTH = 4;
 const USED_IN: Localized = { en: "Used in", pt: "Usado em", es: "Usado en" };
 
@@ -181,11 +184,16 @@ const matchStrength = (term: string, tokens: ReadonlySet<string>): number => {
   return 0;
 };
 
-const scoreDoc = (doc: IndexedDoc, terms: readonly string[]): number =>
-  terms.reduce(
+const scoreDoc = (doc: IndexedDoc, terms: readonly string[]): number => {
+  const score = terms.reduce(
     (total, term) => total + Math.max(0, ...doc.fields.map((f) => f.weight * matchStrength(term, f.tokens))),
     0,
   );
+  // The title field is always first in `fields`.
+  const titleTokens = doc.fields[0]?.tokens;
+  const coversTitle = score > 0 && titleTokens !== undefined && titleTokens.size > 0 && [...titleTokens].every((token) => terms.includes(token));
+  return coversTitle ? score + FULL_TITLE_BONUS : score;
+};
 
 const bestPassage = (passages: readonly string[], terms: readonly string[]): string => {
   let best = passages[0] ?? "";

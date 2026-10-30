@@ -1,10 +1,10 @@
 // Curated answers in the assistant's voice (third person). Facts are interpolated from the
 // other files so the FAQ cannot drift from the CV. Also the chat's offline fallback.
-import { certifications, education } from "./education";
-import { profile } from "./profile";
-import { allExperience, featuredProjects } from "./queries";
-import type { FaqEntry, Language, Localized } from "./types";
-import { formatPeriod, formatYearMonth, localize } from "./utils";
+import { certifications, education } from "./education.js";
+import { profile } from "./profile.js";
+import { allExperience, featuredProjects } from "./queries.js";
+import type { FaqEntry, Language, Localized } from "./types.js";
+import { formatPeriod, formatYearMonth, localize } from "./utils.js";
 
 const perLanguage = (build: (lang: Language) => string): Localized => ({
   en: build("en"),

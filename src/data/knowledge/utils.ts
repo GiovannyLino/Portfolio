@@ -1,4 +1,4 @@
-import type { Language, Localized, MonthPeriod, Text, YearMonth } from "./types";
+import type { Language, Localized, MonthPeriod, Text, YearMonth } from "./types.js";
 
 export const LANGUAGES: readonly Language[] = ["en", "pt", "es"];
 
@@ -32,17 +32,18 @@ export const isLocalized = (value: unknown): value is Localized<unknown> =>
 
 /** Lowercase and strip diacritics so "Observação" matches "observacao". */
 export const normalize = (text: string): string =>
-  text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
-// Function words in EN/PT/ES plus Giovanny's own name, which every document is about.
+// Function words and interrogatives in EN/PT/ES, plus Giovanny's own name, which every
+// document is about. "who"/"quem" stay out: they route to the "who is Giovanny" FAQ.
 const STOPWORDS = new Set([
   "a", "an", "and", "are", "as", "at", "by", "did", "do", "does", "for", "from", "has", "have", "he", "his",
-  "how", "in", "is", "it", "of", "on", "or", "the", "to", "use", "used", "uses", "was", "what", "where",
-  "which", "who", "with", "about",
-  "ao", "com", "como", "da", "das", "de", "do", "dos", "ele", "em", "na", "nas", "no", "nos", "os", "ou",
-  "para", "pela", "pelo", "por", "qual", "quais", "que", "sao", "se", "sobre", "um", "uma", "usa", "usou",
-  "uso",
-  "al", "con", "del", "el", "en", "es", "la", "las", "lo", "los", "su", "sus", "una", "y",
+  "how", "in", "is", "it", "of", "on", "or", "the", "to", "use", "used", "uses", "was", "what", "when",
+  "where", "which", "with", "about",
+  "ao", "com", "como", "da", "das", "de", "do", "dos", "ele", "em", "na", "nas", "no", "nos", "onde", "os",
+  "ou", "para", "pela", "pelo", "por", "qual", "quais", "quando", "que", "sao", "se", "sobre", "um", "uma",
+  "usa", "usou", "uso",
+  "al", "con", "cuando", "del", "donde", "el", "en", "es", "la", "las", "lo", "los", "su", "sus", "una", "y",
   "giovanny", "lino", "gio",
 ]);
 

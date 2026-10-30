@@ -1,11 +1,11 @@
 // This folder is the single source of truth for the page sections and for the chat
 // assistant. It is also bundled by the Vercel function in api/, which does not resolve
 // the "@/" alias: keep imports relative and never import React, CSS or assets here.
-import type { Language } from "../../i18n/translations";
-import type { SectionId } from "../../lib/sections";
-import type { SkillId } from "./skills";
-import type { ProjectId } from "./projects";
-import type { ExperienceId } from "./experience";
+import type { Language } from "../../i18n/translations.js";
+import type { SectionId } from "../../lib/sections.js";
+import type { SkillId } from "./skills.js";
+import type { ProjectId } from "./projects.js";
+import type { ExperienceId } from "./experience.js";
 
 export type { Language, SectionId, SkillId, ProjectId, ExperienceId };
 

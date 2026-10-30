@@ -8,6 +8,14 @@ describe("searchPortfolio", () => {
     expect(ids("netbox pipeline")[0]).toBe("netbox-ansible-pipeline");
   });
 
+  it("ranks a skill above projects that mention it in a longer title", () => {
+    expect(ids("ansible")[0]).toBe("ansible");
+  });
+
+  it("ignores interrogatives like 'onde'", () => {
+    expect(ids("onde ele usou splunk", "pt")).not.toContain("education");
+  });
+
   it("matches skill aliases", () => {
     expect(ids("k8s")[0]).toBe("kubernetes");
   });

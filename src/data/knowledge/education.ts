@@ -1,5 +1,5 @@
 // Source: CV "Formação acadêmica" and "Certificações" (Oct 2026).
-import type { Certification, Education } from "./types";
+import type { Certification, Education } from "./types.js";
 
 export const education = [
   {

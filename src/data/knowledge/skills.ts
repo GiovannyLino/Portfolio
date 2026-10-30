@@ -1,6 +1,6 @@
 // Source: CV "Competências técnicas" (Oct 2026). The "frameworks" category and the
 // unlisted entries come from the project stacks in the CV and the public GitHub repos.
-import type { Skill, SkillCategory } from "./types";
+import type { Skill, SkillCategory } from "./types.js";
 
 export const skillCategories = [
   { id: "cloud", name: { en: "Cloud Computing", pt: "Cloud Computing", es: "Computación en la nube" } },

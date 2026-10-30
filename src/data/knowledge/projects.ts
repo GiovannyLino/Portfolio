@@ -1,7 +1,7 @@
 // Featured projects: CV "Projetos relevantes" (Oct 2026). Problem/solution only restate
 // what the CV and the experience bullets say. Other projects: public GitHub READMEs,
 // most recently pushed first.
-import type { Project } from "./types";
+import type { Project } from "./types.js";
 
 export const projects = [
   {
