@@ -127,7 +127,12 @@ export class GeminiProvider implements LLMProvider {
 
   constructor(private readonly options: GeminiOptions) {
     this.name = options.model;
-    this.client = new GoogleGenAI({ apiKey: options.apiKey });
+    this.client = new GoogleGenAI({
+      apiKey: options.apiKey,
+      // The free tier answers 503 "high demand" in bursts; one quick retry usually gets
+      // through. The SDK does not retry unless asked, and 429 (quota) is never retried.
+      httpOptions: { retryOptions: { attempts: 2, initialDelay: 0.8, maxDelay: 2, httpStatusCodes: [500, 502, 503, 504] } },
+    });
     // Unknown values are ignored rather than sent, so a typo in the env var can't break every request.
     this.thinkingLevel = Object.values(ThinkingLevel).find((level) => level === options.thinkingLevel);
   }

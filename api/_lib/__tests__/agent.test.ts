@@ -96,6 +96,20 @@ describe("runAgent", () => {
     expect(result.at(-1)).toEqual({ type: "done" });
   });
 
+  it("still reports an error when the answer breaks off mid-text", async () => {
+    const provider = {
+      name: "flaky",
+      async *stream() {
+        yield { type: "text" as const, delta: "Você pode falar com ele pelo LinkedIn em [linked" };
+        throw new ProviderError("unavailable", "turn timed out");
+      },
+    };
+    const result = await collect(
+      runAgent({ provider, system: "system", history, tools: buildTools({ webSearchEnabled: false }), context: { lang: "pt" } }),
+    );
+    expect(result.at(-1)).toEqual({ type: "error", code: "upstream_unavailable" });
+  });
+
   it("maps a provider quota error to upstream_quota", async () => {
     const { events } = run([new ProviderError("quota", "429")]);
     expect(await events).toEqual([{ type: "error", code: "upstream_quota" }]);

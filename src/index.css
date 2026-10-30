@@ -104,6 +104,15 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* Room for the chat drawer on desktop (set by the chat widget while it is open). */
+    padding-right: var(--gioai-offset, 0px);
+    transition: padding-right 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
   }
 
   html {

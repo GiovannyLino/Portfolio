@@ -98,8 +98,9 @@ export async function* runAgent(input: AgentInput): AsyncGenerator<ChatEvent> {
       if (providerError.kind === "aborted") return;
       // Provider messages describe the failure (quota, bad key), never the conversation.
       console.error(`[chat] ${provider.name} ${providerError.kind} (${providerError.status ?? "-"}): ${providerError.message}`);
-      // The visitor already has an answer: finish it normally rather than ending on an error.
-      if (wroteText) break;
+      // A complete answer already reached the visitor (only a later step failed): finish it
+      // normally. A failure mid-text still reports the error, so a cut answer isn't shown as whole.
+      if (wroteText && !stepWroteText) break;
       yield { type: "error", code: ERROR_CODES[providerError.kind] };
       return;
     }

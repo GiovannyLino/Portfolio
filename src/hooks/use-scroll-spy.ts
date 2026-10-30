@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
  * Returns the id of the section crossing a thin band at ~40% of the viewport height,
  * or null while none does (e.g. over the hero).
  */
-export function useScrollSpy(ids: readonly string[]): string | null {
-  const [active, setActive] = useState<string | null>(null);
+export function useScrollSpy<T extends string>(ids: readonly T[]): T | null {
+  const [active, setActive] = useState<T | null>(null);
   // Callers usually pass a fresh array each render; depend on its contents instead.
   const idsKey = ids.join(",");
 
@@ -26,7 +26,7 @@ export function useScrollSpy(ids: readonly string[]): string | null {
           else visible.delete(entry.target.id);
         }
         // Document order breaks ties when two sections share the band during a jump.
-        setActive(elements.find((element) => visible.has(element.id))?.id ?? null);
+        setActive((elements.find((element) => visible.has(element.id))?.id as T | undefined) ?? null);
       },
       { rootMargin: "-40% 0px -55% 0px" },
     );

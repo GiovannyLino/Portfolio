@@ -9,6 +9,7 @@ import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import ChatLauncher from "@/features/chat/ChatLauncher";
 import { SECTION_IDS, type SectionId } from "@/lib/sections";
 
 // Rendered in SECTION_IDS order so the page, the nav numbering and the scrollspy agree.
@@ -36,6 +37,7 @@ const Index = () => {
         </div>
       </main>
       <Footer />
+      <ChatLauncher />
     </div>
   );
 };

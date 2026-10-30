@@ -69,16 +69,19 @@ const Navbar = () => {
   return (
     <nav
       aria-label={t.nav.primary}
+      // Leaves room for the chat drawer on desktop, like the body does.
+      style={{ right: "var(--gioai-offset, 0px)" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || mobileOpen ? "glass-card border-b border-border/50 py-3" : "py-5 bg-transparent"
       }`}
     >
       <div className="container flex items-center justify-between gap-6">
-        <a href="#" className="font-mono text-lg font-medium text-primary transition-colors hover:text-primary/80">
+        <a href="#" className="shrink-0 whitespace-nowrap font-mono text-lg font-medium text-primary transition-colors hover:text-primary/80">
           {"<GL />"}
         </a>
 
-        <ul className="hidden lg:flex items-center gap-6">{sectionLinks("text-sm")}</ul>
+        {/* With the chat drawer open the page is ~420px narrower: use the compact menu. */}
+        <ul className="hidden lg:flex items-center gap-6 [[data-gioai-open]_&]:hidden">{sectionLinks("text-sm")}</ul>
 
         <div className="hidden lg:flex items-center gap-4">
           <ThemeToggle />
@@ -87,7 +90,7 @@ const Navbar = () => {
         </div>
 
         <button
-          className="lg:hidden text-foreground"
+          className="lg:hidden text-foreground [[data-gioai-open]_&]:block"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={mobileOpen}
@@ -98,7 +101,7 @@ const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-menu" className="lg:hidden border-t border-border/50 mt-3">
+        <div id="mobile-menu" className="lg:hidden border-t border-border/50 mt-3 [[data-gioai-open]_&]:block">
           <ul className="flex flex-col items-center gap-5 py-8">
             {sectionLinks("text-base")}
             <li className="flex items-center gap-3 pt-2">

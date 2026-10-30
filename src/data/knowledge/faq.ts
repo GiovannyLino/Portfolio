@@ -141,7 +141,7 @@ export const faq = [
       pt: `Por email em ${profile.links.email}, pelo LinkedIn (${profile.links.linkedin}) ou pelo GitHub (${profile.links.github}). O currículo pode ser baixado no site.`,
       es: `Por email en ${profile.links.email}, en LinkedIn (${profile.links.linkedin}) o en GitHub (${profile.links.github}). Su currículum se puede descargar en el sitio.`,
     },
-    keywords: ["contact", "contato", "contacto", "email", "mail", "linkedin", "github", "resume", "curriculo", "curriculum", "cv"],
+    keywords: ["contact", "contato", "contacto", "falar", "conversar", "hablar", "talk", "reach", "email", "mail", "linkedin", "github", "resume", "curriculo", "curriculum", "cv"],
     section: "contact",
   },
   {
