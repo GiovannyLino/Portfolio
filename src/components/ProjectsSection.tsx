@@ -1,70 +1,87 @@
-import { ExternalLink, Github } from "lucide-react";
+import { Code2, ExternalLink, Github, Lock } from "lucide-react";
+import { featuredProjects, localize, otherProjects, type Project } from "@/data/knowledge";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { projectAnchorId } from "@/lib/sections";
+import { cn } from "@/lib/utils";
+import Section from "./Section";
+import TechTags from "./TechTags";
 
-const projectMeta = [
-  {
-    tags: ["React", "Vite", "Tailwind CSS", "Vercel"],
-    github: "https://github.com/GiovannyLino/FURIA-KnowYourFan",
-  },
-  {
-    tags: ["AI", "Chatbot", "Fan Engagement"],
-    github: "https://github.com/GiovannyLino/FURIA-ChatBot",
-  },
-  {
-    tags: ["Node.js", "Express", "MySQL", "REST API"],
-    github: "https://github.com/GiovannyLino",
-  },
-  {
-    tags: ["Angular", "TypeScript", "API Integration"],
-    github: "https://github.com/GiovannyLino/spa-rick-and-morty",
-  },
-];
+const ProjectCard = ({ project, className }: { project: Project; className?: string }) => {
+  const { t, language } = useLanguage();
+  const title = localize(project.title, language);
+  const { repo, demo } = project.links;
+  const isInternal = project.origin === "work" && !repo && !demo;
 
-const Code2Icon = ({ className, size }: { className?: string; size?: number }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="m18 16 4-4-4-4" />
-    <path d="m6 8-4 4 4 4" />
-    <path d="m14.5 4-5 16" />
-  </svg>
-);
+  return (
+    <article
+      id={projectAnchorId(project.id)}
+      data-project-id={project.id}
+      className={cn(
+        "glass-card rounded-xl p-6 border border-border/50 hover:border-primary/30 transition-all duration-300 group hover:-translate-y-1 flex flex-col scroll-mt-24",
+        className,
+      )}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+          <Code2 className="text-primary" size={24} aria-hidden="true" />
+        </div>
+        <div className="flex items-center gap-3">
+          {repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+              aria-label={`${title} — ${t.projects.sourceCode}`}
+            >
+              <Github size={20} />
+            </a>
+          )}
+          {demo && (
+            <a
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+              aria-label={`${title} — ${t.projects.liveDemo}`}
+            >
+              <ExternalLink size={20} />
+            </a>
+          )}
+        </div>
+      </div>
+
+      <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{title}</h3>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">{project.summary[language]}</p>
+      {isInternal && (
+        <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground mb-4">
+          <Lock size={12} aria-hidden="true" />
+          {t.projects.internal}
+        </p>
+      )}
+      <TechTags skillIds={project.stack} label={t.experience.technologies} />
+    </article>
+  );
+};
 
 const ProjectsSection = () => {
   const { t } = useLanguage();
 
   return (
-    <div>
+    <Section id="projects">
       <div className="grid md:grid-cols-2 gap-6">
-        {t.projects.items.map((project, i) => (
-          <div
-            key={project.title}
-            className="glass-card rounded-xl p-6 border border-border/50 hover:border-primary/30 transition-all duration-300 group hover:-translate-y-1 flex flex-col"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <Code2Icon className="text-primary" size={24} />
-              </div>
-              <div className="flex items-center gap-3">
-                <a href={projectMeta[i].github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label={`${project.title} on GitHub`}>
-                  <Github size={20} />
-                </a>
-                <a href={projectMeta[i].github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" aria-label={`View ${project.title}`}>
-                  <ExternalLink size={20} />
-                </a>
-              </div>
-            </div>
-
-            <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">{project.description}</p>
-
-            <div className="flex flex-wrap gap-2">
-              {projectMeta[i].tags.map((tag) => (
-                <span key={tag} className="font-mono text-xs text-primary/80 bg-primary/5 px-2.5 py-1 rounded-full">{tag}</span>
-              ))}
-            </div>
-          </div>
+        {featuredProjects.map((project, i) => (
+          <ProjectCard key={project.id} project={project} className={i === 0 ? "md:col-span-2" : undefined} />
         ))}
       </div>
-    </div>
+
+      <h3 className="mt-16 mb-6 text-xl font-semibold text-foreground">{t.projects.other}</h3>
+      <div className="grid sm:grid-cols-2 gap-6">
+        {otherProjects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+    </Section>
   );
 };
 

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { profile } from "@/data/knowledge";
 import { useLanguage } from "@/i18n/LanguageContext";
 import profileImg from "@/assets/profile.jpg";
 
 const HeroSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -21,29 +22,29 @@ const HeroSection = () => {
               {t.hero.name}
             </h1>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient mb-6 animate-fade-up-delay-2">
-              {t.hero.subtitle}
+              {profile.tagline[language]}
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-10 animate-fade-up-delay-3">
-              {t.hero.description}
+              {profile.intro[language]}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 animate-fade-up-delay-4">
               <Button variant="hero" size="lg" asChild>
-                <a href="#content">{t.hero.viewWork}</a>
+                <a href="#projects">{t.hero.viewWork}</a>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>
-                <a href="#content">{t.hero.getInTouch}</a>
+                <a href="#contact">{t.hero.getInTouch}</a>
               </Button>
             </div>
 
             <div className="flex items-center gap-5 mt-12 animate-fade-up-delay-4">
-              <a href="https://github.com/GiovannyLino" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="GitHub">
+              <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="GitHub">
                 <Github size={22} />
               </a>
-              <a href="https://www.linkedin.com/in/giovanny-lino/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="LinkedIn">
+              <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="LinkedIn">
                 <Linkedin size={22} />
               </a>
-              <a href="mailto:giovannylino9@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="Email">
+              <a href={`mailto:${profile.links.email}`} className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:-translate-y-1 transform" aria-label="Email">
                 <Mail size={22} />
               </a>
             </div>
@@ -54,7 +55,7 @@ const HeroSection = () => {
             <div className="w-52 h-52 md:w-72 md:h-72 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-lg glow">
               <img
                 src={profileImg}
-                alt="Giovanny Lino"
+                alt={profile.name}
                 className="w-full h-full object-cover object-top"
               />
             </div>
@@ -65,7 +66,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <a href="#content" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors" style={{ animation: "float 2s ease-in-out infinite" }}>
+      <a href="#about" aria-label={t.hero.scrollDown} className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors" style={{ animation: "float 2s ease-in-out infinite" }}>
         <ArrowDown size={24} />
       </a>
     </section>
