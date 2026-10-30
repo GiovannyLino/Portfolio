@@ -69,7 +69,7 @@ const SkillsSection = () => {
                         onClick={() => openChat({ question: ask.skill(name) })}
                         aria-label={ask.skillLabel(name)}
                         title={ask.skillLabel(name)}
-                        className="group/chip font-mono text-xs text-left text-primary/80 bg-primary/5 px-2.5 py-1 rounded-full transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="group/chip font-mono text-xs text-left text-primary bg-primary/5 px-2.5 py-1 rounded-full transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         {name}
                         {skill.detail && (

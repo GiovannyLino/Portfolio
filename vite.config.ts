@@ -14,6 +14,10 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [react(), devApi(mode), mode === "development" && componentTagger()].filter(Boolean),
+  build: {
+    // Photos stay separate files (cacheable, parsed off the JS path) even when tiny.
+    assetsInlineLimit: (filePath: string) => (filePath.endsWith(".webp") ? false : undefined),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

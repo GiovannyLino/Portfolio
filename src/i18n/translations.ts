@@ -5,7 +5,7 @@ import type { SectionId } from "../lib/sections.js";
 export type Language = "en" | "pt" | "es";
 
 export type Translations = {
-  nav: { links: Record<SectionId, string>; resume: string; primary: string; openMenu: string; closeMenu: string };
+  nav: { links: Record<SectionId, string>; resume: string; primary: string; openMenu: string; closeMenu: string; skip: string };
   hero: { greeting: string; name: string; viewWork: string; getInTouch: string; scrollDown: string };
   sections: Record<SectionId, string>;
   about: { recentTech: string; currentRole: string; location: string; education: string; languages: string };
@@ -32,6 +32,7 @@ export const translations = {
       primary: "Main",
       openMenu: "Open menu",
       closeMenu: "Close menu",
+      skip: "Skip to content",
     },
     hero: {
       greeting: "Hi, my name is",
@@ -93,6 +94,7 @@ export const translations = {
       primary: "Principal",
       openMenu: "Abrir menu",
       closeMenu: "Fechar menu",
+      skip: "Pular para o conteúdo",
     },
     hero: {
       greeting: "Olá, meu nome é",
@@ -154,6 +156,7 @@ export const translations = {
       primary: "Principal",
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",
+      skip: "Saltar al contenido",
     },
     hero: {
       greeting: "Hola, mi nombre es",

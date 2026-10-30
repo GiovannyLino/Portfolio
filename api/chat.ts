@@ -19,6 +19,7 @@ export default {
         config,
         rateLimiter: createRateLimiter(config),
         createProvider: () => (provider ??= createProvider(config)),
+        log: (entry) => console.info(JSON.stringify(entry)),
         webSearch: config.webSearchEnabled ? createWikipediaSearch() : undefined,
       });
     }

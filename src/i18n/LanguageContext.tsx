@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { translations, Language, Translations } from "./translations";
 
 interface LanguageContextType {
@@ -18,6 +18,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const t = translations[language];
+
+  // Screen readers pick pronunciation from <html lang>; keep it in sync with the switcher.
+  useEffect(() => {
+    document.documentElement.lang = language === "pt" ? "pt-BR" : language;
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

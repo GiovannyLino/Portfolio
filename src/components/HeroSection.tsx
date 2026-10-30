@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { profile } from "@/data/knowledge";
 import { useLanguage } from "@/i18n/LanguageContext";
-import profileImg from "@/assets/profile.jpg";
+// Square WebP crops of profile.jpg (1.4 MB → 3 KB / 9 KB), sized for 1x and 2x screens.
+import profile288 from "@/assets/profile-288.webp";
+import profile576 from "@/assets/profile-576.webp";
 
 const HeroSection = () => {
   const { t, language } = useLanguage();
@@ -54,7 +56,11 @@ const HeroSection = () => {
           <div className="relative flex-shrink-0 animate-fade-up-delay-2">
             <div className="w-52 h-52 md:w-72 md:h-72 rounded-full overflow-hidden ring-4 ring-primary/20 shadow-lg glow">
               <img
-                src={profileImg}
+                src={profile576}
+                srcSet={`${profile288} 288w, ${profile576} 576w`}
+                sizes="(min-width: 768px) 288px, 208px"
+                width={288}
+                height={288}
                 alt={profile.name}
                 className="w-full h-full object-cover object-top"
               />

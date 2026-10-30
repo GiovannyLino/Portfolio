@@ -1,6 +1,6 @@
 // Request handling for POST /api/chat, with its dependencies injected so tests can run it
 // against a fake provider and an in-memory rate limiter.
-import { encodeEvent } from "../../src/features/chat/protocol.js";
+import { encodeEvent, type ChatErrorCode, type ChatEvent } from "../../src/features/chat/protocol.js";
 import { runAgent } from "./agent.js";
 import type { ServerConfig } from "./config.js";
 import { hashedClientKey, isOriginAllowed, jsonError } from "./http.js";
@@ -11,12 +11,43 @@ import { buildSystemPrompt } from "./system-prompt.js";
 import { buildTools } from "./tools.js";
 import type { WebSearch } from "./web-search.js";
 
+/**
+ * One line per answered request, for usage and quota monitoring in the Vercel logs.
+ * Anonymous by construction: no message text, no IP, no visitor id.
+ */
+export interface TurnLog {
+  event: "chat_turn";
+  lang: string;
+  section: string | null;
+  /** Tools the model called (data tools, plus UI tools as "ui:<action>"). */
+  tools: string[];
+  outcome: "answered" | "aborted" | ChatErrorCode;
+  durationMs: number;
+}
+
 export interface ChatDependencies {
   config: ServerConfig;
   rateLimiter: RateLimiter;
   createProvider: (config: ServerConfig) => LLMProvider;
   webSearch?: WebSearch;
   turnTimeoutMs?: number;
+  log?: (entry: TurnLog) => void;
+}
+
+/** Folds the stream's events into the anonymous turn summary. */
+function turnRecorder(lang: string, section: string | null) {
+  const started = Date.now();
+  const tools: string[] = [];
+  let outcome: TurnLog["outcome"] = "aborted";
+  return {
+    see(event: ChatEvent) {
+      if (event.type === "tool" && event.status === "start") tools.push(event.name);
+      else if (event.type === "ui") tools.push(`ui:${event.action.type}`);
+      else if (event.type === "error") outcome = event.code;
+      else if (event.type === "done") outcome = "answered";
+    },
+    entry: (): TurnLog => ({ event: "chat_turn", lang, section, tools, outcome, durationMs: Date.now() - started }),
+  };
 }
 
 const MAX_BODY_CHARS = 64 * 1024;
@@ -75,21 +106,37 @@ export function createChatHandler(deps: ChatDependencies): (request: Request) =>
     });
 
     const encoder = new TextEncoder();
+    const turn = turnRecorder(lang, section ?? null);
+    let logged = false;
+    const logTurn = () => {
+      if (logged) return;
+      logged = true;
+      deps.log?.(turn.entry());
+    };
+
     const stream = new ReadableStream<Uint8Array>({
       async pull(controller) {
         try {
           const { value, done } = await events.next();
-          if (done) controller.close();
-          else controller.enqueue(encoder.encode(encodeEvent(value)));
+          if (done) {
+            logTurn();
+            controller.close();
+            return;
+          }
+          turn.see(value);
+          controller.enqueue(encoder.encode(encodeEvent(value)));
         } catch (error) {
           // Log the failure, never the conversation.
           console.error("[chat] stream failed:", error instanceof Error ? error.message : error);
+          turn.see({ type: "error", code: "internal" });
+          logTurn();
           controller.enqueue(encoder.encode(encodeEvent({ type: "error", code: "internal" })));
           controller.close();
         }
       },
       async cancel() {
         abort.abort();
+        logTurn();
         await events.return(undefined);
       },
     });

@@ -26,7 +26,7 @@ const TechTags = ({ skillIds, label }: TechTagsProps) => {
               onClick={() => openChat({ question: ask.skill(name) })}
               aria-label={ask.skillLabel(name)}
               title={ask.skillLabel(name)}
-              className="font-mono text-xs text-primary/80 bg-primary/5 px-2.5 py-1 rounded-full transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="font-mono text-xs text-primary bg-primary/5 px-2.5 py-1 rounded-full transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {name}
             </button>

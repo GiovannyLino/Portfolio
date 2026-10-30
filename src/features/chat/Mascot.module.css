@@ -1,7 +1,7 @@
 .root {
   /* Bot palette, derived from the site's primary green (160 84% 39%). */
   --bot-body: hsl(var(--primary));
-  --bot-port: hsl(160 70% 27%);
+  --bot-port: hsl(160 70% 17%);
   --bot-screen: hsl(220 28% 11%);
   --bot-eye: hsl(158 95% 72%);
   --bot-led: hsl(158 95% 62%);

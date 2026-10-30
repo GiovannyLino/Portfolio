@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @layer base {
   :root {
     --background: 40 20% 98%;
@@ -15,7 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 25% 10%;
 
-    --primary: 160 84% 39%;
+    /* 161 88% 26%: 4.96:1 on the background, 5.17:1 with white text (WCAG AA). */
+    --primary: 161 88% 26%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -24,7 +23,7 @@
     --muted: 220 14% 96%;
     --muted-foreground: 220 10% 46%;
 
-    --accent: 160 84% 39%;
+    --accent: 161 88% 26%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -32,11 +31,11 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 160 84% 39%;
+    --ring: 161 88% 26%;
 
     --radius: 0.75rem;
 
-    --hero-gradient: linear-gradient(135deg, hsl(160 84% 39%), hsl(180 70% 35%));
+    --hero-gradient: linear-gradient(135deg, hsl(161 88% 26%), hsl(180 70% 26%));
     --glass: 0 0% 100% / 0.7;
     --shadow-soft: 0 4px 24px -4px hsl(220 25% 10% / 0.08);
     --shadow-card: 0 8px 32px -8px hsl(220 25% 10% / 0.1);
@@ -63,7 +62,7 @@
     --popover-foreground: 40 20% 95%;
 
     --primary: 160 84% 39%;
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 220 20% 8%;
 
     --secondary: 220 14% 16%;
     --secondary-foreground: 40 20% 95%;
@@ -72,7 +71,7 @@
     --muted-foreground: 220 10% 60%;
 
     --accent: 160 84% 39%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 220 20% 8%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -81,6 +80,7 @@
     --input: 220 13% 20%;
     --ring: 160 84% 39%;
 
+    --hero-gradient: linear-gradient(135deg, hsl(160 84% 39%), hsl(180 70% 35%));
     --glass: 220 18% 12% / 0.8;
     --shadow-soft: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
     --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.4);

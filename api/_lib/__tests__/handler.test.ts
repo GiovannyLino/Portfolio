@@ -43,6 +43,23 @@ describe("POST /api/chat", () => {
     ]);
   });
 
+  it("logs one anonymous line per turn, without the conversation", async () => {
+    const entries: unknown[] = [];
+    const handle = createChatHandler({
+      config: readConfig({}),
+      rateLimiter: new MemoryRateLimiter(100, 60_000),
+      createProvider: () =>
+        new ScriptedProvider([{ text: ["Oi!"], calls: [{ name: "navigateToSection", args: { section: "projects" } }] }]),
+      log: (entry) => entries.push(entry),
+    });
+    await (await handle(post(validBody))).text();
+
+    expect(entries).toEqual([
+      expect.objectContaining({ event: "chat_turn", lang: "pt", section: "projects", tools: ["ui:navigate"], outcome: "answered" }),
+    ]);
+    expect(JSON.stringify(entries)).not.toContain("Oi");
+  });
+
   it("puts the visible section in the system prompt", async () => {
     const { handle, provider } = setup();
     await (await handle(post(validBody))).text();
