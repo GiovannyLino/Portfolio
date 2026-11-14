@@ -53,7 +53,7 @@ describe("TourGuide", () => {
     for (let i = 0; i < 5; i++) fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByText("6 of 6")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Résumé/ })).toHaveAttribute("href", "/Giovanny_Lino_Resume_DevOps_EN.pdf");
+    expect(screen.getByRole("link", { name: /Résumé/ })).toHaveAttribute("href", "/Giovanny_Lino_Resume_EN.pdf");
     fireEvent.click(screen.getByRole("button", { name: "Ask a question" }));
     expect(onAsk).toHaveBeenCalled();
 

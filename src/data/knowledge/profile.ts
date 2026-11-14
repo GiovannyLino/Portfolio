@@ -3,8 +3,8 @@
 import type { Profile } from "./types.js";
 
 // There is no Spanish CV: Spanish visitors get the English one.
-const RESUME_PT = "/Giovanny_Lino_CV_DevOps_PT.pdf";
-const RESUME_EN = "/Giovanny_Lino_Resume_DevOps_EN.pdf";
+const RESUME_PT = "/Giovanny_Lino_CV_PT.pdf";
+const RESUME_EN = "/Giovanny_Lino_Resume_EN.pdf";
 
 export const profile = {
   name: "Giovanny Lino",

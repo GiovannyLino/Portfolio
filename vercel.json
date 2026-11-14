@@ -3,6 +3,10 @@
   "functions": {
     "api/chat.ts": { "maxDuration": 30 }
   },
+  "redirects": [
+    { "source": "/Giovanny_Lino_CV_DevOps_PT.pdf", "destination": "/Giovanny_Lino_CV_PT.pdf", "permanent": true },
+    { "source": "/Giovanny_Lino_Resume_DevOps_EN.pdf", "destination": "/Giovanny_Lino_Resume_EN.pdf", "permanent": true }
+  ],
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "headers": [
     {
