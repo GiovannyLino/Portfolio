@@ -35,12 +35,28 @@ export const faq = [
       es: `¿Qué hace en ${current.company}?`,
     },
     answer: {
-      en: `Since ${formatYearMonth(current.period.start, "en")} he has been a ${current.role.en}, supporting telecom carrier environments: availability, performance and SLA compliance, end-to-end observability with Splunk and ThousandEyes, automation with Ansible and Python, and L2/L3 incident troubleshooting following ITIL. Before that he was a ${previous.role.en} (${formatPeriod(previous.period, "en")}).`,
-      pt: `Desde ${formatYearMonth(current.period.start, "pt")} ele é ${current.role.pt}, sustentando ambientes de operadoras de telecomunicações: disponibilidade, desempenho e SLA, observabilidade fim a fim com Splunk e ThousandEyes, automação com Ansible e Python e troubleshooting de incidentes N2/N3 seguindo ITIL. Antes, foi ${previous.role.pt} (${formatPeriod(previous.period, "pt")}).`,
-      es: `Desde ${formatYearMonth(current.period.start, "es")} es ${current.role.es}, dando soporte a entornos de operadoras de telecomunicaciones: disponibilidad, rendimiento y SLA, observabilidad de extremo a extremo con Splunk y ThousandEyes, automatización con Ansible y Python y troubleshooting de incidentes N2/N3 según ITIL. Antes fue ${previous.role.es} (${formatPeriod(previous.period, "es")}).`,
+      en: `Since ${formatYearMonth(current.period.start, "en")} he has been a ${current.role.en}, supporting telecom carrier environments: availability, performance and SLA compliance, automation with Ansible and Python, REST API integrations, monitoring and L2/L3 incident troubleshooting following ITIL. Before that he was a ${previous.role.en} (${formatPeriod(previous.period, "en")}).`,
+      pt: `Desde ${formatYearMonth(current.period.start, "pt")} ele é ${current.role.pt}, sustentando ambientes de operadoras de telecomunicações: disponibilidade, desempenho e SLA, automação com Ansible e Python, integrações via APIs REST, monitoramento e troubleshooting de incidentes N2/N3 seguindo ITIL. Antes, foi ${previous.role.pt} (${formatPeriod(previous.period, "pt")}).`,
+      es: `Desde ${formatYearMonth(current.period.start, "es")} es ${current.role.es}, dando soporte a entornos de operadoras de telecomunicaciones: disponibilidad, rendimiento y SLA, automatización con Ansible y Python, integraciones vía APIs REST, monitoreo y troubleshooting de incidentes N2/N3 según ITIL. Antes fue ${previous.role.es} (${formatPeriod(previous.period, "es")}).`,
     },
     keywords: ["logicalis", "job", "work", "trabalho", "trabajo", "role", "cargo", "puesto", "experience", "experiencia", "analyst", "analista"],
     section: "experience",
+  },
+  {
+    id: "ai",
+    question: {
+      en: "Does he work with AI and LLMs?",
+      pt: "Ele trabalha com IA e LLMs?",
+      es: "¿Trabaja con IA y LLMs?",
+    },
+    answer: {
+      en: "Yes. He built Gio.AI, this portfolio's assistant: an LLM agent (Google Gemini) with tool calling that searches the site's content, moves around the page and streams its answers. He also holds Cisco's Black Belt AIOps certification.",
+      pt: "Sim. Ele construiu o Gio.AI, o assistente deste portfólio: um agente com LLM (Google Gemini) e tool calling que busca no conteúdo do site, navega pela página e responde em streaming. Ele também tem a certificação Black Belt AIOps da Cisco.",
+      es: "Sí. Construyó Gio.AI, el asistente de este portafolio: un agente con LLM (Google Gemini) y tool calling que busca en el contenido del sitio, navega por la página y responde en streaming. También tiene la certificación Black Belt AIOps de Cisco.",
+    },
+    keywords: ["ai", "ia", "llm", "llms", "agent", "agents", "agente", "agentes", "gemini", "gpt", "chatbot", "artificial", "inteligencia", "prompt", "genai"],
+    section: "projects",
+    projectId: "gio-ai-assistant",
   },
   {
     id: "observability",

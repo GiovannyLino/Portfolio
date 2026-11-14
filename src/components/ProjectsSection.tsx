@@ -1,78 +1,165 @@
-import { Code2, ExternalLink, Github, Lock, MessageCircle } from "lucide-react";
+import type { PointerEvent } from "react";
+import { ExternalLink, Github, Lock, MessageCircle } from "lucide-react";
 import { featuredProjects, localize, otherProjects, type Project } from "@/data/knowledge";
 import { openChat } from "@/features/chat/chat-bus";
 import { launcherCopy } from "@/features/chat/launcher-copy";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { projectAnchorId } from "@/lib/sections";
 import { cn } from "@/lib/utils";
+import { hasFinePointer, prefersReducedMotion } from "@/motion/env";
+import { Reveal } from "@/motion/Reveal";
+import ProjectArt from "./ProjectArt";
 import Section from "./Section";
 import TechTags from "./TechTags";
+import ui from "./ui.module.css";
+import styles from "./ProjectsSection.module.css";
 
-const ProjectCard = ({ project, className }: { project: Project; className?: string }) => {
+const TILT_DEGREES = 2.4;
+
+// The card leans towards the pointer and a soft light follows it. The article itself is
+// what gets measured; only its inner panel moves.
+const onTilt = (event: PointerEvent<HTMLElement>) => {
+  if (event.pointerType !== "mouse" || !hasFinePointer() || prefersReducedMotion()) return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = (event.clientX - rect.left) / rect.width;
+  const y = (event.clientY - rect.top) / rect.height;
+  const { style } = event.currentTarget;
+  style.setProperty("--tilt-x", `${((0.5 - y) * 2 * TILT_DEGREES).toFixed(2)}deg`);
+  style.setProperty("--tilt-y", `${((x - 0.5) * 2 * TILT_DEGREES).toFixed(2)}deg`);
+  style.setProperty("--light-x", `${(x * 100).toFixed(1)}%`);
+  style.setProperty("--light-y", `${(y * 100).toFixed(1)}%`);
+};
+
+const onTiltEnd = (event: PointerEvent<HTMLElement>) => {
+  const { style } = event.currentTarget;
+  style.removeProperty("--tilt-x");
+  style.removeProperty("--tilt-y");
+};
+
+/** "Ask Gio.AI", source code and live demo. */
+const ProjectActions = ({ project, title }: { project: Project; title: string }) => {
   const { t, language } = useLanguage();
-  const title = localize(project.title, language);
-  const { repo, demo } = project.links;
-  const isInternal = project.origin === "work" && !repo && !demo;
   const ask = launcherCopy[language].ask;
+  const { repo, demo } = project.links;
 
   return (
-    <article
+    <div className={styles.actions}>
+      <button
+        type="button"
+        className={styles.ask}
+        onClick={() => openChat({ question: ask.project(title) })}
+        aria-label={ask.projectLabel(title)}
+        title={ask.projectLabel(title)}
+      >
+        <MessageCircle size={15} aria-hidden="true" />
+        Gio.AI
+      </button>
+      {repo && (
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={ui.iconButton}
+          aria-label={`${title} — ${t.projects.sourceCode}`}
+          title={t.projects.sourceCode}
+        >
+          <Github size={17} aria-hidden="true" />
+        </a>
+      )}
+      {demo && (
+        <a
+          href={demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={ui.iconButton}
+          aria-label={`${title} — ${t.projects.liveDemo}`}
+          title={t.projects.liveDemo}
+        >
+          <ExternalLink size={17} aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  );
+};
+
+const FeaturedProject = ({ project, index }: { project: Project; index: number }) => {
+  const { t, language } = useLanguage();
+  const title = localize(project.title, language);
+  const isInternal = project.origin === "work" && !project.links.repo && !project.links.demo;
+
+  return (
+    // The assistant scrolls to and outlines this element (#project-<id>, see lib/sections).
+    <Reveal
+      as="article"
       id={projectAnchorId(project.id)}
       data-project-id={project.id}
-      className={cn(
-        "glass-card rounded-xl p-6 border border-border/50 hover:border-primary/30 transition-all duration-300 group hover:-translate-y-1 flex flex-col scroll-mt-24",
-        className,
-      )}
+      className={styles.card}
+      index={index % 2}
+      onPointerMove={onTilt}
+      onPointerLeave={onTiltEnd}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-          <Code2 className="text-primary" size={24} aria-hidden="true" />
+      <div className={styles.panel}>
+        <div className={styles.artSlot}>
+          <ProjectArt projectId={project.id} className={styles.art} />
+          <span className={cn("display", styles.cardNumber)} aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => openChat({ question: ask.project(title) })}
-            className="text-muted-foreground hover:text-primary transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            aria-label={ask.projectLabel(title)}
-            title={ask.projectLabel(title)}
-          >
-            <MessageCircle size={20} aria-hidden="true" />
-          </button>
-          {repo && (
-            <a
-              href={repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label={`${title} — ${t.projects.sourceCode}`}
-            >
-              <Github size={20} />
-            </a>
+
+        <div className={styles.cardBody}>
+          <h3 className={cn("display", styles.cardTitle)}>{title}</h3>
+          <p className={styles.summary}>{project.summary[language]}</p>
+
+          {project.problem && project.solution && (
+            <dl className={styles.why}>
+              <div>
+                <dt className="label">{t.projects.problem}</dt>
+                <dd>{project.problem[language]}</dd>
+              </div>
+              <div>
+                <dt className="label">{t.projects.solution}</dt>
+                <dd>{project.solution[language]}</dd>
+              </div>
+            </dl>
           )}
-          {demo && (
-            <a
-              href={demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label={`${title} — ${t.projects.liveDemo}`}
-            >
-              <ExternalLink size={20} />
-            </a>
-          )}
+
+          <TechTags skillIds={project.stack} label={t.experience.technologies} />
+
+          <div className={styles.cardFoot}>
+            {isInternal ? (
+              <p className={cn("label", styles.internal)}>
+                <Lock size={12} aria-hidden="true" />
+                {t.projects.internal}
+              </p>
+            ) : (
+              <span />
+            )}
+            <ProjectActions project={project} title={title} />
+          </div>
         </div>
       </div>
+    </Reveal>
+  );
+};
 
-      <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{title}</h3>
-      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">{project.summary[language]}</p>
-      {isInternal && (
-        <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground mb-4">
-          <Lock size={12} aria-hidden="true" />
-          {t.projects.internal}
-        </p>
-      )}
-      <TechTags skillIds={project.stack} label={t.experience.technologies} />
-    </article>
+const OtherProject = ({ project, index }: { project: Project; index: number }) => {
+  const { t, language } = useLanguage();
+  const title = localize(project.title, language);
+
+  return (
+    <Reveal as="li">
+      <article id={projectAnchorId(project.id)} data-project-id={project.id} className={styles.other}>
+        <span className={cn("label", styles.otherNumber)} aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <h4 className={cn("display", styles.otherTitle)}>{title}</h4>
+        <div className={styles.otherBody}>
+          <p>{project.summary[language]}</p>
+          <TechTags skillIds={project.stack} label={t.experience.technologies} />
+        </div>
+        <ProjectActions project={project} title={title} />
+      </article>
+    </Reveal>
   );
 };
 
@@ -80,19 +167,21 @@ const ProjectsSection = () => {
   const { t } = useLanguage();
 
   return (
-    <Section id="projects">
-      <div className="grid md:grid-cols-2 gap-6">
-        {featuredProjects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} className={i === 0 ? "md:col-span-2" : undefined} />
+    <Section id="projects" surface="ink">
+      <div className={styles.featured}>
+        {featuredProjects.map((project, index) => (
+          <FeaturedProject key={project.id} project={project} index={index} />
         ))}
       </div>
 
-      <h3 className="mt-16 mb-6 text-xl font-semibold text-foreground">{t.projects.other}</h3>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {otherProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+      <Reveal as="div" className={styles.othersHeader}>
+        <h3 className={cn("display", styles.othersTitle)}>{t.projects.other}</h3>
+      </Reveal>
+      <ul className={styles.others}>
+        {otherProjects.map((project, index) => (
+          <OtherProject key={project.id} project={project} index={featuredProjects.length + index} />
         ))}
-      </div>
+      </ul>
     </Section>
   );
 };

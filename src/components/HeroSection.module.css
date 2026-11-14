@@ -1,0 +1,351 @@
+/* The hero. On desktop it is pinned: the page scrolls over it while --p (0 → 1, written by
+   HeroSection.tsx) shrinks, rounds and dims it. On small or short screens it scrolls away
+   like any other section. */
+
+.hero {
+  position: relative;
+  z-index: 0;
+}
+
+.frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100svh;
+  background-color: hsl(var(--background));
+}
+
+/* Faint columns, like the ruling of a layout grid. */
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    hsl(var(--foreground) / 0.045) 0 1px,
+    transparent 1px calc(100% / 6)
+  );
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60% 55% at 50% 40%, hsl(var(--foreground) / 0.1), transparent 70%),
+    radial-gradient(40% 35% at 50% 100%, hsl(var(--primary) / 0.12), transparent 75%);
+}
+
+/* ---- Artwork --------------------------------------------------------------------------- */
+
+.globe {
+  position: absolute;
+  top: 32svh;
+  left: 50%;
+  z-index: 1;
+  width: min(118cqi, 58svh);
+  aspect-ratio: 1;
+  transform: translate3d(-50%, calc(-50% + var(--p, 0) * 14%), 0) scale(calc(1 + var(--p, 0) * 0.22));
+  pointer-events: none;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Content ---------------------------------------------------------------------------
+   One column on phones: badge over the artwork, then headline, introduction, actions. */
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: minmax(40svh, 1fr) auto auto auto;
+  grid-template-areas:
+    "badge"
+    "headline"
+    "lede"
+    "bottom";
+  min-height: 100svh;
+  padding-top: calc(var(--nav-height) + 0.5rem);
+  /* The next sheet overlaps the hero's last --sheet-radius pixels. */
+  padding-bottom: calc(var(--sheet-radius) + clamp(1rem, 2cqi, 1.75rem));
+}
+
+/* ---- Rotating badge: scrolls to the first section --------------------------------------- */
+
+.badgeSlot {
+  grid-area: badge;
+  justify-self: end;
+  align-self: start;
+}
+
+.badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(5.75rem, 11cqi, 8.75rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+}
+
+.badgeRing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: spin 16s linear infinite;
+}
+
+.badgeRing text {
+  fill: hsl(var(--foreground));
+  font-family: var(--font-mono);
+  font-size: 9.4px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.badgeCore {
+  display: grid;
+  place-items: center;
+  width: 52%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+  transition:
+    transform 0.5s var(--ease-spring),
+    background-color 0.35s ease;
+}
+
+.badgeCore > svg {
+  transition: transform 0.5s var(--ease-out);
+}
+
+.badge:hover .badgeCore,
+.badge:focus-visible .badgeCore {
+  transform: scale(1.12);
+  background-color: hsl(var(--primary));
+}
+
+.badge:hover .badgeCore > svg,
+.badge:focus-visible .badgeCore > svg {
+  transform: translate3d(0, 3px, 0);
+}
+
+/* ---- Headline --------------------------------------------------------------------------- */
+
+.headline {
+  grid-area: headline;
+  transform: translate3d(0, calc(var(--p, 0) * -2.5rem), 0);
+}
+
+/* A pill, so the greeting stays readable over the artwork. (Tinted rather than blurred: a
+   backdrop blur over the canvas would be recomputed on every frame.) */
+.eyebrow {
+  display: inline-block;
+  margin-bottom: clamp(0.7rem, 1.4cqi, 1.1rem);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background-color: hsl(var(--background) / 0.82);
+  box-shadow: inset 0 0 0 1px hsl(var(--line));
+  color: hsl(var(--muted-foreground));
+}
+
+.name {
+  display: inline;
+  color: hsl(var(--foreground));
+}
+
+.tagline {
+  font-size: min(var(--text-display), 17svh);
+  line-height: 0.9;
+  text-wrap: balance;
+}
+
+/* ---- Introduction ----------------------------------------------------------------------- */
+
+.lede {
+  grid-area: lede;
+  max-width: 30rem;
+  margin-top: 1.5rem;
+  color: hsl(var(--foreground) / 0.8);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.role {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.9rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid hsl(var(--primary));
+  color: hsl(var(--foreground));
+}
+
+.role > span {
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Bottom bar ------------------------------------------------------------------------- */
+
+.bottom {
+  grid-area: bottom;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: clamp(1.75rem, 3.4cqi, 2.75rem);
+}
+
+.meta {
+  display: grid;
+  gap: 0.4rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: hsl(var(--foreground));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.actions > a {
+  flex: 1 1 auto;
+}
+
+.socials {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Only while the page is scrolling over the pinned hero. */
+.dim {
+  display: none;
+}
+
+/* ---- Tablets and up: the introduction moves up beside the artwork ------------------------ */
+
+@container page (min-width: 760px) {
+  .content {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: minmax(14rem, 1fr) auto auto;
+    grid-template-areas:
+      "badge    lede"
+      "headline headline"
+      "bottom   bottom";
+  }
+
+  .badgeSlot {
+    justify-self: start;
+    align-self: center;
+  }
+
+  /* A pane of smoked glass: on narrower pages the introduction sits over the artwork. */
+  .lede {
+    justify-self: end;
+    align-self: center;
+    max-width: 23rem;
+    margin-top: 0;
+    padding: 1.1rem 1.2rem;
+    background-color: hsl(var(--background) / 0.78);
+    box-shadow: inset 0 0 0 1px hsl(var(--line));
+    font-size: 0.95rem;
+  }
+
+  .globe {
+    top: 41%;
+    width: min(74cqi, 72svh);
+  }
+
+  .headline {
+    text-align: center;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+  }
+
+  .actions > a {
+    flex: 0 0 auto;
+  }
+
+  /* The chat launcher floats in the bottom-right corner: stop short of it. */
+  .socials {
+    justify-content: flex-end;
+    padding-right: max(0px, calc(5.75rem - var(--gutter)));
+  }
+}
+
+/* ---- Desktop: pinned, and covered by the next sheet --------------------------------------- */
+
+@container page (min-width: 900px) {
+  @media (min-height: 620px) {
+    .hero {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+    }
+
+    .hero[data-covered] .frame {
+      visibility: hidden;
+    }
+
+    .frame {
+      height: 100%;
+      min-height: 0;
+      transform: scale(calc(1 - var(--p, 0) * 0.06));
+      transform-origin: 50% 35%;
+      border-radius: calc(var(--p, 0) * var(--sheet-radius));
+    }
+
+    .content {
+      height: 100%;
+      min-height: 0;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+    }
+
+    .dim {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background-color: #000;
+      opacity: calc(var(--p, 0) * 0.6);
+      pointer-events: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badgeRing {
+    animation: none;
+  }
+
+  .badgeCore,
+  .badgeCore > svg {
+    transition: none;
+  }
+
+  /* --p still follows the scroll (it decides when to stop drawing the hero), but nothing
+     moves with it. */
+  .frame,
+  .headline {
+    transform: none;
+  }
+
+  .globe {
+    transform: translate3d(-50%, -50%, 0);
+  }
+}

@@ -32,6 +32,7 @@ export interface YearPeriod {
 }
 
 export type SkillCategoryId =
+  | "ai"
   | "cloud"
   | "containers"
   | "iac"

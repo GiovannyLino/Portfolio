@@ -5,7 +5,7 @@ import { FolderOpen, Globe, RotateCcw, Search, SendHorizontal, Square, X, type L
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { SectionId } from "@/lib/sections";
 import { useMediaQuery } from "./hooks";
-import { chatCopy } from "./i18n";
+import { chatCopy, type ChatCopy } from "./i18n";
 import { CUE_MOODS, baseMood } from "./lib/mood";
 import { runUiAction } from "./lib/ui-actions";
 import Mascot, { type MascotMood } from "./Mascot";
@@ -61,7 +61,7 @@ const toPlainText = (markdown: string) => markdown.replace(/[*_`#>[\]]/g, "").re
 
 const ChatWidget = ({ open, onClose, section, pendingQuestion, onPendingQuestionSent }: ChatWidgetProps) => {
   const { language } = useLanguage();
-  const copy = chatCopy[language];
+  const copy: ChatCopy = chatCopy[language];
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isTablet = useMediaQuery("(min-width: 768px)");
 

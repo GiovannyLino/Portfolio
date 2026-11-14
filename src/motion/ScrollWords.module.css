@@ -1,0 +1,6 @@
+/* --p (0 → 1) comes from the scroll position; --n is the number of words and --i each
+   word's index. A word starts to appear when the progress reaches it and is fully there
+   six words later, so a soft edge sweeps through the paragraph. */
+.word {
+  opacity: clamp(0.16, calc((var(--p, 1) * (var(--n) + 6) - var(--i)) / 6), 1);
+}

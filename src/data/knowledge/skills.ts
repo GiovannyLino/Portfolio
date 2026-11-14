@@ -3,6 +3,7 @@
 import type { Skill, SkillCategory } from "./types.js";
 
 export const skillCategories = [
+  { id: "ai", name: { en: "AI & LLMs", pt: "IA e LLMs", es: "IA y LLMs" } },
   { id: "cloud", name: { en: "Cloud Computing", pt: "Cloud Computing", es: "Computación en la nube" } },
   {
     id: "containers",
@@ -32,6 +33,38 @@ export const skillCategories = [
 ] as const satisfies readonly SkillCategory[];
 
 export const skills = [
+  // AI & LLMs (backed by the Gio.AI project, this site's own assistant)
+  {
+    id: "generative-ai",
+    name: { en: "Generative AI", pt: "IA generativa", es: "IA generativa" },
+    category: "ai",
+    aliases: ["ai", "ia", "genai", "artificial intelligence", "inteligencia artificial", "chatbot"],
+    featured: true,
+  },
+  {
+    id: "llm",
+    name: "LLMs",
+    category: "ai",
+    detail: "Google Gemini",
+    aliases: ["llm", "large language models", "modelos de linguagem", "modelos de lenguaje", "gemini", "gpt", "claude"],
+    featured: true,
+  },
+  {
+    id: "ai-agents",
+    name: { en: "AI agents", pt: "Agentes de IA", es: "Agentes de IA" },
+    category: "ai",
+    detail: "tool calling",
+    aliases: ["agent", "agents", "agente", "agentes", "tool calling", "function calling", "tools"],
+    featured: true,
+  },
+  {
+    id: "prompt-engineering",
+    name: { en: "Prompt engineering", pt: "Engenharia de prompt", es: "Ingeniería de prompts" },
+    category: "ai",
+    aliases: ["prompt", "prompts", "system prompt"],
+  },
+  { id: "aiops", name: "AIOps", category: "ai", aliases: ["ai ops"] },
+
   // Cloud
   {
     id: "aws",
@@ -112,14 +145,12 @@ export const skills = [
     name: "Splunk",
     category: "observability",
     aliases: ["spl", "logs", "observability", "observabilidade", "observabilidad", "monitoring", "monitoramento"],
-    featured: true,
   },
   {
     id: "thousandeyes",
     name: "ThousandEyes",
     category: "observability",
     aliases: ["thousand eyes", "observability", "observabilidade", "observabilidad", "monitoring", "monitoramento"],
-    featured: true,
   },
   { id: "metabase", name: "Metabase", category: "observability", aliases: ["bi"] },
   { id: "power-bi", name: "Power BI", category: "observability", aliases: ["powerbi", "power query", "bi"] },
@@ -135,7 +166,6 @@ export const skills = [
     category: "observability",
     aliases: ["rca", "post-mortem", "postmortem", "troubleshooting", "incidents", "incidentes"],
   },
-  { id: "aiops", name: "AIOps", category: "observability", aliases: ["ai ops"] },
 
   // Operating systems & networking
   { id: "linux", name: "Linux", category: "systems", detail: "Ubuntu, RHEL", aliases: ["ubuntu", "rhel", "red hat"] },

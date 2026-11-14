@@ -86,7 +86,7 @@ describe("Wikipedia search", () => {
 describe("system prompt", () => {
   it("embeds the knowledge base in the site language with ids for the tools", () => {
     const prompt = buildSystemPrompt({ lang: "pt", webSearchEnabled: false });
-    expect(prompt).toContain("Analista de Service Provider @ Logicalis");
+    expect(prompt).toContain("Service Provider Analyst @ Logicalis");
     expect(prompt).toContain("[netbox-ansible-pipeline]");
     expect(prompt).toContain("internal project, no public code or demo");
     expect(prompt).toContain("The visitor is at the top of the page.");

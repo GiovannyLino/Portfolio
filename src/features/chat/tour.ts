@@ -10,7 +10,7 @@ export interface TourStop {
   text: string;
 }
 
-const SHOWCASE_PROJECT = "netbox-ansible-pipeline";
+const SHOWCASE_PROJECT = "gio-ai-assistant";
 
 export function buildTour(lang: Language): TourStop[] {
   const role = currentPosition.role[lang];
@@ -23,25 +23,25 @@ export function buildTour(lang: Language): TourStop[] {
   const text = {
     pt: {
       about: `Este é o Giovanny: **${role} na ${company}** e estudante de Ciência da Computação na USCS. Ele trabalha com automação de infraestrutura, observabilidade e sustentação de ambientes de operadoras de telecom.`,
-      experience: `Na ${company} desde ${since}: começou como estagiário e hoje é ${role}. As atividades incluem observabilidade com **Splunk e ThousandEyes**, automação com **Ansible e Python** e incidentes N2/N3 seguindo ITIL.`,
-      projects: `Um destaque é o **pipeline NetBox → Ansible**: o NetBox vira a source of truth e os dispositivos são provisionados no monitoramento via API REST, sem cadastro manual.`,
-      skills: `As competências vão de cloud (AWS) e containers (Docker, Podman) a Infrastructure as Code (Ansible, Terraform) e observabilidade. Dica: clique numa tecnologia para me perguntar onde ele a usou.`,
+      experience: `Na ${company} desde ${since}: começou como estagiário e hoje é ${role}. As atividades incluem automação com **Ansible e Python**, integrações via APIs REST e incidentes N2/N3 seguindo ITIL.`,
+      projects: `Um destaque sou eu mesmo: o **Gio.AI** é um agente com **LLM e tool calling** que o Giovanny construiu. Eu busco no conteúdo do portfólio e movo a página enquanto respondo.`,
+      skills: `As competências vão de **IA e LLMs** a cloud (AWS), containers (Docker, Podman) e Infrastructure as Code (Ansible, Terraform). Dica: clique numa tecnologia para me perguntar onde ele a usou.`,
       education: `Ele tem ${certCount} certificações, entre elas a **${certName}**, e cursa Ciência da Computação na USCS, com conclusão prevista para ${graduation}.`,
       contact: `É isso! Para falar com ele, baixe o currículo, chame no LinkedIn ou use o botão de e-mail. E se tiver qualquer pergunta, é só me chamar.`,
     },
     en: {
       about: `Meet Giovanny: **${role} at ${company}** and a Computer Science student at USCS. He works on infrastructure automation, observability and the support of telecom carrier environments.`,
-      experience: `At ${company} since ${since}: he started as an intern and is now a ${role}. His work includes observability with **Splunk and ThousandEyes**, automation with **Ansible and Python**, and L2/L3 incidents following ITIL.`,
-      projects: `A highlight is the **NetBox → Ansible pipeline**: NetBox becomes the source of truth and devices are provisioned in the monitoring platform via REST API, with no manual registration.`,
-      skills: `His skills range from cloud (AWS) and containers (Docker, Podman) to Infrastructure as Code (Ansible, Terraform) and observability. Tip: click any technology to ask me where he used it.`,
+      experience: `At ${company} since ${since}: he started as an intern and is now a ${role}. His work includes automation with **Ansible and Python**, REST API integrations and L2/L3 incidents following ITIL.`,
+      projects: `One highlight is me: **Gio.AI** is an agent with an **LLM and tool calling** that Giovanny built. I search the portfolio's content and move the page while I answer.`,
+      skills: `His skills range from **AI and LLMs** to cloud (AWS), containers (Docker, Podman) and Infrastructure as Code (Ansible, Terraform). Tip: click any technology to ask me where he used it.`,
       education: `He holds ${certCount} certifications, including **${certName}**, and is studying Computer Science at USCS, expected to finish in ${graduation}.`,
       contact: `That's it! To talk to him, download the résumé, reach out on LinkedIn or use the email button. And if you have any question, just ask me.`,
     },
     es: {
       about: `Este es Giovanny: **${role} en ${company}** y estudiante de Ciencias de la Computación en la USCS. Trabaja con automatización de infraestructura, observabilidad y soporte de entornos de operadoras de telecomunicaciones.`,
-      experience: `En ${company} desde ${since}: empezó como pasante y hoy es ${role}. Sus actividades incluyen observabilidad con **Splunk y ThousandEyes**, automatización con **Ansible y Python** e incidentes N2/N3 según ITIL.`,
-      projects: `Un destacado es el **pipeline NetBox → Ansible**: NetBox pasa a ser la source of truth y los dispositivos se aprovisionan en el monitoreo vía API REST, sin registro manual.`,
-      skills: `Sus habilidades van de cloud (AWS) y contenedores (Docker, Podman) a Infraestructura como Código (Ansible, Terraform) y observabilidad. Consejo: haz clic en cualquier tecnología para preguntarme dónde la usó.`,
+      experience: `En ${company} desde ${since}: empezó como pasante y hoy es ${role}. Sus actividades incluyen automatización con **Ansible y Python**, integraciones vía APIs REST e incidentes N2/N3 según ITIL.`,
+      projects: `Un destacado soy yo: **Gio.AI** es un agente con **LLM y tool calling** que Giovanny construyó. Busco en el contenido del portafolio y muevo la página mientras respondo.`,
+      skills: `Sus habilidades van de **IA y LLMs** a cloud (AWS), contenedores (Docker, Podman) e Infraestructura como Código (Ansible, Terraform). Consejo: haz clic en cualquier tecnología para preguntarme dónde la usó.`,
       education: `Tiene ${certCount} certificaciones, entre ellas **${certName}**, y estudia Ciencias de la Computación en la USCS, con finalización prevista en ${graduation}.`,
       contact: `¡Eso es todo! Para hablar con él, descarga el currículum, escríbele en LinkedIn o usa el botón de correo. Y si tienes alguna pregunta, solo pregúntame.`,
     },

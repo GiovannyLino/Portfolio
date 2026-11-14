@@ -18,7 +18,7 @@ export interface AgentInput {
 const DEFAULT_MAX_STEPS = 4;
 const MAX_TOOL_CALLS_PER_STEP = 6;
 // Offered when the model forgets suggestNextSteps, skipping questions already asked.
-const FALLBACK_FAQ_IDS = ["current-role", "featured-projects", "network-automation", "observability", "contact"];
+const FALLBACK_FAQ_IDS = ["current-role", "featured-projects", "ai", "network-automation", "contact"];
 
 const ERROR_CODES: Record<Exclude<ProviderError["kind"], "aborted">, ChatErrorCode> = {
   quota: "upstream_quota",

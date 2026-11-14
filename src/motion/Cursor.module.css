@@ -1,0 +1,44 @@
+/* The accent colour rather than an inverting blend: it reads on paper and on ink, and
+   never turns a hovered button into its complementary colour. */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.cursor[data-visible] {
+  opacity: 1;
+}
+
+.dot {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background-color: hsl(160 84% 39%);
+  transition:
+    transform 0.4s var(--ease-out),
+    opacity 0.3s ease;
+}
+
+/* Over anything clickable the dot opens into a soft halo; the element's own hover does the talking. */
+.cursor[data-state="hover"] .dot {
+  opacity: 0.22;
+  transform: scale(4.6);
+}
+
+.cursor[data-state="hover"][data-pressed] .dot {
+  transform: scale(3.4);
+}
+
+/* Over text fields the caret is the pointer: get out of the way. */
+.cursor[data-state="text"] .dot {
+  transform: scale(0);
+}

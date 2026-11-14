@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+/** Joins class names, skipping falsy ones: cn(styles.card, active && styles.active). */
+export function cn(...inputs: ClassValue[]): string {
+  return clsx(inputs);
 }

@@ -1,0 +1,225 @@
+/* The marquee leads the section, so the sheet needs less room at the top. */
+.about {
+  padding-top: clamp(2.25rem, 5cqi, 4.25rem);
+}
+
+/* ---- Marquee: the featured technologies, alternately solid and outlined ------------------ */
+
+.marquee {
+  margin-bottom: clamp(3.5rem, 8.5cqi, 7.5rem);
+  padding-block: 0.35rem 0.6rem;
+  border-block: 1px solid hsl(var(--line));
+}
+
+.marqueeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34em;
+  padding-right: 0.34em;
+  font-size: clamp(2.75rem, 8.5cqi, 7.5rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.marqueeItem[data-outline] {
+  color: transparent;
+  -webkit-text-stroke: 1.5px hsl(var(--foreground));
+}
+
+.marqueeMark {
+  width: 0.2em;
+  height: 0.2em;
+  background-color: hsl(var(--primary));
+  transform: rotate(45deg);
+}
+
+/* ---- Title: the portrait sits between the two words ---------------------------------------
+   --p (0 → 1) follows the title up the screen (AboutSection.tsx). */
+
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.13em;
+  max-width: 100%;
+  font-size: clamp(3.4rem, 19cqi, 20rem);
+  line-height: 0.84;
+  white-space: nowrap;
+}
+
+.photo {
+  flex-shrink: 0;
+  width: 0.72em;
+  height: 0.9em;
+  transform: translate3d(0, calc((1 - var(--p, 1)) * -55%), 0) rotate(calc((1 - var(--p, 1)) * -9deg));
+  will-change: transform;
+}
+
+.photoFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: hsl(var(--muted));
+}
+
+.photoFrame > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+  filter: grayscale(1) contrast(1.1);
+  transform: scale(calc(1.4 - var(--p, 1) * 0.4));
+}
+
+/* ---- Body -------------------------------------------------------------------------------- */
+
+.body {
+  display: grid;
+  gap: clamp(2.5rem, 6cqi, 5rem) clamp(1.5rem, 3cqi, 3rem);
+}
+
+/* The opening paragraph, large; its words light up with the scroll (motion/ScrollWords). */
+.statement {
+  max-width: 24em;
+  font-size: var(--text-lead);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  text-wrap: pretty;
+}
+
+.statement [data-tone="strong"] {
+  font-weight: 700;
+}
+
+.statement [data-tone="accent"] {
+  color: hsl(var(--primary));
+}
+
+.prose {
+  display: grid;
+  gap: 1.1rem;
+  align-content: start;
+  max-width: 38rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.7;
+}
+
+.prose strong {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
+.prose :global(.accent) {
+  font-weight: 600;
+}
+
+/* ---- Facts: a small table with hairlines -------------------------------------------------- */
+
+.facts {
+  align-self: start;
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 0.42fr) 1fr;
+  gap: 1rem;
+  padding-block: 1.05rem;
+  border-top: 1px solid hsl(var(--line));
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.fact > dt {
+  padding-top: 0.2rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.fact small {
+  display: block;
+  margin-top: 0.2rem;
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.recent {
+  display: grid;
+  gap: 1rem;
+}
+
+.recent > p {
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Numbers ------------------------------------------------------------------------------ */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(3.5rem, 8cqi, 7rem);
+  border-top: 1px solid hsl(var(--line-strong));
+}
+
+/* dt comes first in the markup; the number is shown above its label. */
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: clamp(1.1rem, 2.4cqi, 2rem) 1rem clamp(1.1rem, 2.4cqi, 2rem) 0;
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.stat > dt {
+  color: hsl(var(--muted-foreground));
+}
+
+.statValue {
+  font-size: clamp(3.75rem, 10.5cqi, 9.5rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 0.86;
+}
+
+@container page (min-width: 900px) {
+  .body {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .statement {
+    grid-column: 1 / span 10;
+  }
+
+  .prose {
+    grid-column: 1 / span 6;
+  }
+
+  .facts {
+    grid-column: 8 / span 5;
+  }
+
+  .recent {
+    grid-column: 1 / -1;
+  }
+
+  .stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stat {
+    border-bottom: 0;
+  }
+
+  .stat + .stat {
+    padding-left: clamp(1rem, 2cqi, 2rem);
+    border-left: 1px solid hsl(var(--line));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo,
+  .photoFrame > img {
+    transform: none;
+  }
+}

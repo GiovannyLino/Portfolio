@@ -1,0 +1,111 @@
+/* Design tokens: one vocabulary for the page and the chat (features/chat reads the same
+   names). Colours are HSL triplets so any of them can take an alpha:
+   hsl(var(--foreground) / 0.5).
+
+   The page alternates two surfaces, paper and ink. A surface class re-declares the colour
+   tokens for everything inside it, so components never ask which section they are in.
+   - light theme: paper is off-white, ink is near-black;
+   - dark theme: both are dark, ink a step deeper. */
+
+:root {
+  --font-display: "Big Shoulders Display Variable", "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout. cqi follows the page container (#page), which narrows when the chat drawer
+     opens; outside a container it falls back to the viewport. */
+  --gutter: clamp(1.125rem, 4.2cqi, 4.75rem);
+  --wrap: 104rem;
+  --sheet-radius: clamp(1.25rem, 3cqi, 2.75rem);
+  --nav-height: 4.75rem;
+
+  /* Fluid type */
+  --text-mega: clamp(3.5rem, 17cqi, 19rem);
+  /* Phones: sized so the longest word of the tagline fits; wider: so it sets in two lines. */
+  --text-display: clamp(2.6rem, max(7.7cqi, min(13cqi, 3.4rem)), 9.75rem);
+  --text-title: clamp(2.75rem, 8cqi, 8rem);
+  --text-heading: clamp(1.9rem, 3.7cqi, 3.5rem);
+  --text-lead: clamp(1.3rem, 2.5cqi, 2.4rem);
+  --text-body: clamp(0.98rem, 0.35cqi + 0.9rem, 1.1rem);
+  --text-label: 0.72rem;
+}
+
+/* ---- Paper: light surface, and the default of the light theme ---------------------- */
+
+:root,
+.surface-paper {
+  color-scheme: light;
+
+  --background: 45 20% 96%;
+  --foreground: 0 0% 5%;
+  --card: 45 25% 98.5%;
+  --muted: 45 10% 90%;
+  /* 6.2:1 on the background. */
+  --muted-foreground: 0 0% 36%;
+  --border: 45 8% 82%;
+  /* 161 88% 26%: 4.8:1 on the background, 5.2:1 under white text (WCAG AA). */
+  --primary: 161 88% 26%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 161 88% 26%;
+
+  --glass: 45 20% 97% / 0.82;
+  --shadow-soft: 0 4px 24px -4px hsl(0 0% 5% / 0.08);
+  --shadow-card: 0 8px 32px -8px hsl(0 0% 5% / 0.14);
+  --shadow-glow: 0 0 40px -10px hsl(160 84% 39% / 0.3);
+
+  /* Page only: hairlines, and the tint behind large numerals. */
+  --line: 0 0% 5% / 0.16;
+  --line-strong: 0 0% 5% / 0.34;
+  --ghost: 0 0% 5% / 0.12;
+}
+
+/* ---- Ink: dark surface, and the default of the dark theme -------------------------- */
+
+.surface-ink,
+.dark,
+.dark .surface-paper {
+  color-scheme: dark;
+
+  --background: 0 0% 4%;
+  --foreground: 45 14% 93%;
+  --card: 0 0% 8%;
+  --muted: 0 0% 12%;
+  /* 7.4:1 on the background. */
+  --muted-foreground: 0 0% 62%;
+  --border: 0 0% 17%;
+  /* 160 84% 39%: 7.8:1 on the background; text on it is dark. */
+  --primary: 160 84% 39%;
+  --primary-foreground: 0 0% 4%;
+  --ring: 160 84% 39%;
+
+  --glass: 0 0% 7% / 0.84;
+  --shadow-soft: 0 4px 24px -4px hsl(0 0% 0% / 0.4);
+  --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.55);
+  --shadow-glow: 0 0 40px -10px hsl(160 84% 39% / 0.4);
+
+  --line: 45 14% 93% / 0.16;
+  --line-strong: 45 14% 93% / 0.36;
+  --ghost: 45 14% 93% / 0.14;
+}
+
+/* In the dark theme the "paper" sections sit one step above the ink ones. */
+.dark,
+.dark .surface-paper {
+  --background: 0 0% 7.5%;
+  --card: 0 0% 11%;
+  --muted: 0 0% 14.5%;
+  --border: 0 0% 20%;
+  --glass: 0 0% 9% / 0.84;
+}
+
+.surface-ink,
+.surface-paper {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}

@@ -8,5 +8,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/data/knowledge", "src/lib/sections.ts", "src/hooks/use-scroll-spy.ts"]
+  "include": ["src"]
 }

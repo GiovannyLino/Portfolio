@@ -1,31 +1,33 @@
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Language } from "@/i18n/translations";
+import type { Language } from "@/i18n/translations";
+import { cssVars } from "@/motion/env";
+import styles from "./Toolbar.module.css";
 
-const flags: Record<Language, string> = {
-  en: "🇺🇸",
-  pt: "🇧🇷",
-  es: "🇪🇸",
-};
+// Codes instead of flags: a language is not a country, and Windows draws no flag emoji.
+const LANGUAGES: readonly { code: Language; label: string; name: string }[] = [
+  { code: "en", label: "EN", name: "English" },
+  { code: "pt", label: "PT", name: "Português" },
+  { code: "es", label: "ES", name: "Español" },
+];
 
 const LanguageSwitcher = () => {
-  const { language, setLanguage } = useLanguage();
-
-  const langs: Language[] = ["en", "pt", "es"];
+  const { language, setLanguage, t } = useLanguage();
+  const active = LANGUAGES.findIndex((item) => item.code === language);
 
   return (
-    <div className="flex items-center gap-1 bg-muted/50 rounded-full p-1">
-      {langs.map((lang) => (
+    <div role="group" aria-label={t.nav.language} className={styles.languages} style={cssVars({ "--active": active })}>
+      <span className={styles.thumb} aria-hidden="true" />
+      {LANGUAGES.map((item) => (
         <button
-          key={lang}
-          onClick={() => setLanguage(lang)}
-          className={`text-sm px-2 py-1 rounded-full transition-all duration-200 ${
-            language === lang
-              ? "bg-primary text-primary-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-          aria-label={`Switch to ${lang}`}
+          key={item.code}
+          type="button"
+          lang={item.code}
+          className={styles.language}
+          aria-label={item.name}
+          aria-pressed={item.code === language}
+          onClick={() => setLanguage(item.code)}
         >
-          {flags[lang]}
+          {item.label}
         </button>
       ))}
     </div>

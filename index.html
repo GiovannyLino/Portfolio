@@ -2,26 +2,142 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Giovanny Lino - Service Provider Analyst at Logicalis. DevOps, SRE and infrastructure automation with Ansible, NetBox, Splunk and ThousandEyes." />
-    <meta name="author" content="Giovanny Lino" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Giovanny Lino - Service Provider Analyst at Logicalis. DevOps, SRE, infrastructure automation and AI: Ansible, NetBox, LLMs and AI agents." />
+    <meta name="author" content="Giovanny Lino" />
+    <meta name="theme-color" content="#0a0a0a" />
     <title>Giovanny Lino | DevOps & Infrastructure Automation</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:title" content="Giovanny Lino | DevOps & Infrastructure Automation" />
     <meta property="og:description" content="Service Provider Analyst at Logicalis: DevOps, SRE and infrastructure automation." />
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Theme before the first paint (the same decision as src/hooks/use-theme.tsx). -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var dark = stored === "dark" || (stored !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+        } catch (error) {}
+      })();
+    </script>
+
+    <!-- The preloader is on screen before any script or stylesheet arrives.
+         src/components/Preloader.tsx runs the counter and lifts it. -->
+    <style>
+      html {
+        background: #0a0a0a;
+      }
+
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: 1.4rem clamp(1.125rem, 4.2vw, 4.75rem) 0;
+        background: #0a0a0a;
+        color: #efeeea;
+        font: 500 0.72rem/1.35 "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        /* If the scripts never run, do not keep the page covered. */
+        animation: preloader-giveup 0.01s linear 10s forwards;
+      }
+
+      #preloader .top,
+      #preloader .bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      #preloader .top {
+        align-items: center;
+        color: #9e9e9e;
+      }
+
+      #preloader .count {
+        font: 800 clamp(6rem, 24vw, 18rem) / 0.8 "Big Shoulders Display Variable", "Arial Narrow", Impact, sans-serif;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0;
+        color: #10b981;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+      }
+
+      #preloader[data-fonts] .count {
+        opacity: 1;
+      }
+
+      #preloader .track {
+        height: 2px;
+        margin: 1.4rem calc(clamp(1.125rem, 4.2vw, 4.75rem) * -1) 0;
+        background: rgb(239 238 234 / 0.14);
+      }
+
+      #preloader .bar {
+        height: 100%;
+        background: #10b981;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+      }
+
+      /* The curtain lifts; its content trails slightly behind for depth. */
+      #preloader[data-state="exit"] {
+        transform: translate3d(0, -100%, 0);
+        transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+      }
+
+      #preloader[data-state="exit"] .top,
+      #preloader[data-state="exit"] .bottom {
+        opacity: 0;
+        transform: translate3d(0, 4rem, 0);
+        transition:
+          transform 1s cubic-bezier(0.76, 0, 0.24, 1),
+          opacity 0.5s ease;
+      }
+
+      @keyframes preloader-giveup {
+        to {
+          visibility: hidden;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #preloader[data-state="exit"] {
+          transform: none;
+          opacity: 0;
+          transition: opacity 0.25s ease;
+        }
+      }
+    </style>
   </head>
 
   <body>
+    <div id="preloader" aria-hidden="true">
+      <div class="top">
+        <svg viewBox="0 0 32 32" width="34" height="34" focusable="false">
+          <path fill="#efeeea" d="M4 6h10.5v3.5h-7v13h3.5V18.5H9V15h5.5v11H4z" />
+          <path fill="#10b981" d="M17.5 6H21v16.5h7V26H17.5z" />
+        </svg>
+        <span>Portfolio</span>
+      </div>
+      <span></span>
+      <div class="bottom">
+        <span>Giovanny Lino</span>
+        <span class="count" data-count>000</span>
+      </div>
+      <div class="track"><div class="bar" data-bar></div></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

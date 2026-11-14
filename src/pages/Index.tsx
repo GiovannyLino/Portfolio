@@ -8,7 +8,6 @@ import ProjectsSection from "@/components/ProjectsSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import AnimatedBackground from "@/components/AnimatedBackground";
 import ChatLauncher from "@/features/chat/ChatLauncher";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { SECTION_IDS, type SectionId } from "@/lib/sections";
@@ -27,28 +26,26 @@ const Index = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen relative">
+    <>
       {/* First focusable element: lets keyboard users jump past the navbar. */}
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-      >
+      <a href="#main" className="skip-link">
         {t.nav.skip}
       </a>
-      <AnimatedBackground />
       <Navbar />
-      <main id="main" tabIndex={-1} className="outline-none">
-        <HeroSection />
-        <div className="container max-w-5xl relative z-10">
+      {/* #page is the query container the sections size themselves against; everything
+          fixed to the viewport (navbar, chat) stays outside of it. See styles/base.css. */}
+      <div id="page">
+        <main id="main" tabIndex={-1}>
+          <HeroSection />
           {SECTION_IDS.map((id) => {
             const SectionComponent = SECTIONS[id];
             return <SectionComponent key={id} />;
           })}
-        </div>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </div>
       <ChatLauncher />
-    </div>
+    </>
   );
 };
 

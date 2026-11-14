@@ -1,6 +1,6 @@
 # Portfólio — Giovanny Lino
 
-Portfólio pessoal de **Giovanny Lino**, Analista de Service Provider na Logicalis e estudante de Ciência da Computação (USCS), com foco em DevOps, SRE e automação de infraestrutura.
+Portfólio pessoal de **Giovanny Lino**, Service Provider Analyst na Logicalis e estudante de Ciência da Computação (USCS), com foco em DevOps, SRE e automação de infraestrutura.
 
 🔗 **[giovannylino.vercel.app](https://giovannylino.vercel.app)**
 

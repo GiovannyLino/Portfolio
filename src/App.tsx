@@ -1,32 +1,31 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { LanguageProvider } from "@/i18n/LanguageContext";
+import { useCallback, useState } from "react";
+import Preloader from "@/components/Preloader";
 import { ThemeProvider } from "@/hooks/use-theme";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import { LanguageProvider } from "@/i18n/LanguageContext";
+import Cursor from "@/motion/Cursor";
+import { IntroContext } from "@/motion/intro";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// A single page: anything but "/" is a 404 (vercel.json serves index.html for every path).
+const isHome = (): boolean => /^\/(index\.html)?$/.test(window.location.pathname);
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  // False while the preloader covers the page; the navbar and the hero enter when it lifts.
+  const [introDone, setIntroDone] = useState(false);
+  const onIntroDone = useCallback(() => setIntroDone(true), []);
+
+  return (
     <ThemeProvider>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
+      <LanguageProvider>
+        <IntroContext.Provider value={introDone}>
+          <Preloader onDone={onIntroDone} />
+          {isHome() ? <Index /> : <NotFound />}
+          <Cursor />
+        </IntroContext.Provider>
+      </LanguageProvider>
     </ThemeProvider>
-  </QueryClientProvider>
-);
+  );
+};
 
 export default App;

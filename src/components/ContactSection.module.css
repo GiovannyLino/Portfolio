@@ -1,0 +1,150 @@
+/* The marquee closes the section: no extra room needed under it. */
+.contact {
+  padding-bottom: clamp(2.5rem, 5cqi, 4.5rem);
+}
+
+.body {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.availability {
+  max-width: 26em;
+  font-size: var(--text-lead);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  text-wrap: pretty;
+}
+
+/* ---- The call to action: a round button that leans towards the pointer -------------------- */
+
+.cta {
+  justify-self: start;
+}
+
+.hello {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.7rem;
+  width: clamp(10rem, 20cqi, 15.5rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-size: clamp(0.78rem, 1.1cqi, 0.92rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.45s var(--ease-out);
+}
+
+/* A light disc grows from the centre on hover. */
+.hello::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: hsl(var(--foreground));
+  transform: scale(0);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.hello:hover,
+.hello:focus-visible {
+  color: hsl(var(--background));
+}
+
+.hello:hover::before,
+.hello:focus-visible::before {
+  transform: scale(1.02);
+}
+
+.hello > svg {
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.hello:hover > svg {
+  transform: translate3d(0, -3px, 0) rotate(-8deg);
+}
+
+/* ---- Other ways to reach him ---------------------------------------------------------------- */
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem clamp(1.5rem, 3.4cqi, 3.25rem);
+  margin-top: clamp(3rem, 6.5cqi, 5.5rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--line));
+}
+
+.email {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-right: auto;
+  font-size: clamp(1rem, 1.5cqi, 1.25rem);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.email > span {
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Marquee: full width of the page, whatever the gutters ------------------------------------ */
+
+.marquee {
+  width: 100cqi;
+  margin-top: clamp(3.5rem, 8cqi, 7rem);
+  margin-left: calc(50% - 50cqi);
+}
+
+.marqueeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding-right: 0.3em;
+  font-size: clamp(4rem, 15cqi, 13.5rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.marqueeItem[data-outline] {
+  color: transparent;
+  -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.7);
+}
+
+.marqueeMark {
+  width: 0.16em;
+  height: 0.16em;
+  background-color: hsl(var(--primary));
+  transform: rotate(45deg);
+}
+
+@container page (min-width: 900px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4rem;
+  }
+
+  .cta {
+    justify-self: end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hello::before,
+  .hello > svg {
+    transition: none;
+  }
+}

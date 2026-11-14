@@ -66,7 +66,7 @@ export const chatCopy = {
       webSearch: "consultando a Wikipedia…",
     },
     starterTitle: "Sugestões para começar",
-    starters: ["O que ele faz na Logicalis?", "Mostre os projetos de automação", "Quais certificações ele tem?", "Como falar com ele?"],
+    starters: ["O que ele faz na Logicalis?", "Mostre os projetos de automação", "Quais certificações ele tem?", "Ele trabalha com IA e LLMs?"],
     errors: {
       invalid_request: "Não consegui entender essa mensagem.",
       forbidden_origin: "Este chat só funciona no site do Giovanny.",
@@ -127,7 +127,7 @@ export const chatCopy = {
       "What does he do at Logicalis?",
       "Show me his automation projects",
       "Which certifications does he have?",
-      "How can I get in touch?",
+      "Does he work with AI and LLMs?",
     ],
     errors: {
       invalid_request: "I couldn't understand that message.",
@@ -189,7 +189,7 @@ export const chatCopy = {
       "¿Qué hace en Logicalis?",
       "Muéstrame sus proyectos de automatización",
       "¿Qué certificaciones tiene?",
-      "¿Cómo puedo ponerme en contacto?",
+      "¿Trabaja con IA y LLMs?",
     ],
     errors: {
       invalid_request: "No pude entender ese mensaje.",

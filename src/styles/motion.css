@@ -1,0 +1,142 @@
+/* Motion primitives, driven by data attributes that src/motion sets:
+   - data-reveal="<variant>"      an element that animates in once it is on screen
+   - data-reveal-group            reveals every data-reveal inside it together
+   - data-split="rise|glow"       text split into words (or letters) that enter in sequence
+   - data-inview                  set by the observer when the element (or group) is seen
+
+   Hidden states exist only when motion is welcome: under prefers-reduced-motion, or if the
+   observer never runs, everything is simply there. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- Reveal ----------------------------------------------------------------------- */
+
+  [data-reveal] {
+    --reveal-delay: calc(var(--i, 0) * var(--stagger, 70ms) + var(--delay, 0ms));
+    transition:
+      opacity 0.9s var(--ease-out) var(--reveal-delay),
+      transform 1.1s var(--ease-out) var(--reveal-delay),
+      clip-path 1.15s var(--ease-in-out) var(--reveal-delay);
+  }
+
+  [data-reveal="up"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    opacity: 0;
+    transform: translate3d(0, 2.25rem, 0);
+  }
+
+  [data-reveal="fade"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    opacity: 0;
+  }
+
+  [data-reveal="scale"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  /* Curtains: the element is uncovered from one edge. The resting shape is an inset too
+     (so the two interpolate), pushed outwards to leave outlines and shadows alone. */
+  [data-reveal="clip"],
+  [data-reveal="clip-up"] {
+    clip-path: inset(-3rem);
+  }
+
+  [data-reveal="clip"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  [data-reveal="clip-up"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  /* Hairlines that draw themselves from the left. */
+  [data-reveal="line"] {
+    transform-origin: 0 50%;
+  }
+
+  [data-reveal="line"]:where(:not([data-inview]):not([data-reveal-group][data-inview] *)) {
+    transform: scaleX(0);
+  }
+
+  /* ---- Split text ------------------------------------------------------------------- */
+
+  /* Each word is its own mask. clip-path (not overflow) keeps the baseline intact, and
+     the negative insets leave room for accents (Ó, Ã, Ç) and descenders. */
+  [data-split="rise"] .split-word {
+    clip-path: inset(-0.32em -0.14em -0.24em -0.14em);
+  }
+
+  [data-split] .split-inner {
+    --split-delay: calc(var(--i, 0) * var(--stagger, 55ms) + var(--delay, 0ms));
+    transition:
+      transform 1.05s var(--ease-out) var(--split-delay),
+      opacity 0.8s var(--ease-out) var(--split-delay),
+      filter 0.8s var(--ease-out) var(--split-delay);
+  }
+
+  [data-split="rise"]:not([data-inview]) .split-inner {
+    transform: translate3d(0, 155%, 0);
+  }
+
+  /* Words surface out of the dark, one after the other. */
+  [data-split="glow"]:not([data-inview]) .split-inner {
+    opacity: 0;
+    filter: blur(0.14em);
+    transform: translate3d(0, 0.22em, 0);
+  }
+}
+
+.split-word,
+.split-inner {
+  display: inline-block;
+}
+
+/* Words of a letter-split text must not break in the middle. */
+.split-word {
+  white-space: nowrap;
+}
+
+/* ---- Magnetic ------------------------------------------------------------------------- */
+
+/* Leans towards the pointer (motion/Magnetic sets --mx/--my) and springs back on leave. */
+[data-magnetic] {
+  display: inline-block;
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition: transform 0.7s var(--ease-spring);
+}
+
+[data-magnetic][data-magnetic-active] {
+  transition: transform 0.2s ease-out;
+}
+
+/* ---- Shared keyframes ----------------------------------------------------------------- */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.6em hsl(var(--primary) / 0);
+  }
+}
+
+/* A small "live" dot: the current position, the status line. */
+.live-dot {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 999px;
+  background-color: hsl(var(--primary));
+  animation: pulse-dot 2.2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot {
+    animation: none;
+  }
+}

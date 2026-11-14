@@ -1,0 +1,146 @@
+.subtitle {
+  margin-bottom: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Degrees: large ruled rows ------------------------------------------------------------- */
+
+.degrees {
+  margin-bottom: clamp(3.5rem, 8cqi, 7rem);
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.degree {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  padding-block: clamp(1.4rem, 2.8cqi, 2.2rem);
+}
+
+.degree::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: hsl(var(--line-strong));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1.3s var(--ease-in-out);
+}
+
+.degree[data-inview]::before {
+  transform: none;
+}
+
+.years {
+  color: hsl(var(--primary));
+}
+
+.degreeName {
+  font-size: clamp(2rem, 4.4cqi, 4.2rem);
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.school {
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Certifications ------------------------------------------------------------------------- */
+
+.stairs {
+  --stagger: 110ms;
+
+  display: grid;
+  gap: 0.75rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.stepNumber {
+  padding-top: 1rem;
+  color: hsl(var(--ghost));
+  font-size: 2.5rem;
+  line-height: 0.8;
+}
+
+.stepPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+  border-top: 2px solid hsl(var(--primary));
+  background-color: hsl(var(--foreground) / 0.055);
+  /* The reveal's curtain (styles/motion.css) plus the hover tint. */
+  transition:
+    clip-path 1.15s var(--ease-in-out) var(--reveal-delay, 0s),
+    background-color 0.3s ease;
+}
+
+.step:hover .stepPanel {
+  background-color: hsl(var(--foreground) / 0.1);
+}
+
+.stepName {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.stepMeta {
+  color: hsl(var(--muted-foreground));
+}
+
+@container page (min-width: 900px) {
+  .degree {
+    grid-template-columns: 9rem minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+
+  .school {
+    text-align: right;
+  }
+
+  .stairs {
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+    gap: 0;
+    align-items: end;
+  }
+
+  .step {
+    --rise: clamp(1.75rem, 3.2cqi, 3rem);
+
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  .stepNumber {
+    justify-self: end;
+    padding: 0 1rem 1rem 0;
+    font-size: clamp(3rem, 6cqi, 5.5rem);
+  }
+
+  .stepPanel {
+    min-height: calc(11.5rem + var(--step) * var(--rise));
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .step + .step .stepPanel {
+    border-left: 1px solid hsl(var(--background));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .degree::before {
+    transform: none;
+    transition: none;
+  }
+}

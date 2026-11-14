@@ -1,0 +1,371 @@
+/* ---- Reading progress ------------------------------------------------------------------ */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: var(--gioai-offset, 0px);
+  z-index: 52;
+  height: 2px;
+  background-color: hsl(160 84% 39%);
+  transform: scaleX(var(--scroll, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* ---- Bar --------------------------------------------------------------------------------
+   Fixed, and its own query container: when the chat drawer narrows the page the bar folds
+   into the compact layout exactly as it does on a small screen. It takes the surface class
+   of the section underneath (set in Navbar.tsx), so its colours always match. */
+
+header.bar {
+  container: nav / inline-size;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Leaves room for the chat drawer on desktop, like the body does. */
+  right: var(--gioai-offset, 0px);
+  z-index: 50;
+  background-color: hsl(var(--background) / 0.82);
+  backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 1px 0 hsl(var(--line));
+  transition:
+    transform 0.55s var(--ease-out),
+    background-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease,
+    right 0.3s ease;
+}
+
+header.bar[data-top] {
+  background-color: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+header.bar[data-hidden] {
+  transform: translate3d(0, -101%, 0);
+}
+
+/* Never hide the bar from someone tabbing through it. */
+header.bar:focus-within {
+  transform: none;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  height: var(--nav-height);
+  padding-inline: clamp(1.125rem, 4.2cqi, 4.75rem);
+}
+
+/* Entrance, once the preloader lifts. */
+.inner > * {
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+
+.inner > :nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.inner > :nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+header.bar:not([data-ready]) .inner > * {
+  opacity: 0;
+  transform: translate3d(0, -1.25rem, 0);
+}
+
+/* ---- Logo ---------------------------------------------------------------------------- */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+
+.logo > svg {
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.logo:hover > svg {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.wordmark {
+  display: grid;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+
+/* ---- Section links -------------------------------------------------------------------- */
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2cqi, 2.25rem);
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding-block: 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: hsl(var(--foreground) / 0.72);
+  transition: color 0.3s ease;
+}
+
+.link:hover,
+.link[aria-current] {
+  color: hsl(var(--foreground));
+}
+
+.linkNumber {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: hsl(var(--primary));
+}
+
+/* Marker under the section being read. */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.15rem;
+  height: 1px;
+  background-color: hsl(var(--primary));
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.link[aria-current]::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+/* ---- Right side ----------------------------------------------------------------------- */
+
+.tools,
+.switches {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 0.7rem;
+  height: 2.75rem;
+  padding-inline: 1rem 0.9rem;
+  border-radius: 999px;
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.menuButton:hover {
+  transform: scale(1.04);
+}
+
+/* Two bars that part slightly on hover. */
+.menuIcon {
+  position: relative;
+  width: 1.1rem;
+  height: 0.5rem;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background-color: currentColor;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.menuIcon::before {
+  top: 0;
+}
+
+.menuIcon::after {
+  bottom: 0;
+  transform: scaleX(0.6);
+  transform-origin: 100% 50%;
+}
+
+.menuButton:hover .menuIcon::after {
+  transform: scaleX(1);
+}
+
+/* Compact layout: the section links and the résumé move into the menu. */
+@container nav (max-width: 1239px) {
+  .links,
+  .resume {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+}
+
+/* Phones: language and theme move into the menu too. */
+@container nav (max-width: 559px) {
+  .inner .switches {
+    display: none;
+  }
+}
+
+/* ---- Menu overlay --------------------------------------------------------------------- */
+
+.menu {
+  /* Its own query container: the links are sized against the overlay, which the chat
+     drawer can narrow. */
+  container: menu / inline-size;
+  position: fixed;
+  inset: 0;
+  right: var(--gioai-offset, 0px);
+  /* Above the chat launcher, below the chat panel and the tour. */
+  z-index: 61;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  padding-inline: clamp(1.125rem, 4.2vw, 4.75rem);
+  visibility: hidden;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    clip-path 0.6s var(--ease-in-out),
+    visibility 0s linear 0.6s;
+}
+
+.menu[data-open] {
+  visibility: visible;
+  clip-path: inset(0);
+  transition:
+    clip-path 0.8s var(--ease-in-out),
+    visibility 0s;
+}
+
+.menuTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+
+.menu .menuButton {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  padding: 0;
+}
+
+.menuNav {
+  display: grid;
+  align-content: center;
+  padding-block: 1.5rem;
+}
+
+/* Each link is masked and rises into place, one after the other. */
+.menuItem {
+  overflow: hidden;
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.menuLink {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  /* The top padding keeps accents (Ê, Ã) inside the mask. */
+  padding-block: 0.55rem 0.25rem;
+  /* As tall as six links allow, and never wider than the longest label needs. */
+  font-size: min(clamp(2.6rem, 9.5vh, 5.75rem), 14cqi);
+  line-height: 1;
+  transform: translate3d(0, 110%, 0);
+  transition:
+    transform 0.5s var(--ease-in-out),
+    color 0.3s ease;
+}
+
+.menu[data-open] .menuLink {
+  transform: none;
+  transition:
+    transform 0.9s var(--ease-out) calc(0.25s + var(--i, 0) * 0.06s),
+    color 0.3s ease;
+}
+
+.menuLink:hover,
+.menuLink[aria-current] {
+  color: hsl(var(--primary));
+}
+
+.menuNumber {
+  color: hsl(var(--primary));
+}
+
+.menuLabel {
+  transition: transform 0.5s var(--ease-out);
+}
+
+.menuLink:hover .menuLabel {
+  transform: translate3d(0.75rem, 0, 0);
+}
+
+.menuBottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem max(1.25rem, env(safe-area-inset-bottom));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu[data-open] .menuBottom {
+  opacity: 1;
+  transition: opacity 0.7s ease 0.6s;
+}
+
+.menuSocials {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header.bar,
+  .inner > *,
+  .menu,
+  .menu[data-open],
+  .menuLink,
+  .menu[data-open] .menuLink,
+  .menuBottom,
+  .menu[data-open] .menuBottom {
+    transition: none;
+  }
+}

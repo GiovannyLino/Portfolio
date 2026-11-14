@@ -1,0 +1,75 @@
+/* Language switcher and theme toggle (navbar and menu). */
+
+/* ---- Languages: three codes and a thumb that slides to the active one ----------------- */
+
+.languages {
+  --cell: 2.35rem;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell));
+  height: 2.75rem;
+  padding-block: 0.3rem;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px hsl(var(--line-strong));
+  padding-inline: 0.3rem;
+}
+
+.thumb {
+  position: absolute;
+  top: 0.3rem;
+  bottom: 0.3rem;
+  left: 0.3rem;
+  width: var(--cell);
+  border-radius: 999px;
+  background-color: hsl(var(--foreground));
+  transform: translate3d(calc(var(--active, 0) * 100%), 0, 0);
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.language {
+  position: relative;
+  border-radius: 999px;
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: color 0.3s ease;
+}
+
+.language:hover {
+  color: hsl(var(--foreground));
+}
+
+.language[aria-pressed="true"] {
+  color: hsl(var(--background));
+}
+
+/* ---- Theme: the sun sets as the moon rises -------------------------------------------- */
+
+.theme {
+  flex-shrink: 0;
+}
+
+.sun,
+.moon {
+  grid-area: 1 / 1;
+  transition:
+    transform 0.6s var(--ease-spring),
+    opacity 0.3s ease;
+}
+
+.theme[data-theme="light"] .sun,
+.theme[data-theme="dark"] .moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .sun,
+  .moon {
+    transition: none;
+  }
+}

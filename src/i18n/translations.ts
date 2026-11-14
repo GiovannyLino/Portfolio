@@ -5,16 +5,27 @@ import type { SectionId } from "../lib/sections.js";
 export type Language = "en" | "pt" | "es";
 
 export type Translations = {
-  nav: { links: Record<SectionId, string>; resume: string; primary: string; openMenu: string; closeMenu: string; skip: string };
-  hero: { greeting: string; name: string; viewWork: string; getInTouch: string; scrollDown: string };
+  nav: {
+    links: Record<SectionId, string>;
+    resume: string;
+    primary: string;
+    menu: string;
+    openMenu: string;
+    closeMenu: string;
+    skip: string;
+    theme: string;
+    language: string;
+  };
+  hero: { greeting: string; name: string; viewWork: string; getInTouch: string; scrollDown: string; localTime: string };
   sections: Record<SectionId, string>;
   about: { recentTech: string; currentRole: string; location: string; education: string; languages: string };
   experience: { technologies: string };
-  projects: { other: string; internal: string; sourceCode: string; liveDemo: string };
+  projects: { other: string; internal: string; sourceCode: string; liveDemo: string; problem: string; solution: string };
   education: { degrees: string; certifications: string };
   skills: { askHint: string };
   contact: { subtitle: string; button: string };
-  footer: { built: string };
+  footer: { built: string; backToTop: string };
+  notFound: { title: string; back: string };
 };
 
 export const translations = {
@@ -30,9 +41,12 @@ export const translations = {
       },
       resume: "Resume",
       primary: "Main",
+      menu: "Menu",
       openMenu: "Open menu",
       closeMenu: "Close menu",
       skip: "Skip to content",
+      theme: "Switch between light and dark theme",
+      language: "Language",
     },
     hero: {
       greeting: "Hi, my name is",
@@ -40,6 +54,7 @@ export const translations = {
       viewWork: "View My Work",
       getInTouch: "Get In Touch",
       scrollDown: "Scroll to About",
+      localTime: "Local time",
     },
     sections: {
       about: "About Me",
@@ -64,6 +79,8 @@ export const translations = {
       internal: "Internal project — no public code",
       sourceCode: "source code",
       liveDemo: "live demo",
+      problem: "Problem",
+      solution: "Solution",
     },
     education: {
       degrees: "Degrees",
@@ -78,6 +95,11 @@ export const translations = {
     },
     footer: {
       built: "Built by Giovanny Lino",
+      backToTop: "Back to top",
+    },
+    notFound: {
+      title: "Page not found",
+      back: "Back to the homepage",
     },
   },
   pt: {
@@ -92,9 +114,12 @@ export const translations = {
       },
       resume: "Currículo",
       primary: "Principal",
+      menu: "Menu",
       openMenu: "Abrir menu",
       closeMenu: "Fechar menu",
       skip: "Pular para o conteúdo",
+      theme: "Alternar entre tema claro e escuro",
+      language: "Idioma",
     },
     hero: {
       greeting: "Olá, meu nome é",
@@ -102,6 +127,7 @@ export const translations = {
       viewWork: "Ver Meus Projetos",
       getInTouch: "Entre em Contato",
       scrollDown: "Ir para Sobre",
+      localTime: "Hora local",
     },
     sections: {
       about: "Sobre Mim",
@@ -126,6 +152,8 @@ export const translations = {
       internal: "Projeto interno — sem código público",
       sourceCode: "código-fonte",
       liveDemo: "demo online",
+      problem: "Problema",
+      solution: "Solução",
     },
     education: {
       degrees: "Formação acadêmica",
@@ -140,6 +168,11 @@ export const translations = {
     },
     footer: {
       built: "Feito por Giovanny Lino",
+      backToTop: "Voltar ao topo",
+    },
+    notFound: {
+      title: "Página não encontrada",
+      back: "Voltar para o início",
     },
   },
   es: {
@@ -154,9 +187,12 @@ export const translations = {
       },
       resume: "Currículum",
       primary: "Principal",
+      menu: "Menú",
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",
       skip: "Saltar al contenido",
+      theme: "Cambiar entre tema claro y oscuro",
+      language: "Idioma",
     },
     hero: {
       greeting: "Hola, mi nombre es",
@@ -164,6 +200,7 @@ export const translations = {
       viewWork: "Ver Mis Proyectos",
       getInTouch: "Contáctame",
       scrollDown: "Ir a Sobre Mí",
+      localTime: "Hora local",
     },
     sections: {
       about: "Sobre Mí",
@@ -188,6 +225,8 @@ export const translations = {
       internal: "Proyecto interno — sin código público",
       sourceCode: "código fuente",
       liveDemo: "demo en línea",
+      problem: "Problema",
+      solution: "Solución",
     },
     education: {
       degrees: "Formación académica",
@@ -202,6 +241,11 @@ export const translations = {
     },
     footer: {
       built: "Hecho por Giovanny Lino",
+      backToTop: "Volver arriba",
+    },
+    notFound: {
+      title: "Página no encontrada",
+      back: "Volver al inicio",
     },
   },
 } satisfies Record<Language, Translations>;

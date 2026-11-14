@@ -14,13 +14,13 @@ describe("buildTour", () => {
   it.each(LANGUAGES)("walks the page in order and ends at contact (%s)", (lang) => {
     const stops = buildTour(lang);
     expect(stops.map((stop) => stop.id)).toEqual(["about", "experience", "projects", "skills", "education", "contact"]);
-    expect(stops[2].action).toEqual({ type: "highlightProject", projectId: "netbox-ansible-pipeline" });
+    expect(stops[2].action).toEqual({ type: "highlightProject", projectId: "gio-ai-assistant" });
     expect(stops.every((stop) => stop.text.length > 40 && stop.text.length < 320)).toBe(true);
   });
 
   it("takes its facts from the knowledge base", () => {
     const [about, experience, , , education] = buildTour("pt");
-    expect(about.text).toContain("Analista de Service Provider na Logicalis");
+    expect(about.text).toContain("Service Provider Analyst na Logicalis");
     expect(experience.text).toContain("desde Dez/2025");
     expect(education.text).toContain("4 certificações");
     expect(education.text).toContain("2028");

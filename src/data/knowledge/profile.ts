@@ -11,13 +11,13 @@ export const profile = {
   fullName: "Giovanny Lino Tavares de Oliveira",
   headline: {
     en: "Service Provider Analyst | DevOps, SRE & Infrastructure Automation",
-    pt: "Analista de Service Provider | DevOps, SRE e Automação de Infraestrutura",
-    es: "Analista de Service Provider | DevOps, SRE y Automatización de Infraestructura",
+    pt: "Service Provider Analyst | DevOps, SRE e Automação de Infraestrutura",
+    es: "Service Provider Analyst | DevOps, SRE y Automatización de Infraestructura",
   },
   location: {
-    en: "Santo André, São Paulo, Brazil",
-    pt: "Santo André, São Paulo, Brasil",
-    es: "Santo André, São Paulo, Brasil",
+    en: "São Paulo, SP, Brazil",
+    pt: "São Paulo, SP",
+    es: "São Paulo, SP, Brasil",
   },
   tagline: {
     en: "I engineer the bridge between code and infrastructure.",
@@ -26,8 +26,8 @@ export const profile = {
   },
   intro: {
     en: "Service Provider Analyst at Logicalis and Computer Science student — currently focused on becoming a DevOps professional.",
-    pt: "Analista de Service Provider na Logicalis e estudante de Ciência da Computação — atualmente focado em me tornar um profissional na área de DevOps.",
-    es: "Analista de Service Provider en Logicalis y estudiante de Ciencias de la Computación — actualmente enfocado en convertirme en un profesional del área de DevOps.",
+    pt: "Service Provider Analyst na Logicalis e estudante de Ciência da Computação — atualmente focado em me tornar um profissional na área de DevOps.",
+    es: "Service Provider Analyst en Logicalis y estudiante de Ciencias de la Computación — actualmente enfocado en convertirme en un profesional del área de DevOps.",
   },
   about: {
     en: [
@@ -39,11 +39,13 @@ export const profile = {
         ", working hands-on with infrastructure automation, observability and the support of mission-critical telecom carrier environments.",
       ],
       [
-        "My experience spans Linux, containers (Docker and Podman), Infrastructure as Code (Ansible and Terraform), CI/CD pipelines, AWS and end-to-end monitoring with ",
-        { text: "Splunk", tone: "accent" },
-        " and ",
-        { text: "ThousandEyes", tone: "accent" },
-        ".",
+        "My experience spans Linux, containers (Docker and Podman), Infrastructure as Code (Ansible and Terraform), CI/CD pipelines, AWS and observability. I also build with ",
+        { text: "generative AI", tone: "accent" },
+        ": ",
+        { text: "LLM", tone: "accent" },
+        " integrations and ",
+        { text: "AI agents", tone: "accent" },
+        " with tool calling, like Gio.AI, this portfolio's assistant.",
       ],
       [
         "I bring a solid software development background (Python, Node.js, JavaScript/TypeScript, SQL) to building automation, REST API integrations and internal operations tooling. My goal is to work as a ",
@@ -54,17 +56,19 @@ export const profile = {
     pt: [
       [
         "Sou ",
-        { text: "Analista de Service Provider na Logicalis", tone: "strong" },
+        { text: "Service Provider Analyst na Logicalis", tone: "strong" },
         " e ",
         { text: "estudante de Ciência da Computação", tone: "strong" },
         ", com atuação prática em automação de infraestrutura, observabilidade e sustentação de ambientes críticos de operadoras de telecomunicações.",
       ],
       [
-        "Tenho experiência com Linux, containers (Docker e Podman), Infrastructure as Code (Ansible e Terraform), pipelines de CI/CD, AWS e monitoramento fim a fim com ",
-        { text: "Splunk", tone: "accent" },
+        "Tenho experiência com Linux, containers (Docker e Podman), Infrastructure as Code (Ansible e Terraform), pipelines de CI/CD, AWS e observabilidade. Também desenvolvo soluções com ",
+        { text: "IA generativa", tone: "accent" },
+        ": integrações com ",
+        { text: "LLMs", tone: "accent" },
         " e ",
-        { text: "ThousandEyes", tone: "accent" },
-        ".",
+        { text: "agentes de IA", tone: "accent" },
+        " com tool calling, como o Gio.AI, o assistente deste portfólio.",
       ],
       [
         "Aplico minha base em desenvolvimento (Python, Node.js, JavaScript/TypeScript, SQL) na construção de automações, integrações via APIs REST e ferramentas internas de operação. Meu objetivo é atuar como ",
@@ -75,17 +79,19 @@ export const profile = {
     es: [
       [
         "Soy ",
-        { text: "Analista de Service Provider en Logicalis", tone: "strong" },
+        { text: "Service Provider Analyst en Logicalis", tone: "strong" },
         " y ",
         { text: "estudiante de Ciencias de la Computación", tone: "strong" },
         ", con experiencia práctica en automatización de infraestructura, observabilidad y soporte de entornos críticos de operadoras de telecomunicaciones.",
       ],
       [
-        "Tengo experiencia con Linux, contenedores (Docker y Podman), Infraestructura como Código (Ansible y Terraform), pipelines de CI/CD, AWS y monitoreo de extremo a extremo con ",
-        { text: "Splunk", tone: "accent" },
+        "Tengo experiencia con Linux, contenedores (Docker y Podman), Infraestructura como Código (Ansible y Terraform), pipelines de CI/CD, AWS y observabilidad. También desarrollo soluciones con ",
+        { text: "IA generativa", tone: "accent" },
+        ": integraciones con ",
+        { text: "LLMs", tone: "accent" },
         " y ",
-        { text: "ThousandEyes", tone: "accent" },
-        ".",
+        { text: "agentes de IA", tone: "accent" },
+        " con tool calling, como Gio.AI, el asistente de este portafolio.",
       ],
       [
         "Aplico mi base en desarrollo (Python, Node.js, JavaScript/TypeScript, SQL) a la construcción de automatizaciones, integraciones vía APIs REST y herramientas internas de operación. Mi objetivo es trabajar como ",

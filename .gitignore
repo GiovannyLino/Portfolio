@@ -32,3 +32,6 @@ dist-ssr
 # Playwright
 test-results/
 playwright-report/
+
+# Playwright MCP scratch (screenshots, logs)
+.playwright-mcp/

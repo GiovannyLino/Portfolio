@@ -1,9 +1,37 @@
-// Featured projects: CV "Projetos relevantes" (Oct 2026). Problem/solution only restate
+// Featured projects: Gio.AI (this site's own assistant, described from its code in api/ and
+// src/features/chat), then CV "Projetos relevantes" (Oct 2026). Problem/solution only restate
 // what the CV and the experience bullets say. Other projects: public GitHub READMEs,
 // most recently pushed first.
 import type { Project } from "./types.js";
 
 export const projects = [
+  {
+    id: "gio-ai-assistant",
+    title: {
+      en: "Gio.AI: the portfolio's AI agent",
+      pt: "Gio.AI: o agente de IA do portfólio",
+      es: "Gio.AI: el agente de IA del portafolio",
+    },
+    featured: true,
+    origin: "personal",
+    summary: {
+      en: "AI assistant built into this portfolio: an LLM agent (Google Gemini) with tool calling that answers questions about Giovanny using only the site's content, scrolls to and highlights sections, shows cards and takes visitors to the contact. Answers stream in real time, with rate limiting and a local FAQ fallback when the AI is unavailable.",
+      pt: "Assistente de IA integrado a este portfólio: um agente com LLM (Google Gemini) e tool calling que responde sobre o Giovanny usando só o conteúdo do site, rola e destaca seções, mostra cards e leva o visitante ao contato. Respostas em streaming, com rate limit e fallback para um FAQ local quando a IA está indisponível.",
+      es: "Asistente de IA integrado en este portafolio: un agente con LLM (Google Gemini) y tool calling que responde sobre Giovanny usando solo el contenido del sitio, desplaza y resalta secciones, muestra tarjetas y lleva al visitante al contacto. Respuestas en streaming, con rate limit y respaldo en un FAQ local cuando la IA no está disponible.",
+    },
+    problem: {
+      en: "A static portfolio can't answer questions: visitors have to hunt for the information themselves.",
+      pt: "Um portfólio estático não responde perguntas: o visitante precisa procurar a informação sozinho.",
+      es: "Un portafolio estático no responde preguntas: el visitante tiene que buscar la información por su cuenta.",
+    },
+    solution: {
+      en: "An agent loop in a serverless function calls the LLM with tools (portfolio search, project details, page navigation) and streams the answer over Server-Sent Events; a typed knowledge base is the single source of truth.",
+      pt: "Um loop de agente numa função serverless chama o LLM com ferramentas (busca no portfólio, detalhes de projeto, navegação na página) e transmite a resposta por Server-Sent Events; uma base de conhecimento tipada é a única fonte de verdade.",
+      es: "Un bucle de agente en una función serverless llama al LLM con herramientas (búsqueda en el portafolio, detalles de proyecto, navegación en la página) y transmite la respuesta por Server-Sent Events; una base de conocimiento tipada es la única fuente de verdad.",
+    },
+    stack: ["generative-ai", "llm", "ai-agents", "prompt-engineering", "typescript", "nodejs", "react", "vercel"],
+    links: {},
+  },
   {
     id: "poc-in-a-box",
     title: "PoC-in-a-Box",

@@ -1,0 +1,272 @@
+/* ---- Featured projects: a two-row bento of large cards ------------------------------------- */
+
+.featured {
+  display: grid;
+  gap: clamp(1rem, 1.8cqi, 1.75rem);
+}
+
+.card {
+  /* Room for the assistant's highlight ring when it scrolls a card into view. */
+  scroll-margin-block: 6rem;
+  perspective: 1200px;
+}
+
+/* --tilt-* and --light-* follow the pointer (ProjectsSection.tsx). */
+.panel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: hsl(var(--card));
+  box-shadow: inset 0 0 0 1px hsl(var(--line));
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform 0.6s var(--ease-out),
+    box-shadow 0.4s ease;
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(26rem circle at var(--light-x, 50%) var(--light-y, 0%), hsl(var(--primary) / 0.16), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.card:hover .panel {
+  box-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.55);
+}
+
+.card:hover .panel::after {
+  opacity: 1;
+}
+
+.artSlot {
+  position: relative;
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.cardNumber {
+  position: absolute;
+  top: 0.9rem;
+  right: 1.1rem;
+  color: hsl(var(--ghost));
+  font-size: clamp(2.5rem, 4.6cqi, 4.25rem);
+  line-height: 0.8;
+  transition: color 0.4s ease;
+}
+
+.card:hover .cardNumber {
+  color: hsl(var(--primary));
+}
+
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: clamp(1.25rem, 2.4cqi, 2.1rem);
+}
+
+.cardTitle {
+  font-size: clamp(1.9rem, 3.3cqi, 3rem);
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.summary {
+  color: hsl(var(--foreground) / 0.82);
+  line-height: 1.62;
+}
+
+.why {
+  display: grid;
+  gap: 1rem;
+  padding-block: 1.1rem;
+  border-block: 1px solid hsl(var(--line));
+  color: hsl(var(--muted-foreground));
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.why dt {
+  margin-bottom: 0.4rem;
+  color: hsl(var(--primary));
+}
+
+.cardFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.internal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* ---- Actions -------------------------------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ask {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding-inline: 1rem 1.15rem;
+  border-radius: 999px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: color 0.35s var(--ease-out);
+}
+
+.ask::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: hsl(var(--foreground));
+  transform: translate3d(0, 102%, 0);
+  transition: transform 0.45s var(--ease-out);
+}
+
+.ask:hover,
+.ask:focus-visible {
+  color: hsl(var(--background));
+}
+
+.ask:hover::before,
+.ask:focus-visible::before {
+  transform: none;
+}
+
+/* ---- Other projects: a ruled list ------------------------------------------------------------ */
+
+.othersHeader {
+  margin-top: clamp(4rem, 9cqi, 8rem);
+  margin-bottom: 1.5rem;
+}
+
+.othersTitle {
+  font-size: var(--text-heading);
+}
+
+.others {
+  border-bottom: 1px solid hsl(var(--line));
+}
+
+.other {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  padding-block: clamp(1.4rem, 2.8cqi, 2.2rem);
+  border-top: 1px solid hsl(var(--line-strong));
+  scroll-margin-block: 6rem;
+}
+
+.otherNumber {
+  color: hsl(var(--primary));
+}
+
+.otherTitle {
+  font-size: clamp(1.75rem, 3cqi, 2.75rem);
+  line-height: 0.95;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.other:hover .otherTitle {
+  transform: translate3d(0.6rem, 0, 0);
+}
+
+.otherBody {
+  display: grid;
+  gap: 1rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@container page (min-width: 900px) {
+  .featured {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  /* The first project takes the whole row, artwork beside the text; then 7 + 5, 5 + 7. */
+  .card {
+    grid-column: span 5;
+  }
+
+  .card:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .card:nth-child(4n + 2),
+  .card:nth-child(4n + 5) {
+    grid-column: span 7;
+  }
+
+  .card:first-child .panel {
+    flex-direction: row;
+  }
+
+  .card:first-child .artSlot {
+    flex: 0 0 50%;
+    border-bottom: 0;
+    border-right: 1px solid hsl(var(--line));
+  }
+
+  .card:first-child .art {
+    height: 100%;
+    min-height: 22rem;
+    aspect-ratio: auto;
+  }
+
+  .why {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card:nth-child(4n + 3) .why,
+  .card:nth-child(4n + 4) .why {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .other {
+    grid-template-columns: 3.5rem minmax(0, 0.8fr) minmax(0, 1.4fr) auto;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .otherNumber {
+    padding-top: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .ask::before,
+  .otherTitle {
+    transition: none;
+  }
+}

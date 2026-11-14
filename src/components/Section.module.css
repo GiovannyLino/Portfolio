@@ -1,0 +1,50 @@
+/* Each section is a sheet with rounded top corners that overlaps the end of the previous
+   one, so the page reads as a stack of alternating paper and ink. */
+.section {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(var(--sheet-radius) * -1);
+  padding-block: clamp(5.5rem, 12cqi, 11.5rem) calc(clamp(5rem, 11cqi, 10.5rem) + var(--sheet-radius));
+  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0;
+}
+
+.header {
+  display: grid;
+  gap: 1.5rem 3rem;
+  align-items: end;
+  margin-bottom: clamp(2.75rem, 6.5cqi, 6rem);
+}
+
+.title {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.number {
+  color: hsl(var(--primary));
+}
+
+.titleText {
+  display: block;
+  max-width: 100%;
+  font-size: var(--text-title);
+  text-wrap: balance;
+}
+
+.aside {
+  max-width: 24rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+@container page (min-width: 900px) {
+  .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .aside {
+    padding-bottom: 0.9rem;
+  }
+}

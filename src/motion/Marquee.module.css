@@ -1,0 +1,36 @@
+.marquee {
+  overflow: hidden;
+  /* Decoration: selecting or tabbing into a moving copy makes no sense. */
+  user-select: none;
+  pointer-events: none;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite var(--marquee-direction, normal);
+  will-change: transform;
+}
+
+.marquee[data-paused] .track {
+  animation-play-state: paused;
+}
+
+/* Two identical copies; the track slides by exactly one of them. */
+.group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

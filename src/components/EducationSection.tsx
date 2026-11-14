@@ -1,57 +1,51 @@
-import { Award, GraduationCap } from "lucide-react";
 import { certifications, education } from "@/data/knowledge";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { cn } from "@/lib/utils";
+import { cssVars } from "@/motion/env";
+import { Reveal, RevealGroup } from "@/motion/Reveal";
+import SplitText from "@/motion/SplitText";
 import Section from "./Section";
+import styles from "./EducationSection.module.css";
 
-const cardClass = "glass-card rounded-xl p-6 border border-border/50 hover:border-primary/30 transition-colors duration-300";
-const headingClass = "flex items-center gap-3 font-semibold text-foreground mb-5";
-const iconBoxClass = "w-10 h-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center";
+const number = (index: number): string => String(index + 1).padStart(2, "0");
 
 const EducationSection = () => {
   const { t, language } = useLanguage();
 
   return (
-    <Section id="education">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className={cardClass}>
-          <h3 className={headingClass}>
-            <span className={iconBoxClass}>
-              <GraduationCap size={20} className="text-primary" aria-hidden="true" />
-            </span>
-            {t.education.degrees}
-          </h3>
-          <ul className="space-y-5">
-            {education.map((item) => (
-              <li key={item.id}>
-                <p className="font-medium text-foreground">{item.degree[language]}</p>
-                <p className="text-sm text-muted-foreground">{item.institution}</p>
-                <p className="font-mono text-xs text-muted-foreground mt-1">
-                  {item.period.start} – {item.period.end}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <Section id="education" surface="paper">
+      <h3 className={cn("label", styles.subtitle)}>{t.education.degrees}</h3>
+      <ul className={styles.degrees}>
+        {education.map((item) => (
+          <RevealGroup as="li" key={item.id} className={styles.degree}>
+            <p className={cn("label", styles.years)}>
+              {item.period.start} – {item.period.end}
+            </p>
+            <SplitText as="p" text={item.degree[language]} className={cn("display", styles.degreeName)} />
+            <Reveal as="p" index={3} className={styles.school}>
+              {item.institution}
+            </Reveal>
+          </RevealGroup>
+        ))}
+      </ul>
 
-        <div className={cardClass}>
-          <h3 className={headingClass}>
-            <span className={iconBoxClass}>
-              <Award size={20} className="text-primary" aria-hidden="true" />
+      <h3 className={cn("label", styles.subtitle)}>{t.education.certifications}</h3>
+      {/* A staircase on wide screens: each step stands a little taller than the one before. */}
+      <RevealGroup as="ol" className={styles.stairs} style={cssVars({ "--steps": certifications.length })}>
+        {certifications.map((certification, index) => (
+          <li key={certification.id} className={styles.step} style={cssVars({ "--step": index })}>
+            <span className={cn("display", styles.stepNumber)} aria-hidden="true">
+              {number(index)}
             </span>
-            {t.education.certifications}
-          </h3>
-          <ul className="space-y-4">
-            {certifications.map((cert) => (
-              <li key={cert.id}>
-                <p className="font-medium text-foreground leading-snug">{cert.name}</p>
-                <p className="font-mono text-xs text-muted-foreground mt-1">
-                  {cert.issuer} · {cert.year}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+            <Reveal variant="clip-up" index={index} className={styles.stepPanel}>
+              <p className={styles.stepName}>{certification.name}</p>
+              <p className={cn("label", styles.stepMeta)}>
+                {certification.issuer} · {certification.year}
+              </p>
+            </Reveal>
+          </li>
+        ))}
+      </RevealGroup>
     </Section>
   );
 };
